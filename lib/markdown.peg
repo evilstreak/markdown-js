@@ -1,0 +1,111 @@
+Document ← &( References ) ( interblockspace Block )* blankline* eof
+
+spacechar ← [:Zs:]
+newline ← [U+000D]? [U+000A]
+blankline ← spacechar* newline
+eof ← !([^])
+interblockspace
+nonemptyline
+line
+space ← spacechar+
+bullet
+enumerator
+indent
+openblocktag
+closeblocktag
+
+References ← ( Reference / ( nonemptyline+ blankline+ ) / line )* blankline* eof
+
+Block ← Blockquote / Verbatim / Reference / HorizontalRule / Heading
+      / OrderedList / BulletList / HtmlBlock / Para / Plain
+
+Heading ← AtxHeading / SetextHeading
+AtxStart ← "#"{1,6}
+AtxInline ← Inline !( AtxEnd )
+AtxEnd ← sp "#"* sp newline blankline*
+AtxHeading ← AtxStart sp AtxInline+ AtxEnd
+SetextHeading ← SetextHeadingBig / SetextHeadingSmall
+SetextHeadingBig ← ( Inline !( Endline ) )+ newline "="{3,} newline blankline
+SetextHeadingSmall ← ( Inline !( Endline ) )+ newline "-"{3,} newline blankline
+
+BulletList ← BulletListTight / BulletListLoose
+BulletListTight ← ( bullet ListItem )+ blankline*
+BulletListLoose ← ( bullet ListItem blankline* )+
+OrderedList ← OrderedListTight / OrderedListLoose
+OrderedListTight ← ( enumerator ListItem )+ blankline*
+OrderedListLoose ← ( enumerator ListItem blankline* )+
+ListItem ← ListBlock ( NestedList / ListContinuationBlock* )
+ListBlock ← line ListBlockLine*
+ListContinuationBlock ← blankline* indent ListBlock
+NestedList ← ( optionallyindentedline !( bullet / enumerator ) )+
+ListBlockLine ← 
+
+InBlockTags ← openblocktag ( HtmlBlock / ( [^] !( closeblocktag ) ) )* closeblocktag
+HtmlBlock ← InBlockTags selfclosingblocktag htmlcomment blankline+
+
+BlockquoteLine ← ( ( nonindentspace ">" " "? linechar* newline )+
+                 ( ( linechar+ !( blankline ) ) newline )* blankline* )+
+Blockquote ← ( BlockquoteLine !( blankline ) )+
+
+VerbatimChunk ← blankline* ( indentedline !( blankline ) )+
+Verbatim ← VerbatinChunk+ ( blankline+ / eof )
+
+Label ← 
+RefTitle ←
+RefSrc ← nonspacechar+
+Reference ← nonindentspace Inline+ newline blankline+
+
+Plain ← Inline+
+
+Inline ← Endline / UlOrStarLine / Space / Strong / Emph / Image / Link
+       / Code / RawHtml / Entity / EscapedChar / Symbol
+
+RawHtml ← htmlcomment / htmltag
+
+EscapedChar ← "\\" [^] !( newline )
+
+Entity ← HexEntity / DecEntity / CharEntity
+HexEntity ← "&#" [Xx] [0-9a-fA-F]+ ";"
+DecEntity ← "&#" [0-9]+ ";"
+CharEntity ← "&" alphanumeric+ ";"
+
+Endline ← LineBreak / TerminalEndline / NormalEndline
+NormalEndline ← 
+TerminalEndline ← sp newline eof
+LineBreak ← "  " NormalEndline
+
+Code ← inticks
+
+UlOrStarLine ← "*"{4,} / "_"{4,} / space [*_]+ &( space )
+
+Emph ← EmphStar / EmphUl
+EmphStar ← "*" !( spacechar / newline ) ( Inline !( "*" ) )+ "*"
+EmphUl ← "_" !( spacechar / newline ) ( Inline !( "_" ) )+ "_"
+
+Strong ← StrongStar / StrongUl
+StrongStar ← "**" !( spacechar / newline ) ( Inline !( "**" ) )+ "**"
+StrongUl ← "__" !( spacechar / newline ) ( Inline !( "__" ) )+ "__"
+
+Image ← "!" ( ExplicitLink / ReferenceLink )
+Link ← ExplicitLink / ReferenceLink / AutoLinkUrl / AutoLinkEmail
+ReferenceLink ← ReferenceLinkDouble / ReferenceLinkSingle
+ReferenceLinkDouble ← Label spnl Label
+ReferenceLinkSingle ← Label spnl "[]"?
+AutoLinkUrl ← "<" ( alphanumeric+ "://" ( [^] !( newline / ">" ) )+ ) ">"
+AutoLinkEmail = "<" ( ( alphanumeric / [-_+] )+ "@" ( [^] !( newline / ">" ) )+ ) ">"
+
+BasicSource ← ( nonspacechar !( [()>] ) )+
+            / ( "(" Source ")" )+
+            / ""
+AngleSource ← "<" BasicSource ">"
+Source ← AngleSource / BasicSource
+
+LinkTitle ← ["] ( [^] !( ["] sp ")" ) )*
+          / "'" ( [^] !( "'" sp ")" ) )*
+          / ""
+
+ExplicitLink ← Label spnl "(" sp Source spnl LinkTitle sp ")"
+
+Str ← normalchar+
+Space ← spacechar+
+Symbol ← specialchar

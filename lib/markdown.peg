@@ -1,18 +1,38 @@
 Document ← &( References ) ( interblockspace Block )* blankline* eof
 
 spacechar ← [:Zs:]
+sp ← [:Zs:]?
+spnl ← sp (newline sp)?
+specialchar ← [* _ ` & < ! \ [ U+005D ]
 newline ← [U+000D]? [U+000A]
+normalchar ← [^] !( specialchar / spacechar / newline)
 blankline ← spacechar* newline
 eof ← !([^])
-interblockspace
-nonemptyline
-line
+interblockspace ← blankline*
+line ← ( ( [^] !(newline) )* newline ) / ( [^] eof )
+nonemptyline ← ( [^] !(newline) )+ newline
 space ← spacechar+
-bullet
-enumerator
-indent
-openblocktag
-closeblocktag
+lineof_star ← nonindentspace ("*" sp){3} newline blankline+
+lineof_dash ← nonindentspace ("-" sp){3} newline blankline+
+bullet ← nonindentspace ( "+" / ("*" !(lineof_star)) / ( "-" !(lineof_dash) ) ) space
+enumerator ← nonindentspace [0-9]+ "." space
+nonindentspace ← " "{0,3}
+; Need to work out what ' / ""' does
+; indent = p"    " + (nonindentspace * p"\t") / ""
+indent ← "    " / ( nonindentspace [U+0009] )
+
+; openblocktag = p"<" * spnl * lpeg.Cg(blocktag, "opentag") * spnl * htmlattribute^0 * p">"
+openblocktag ← "<" spnl blocktag spnl htmlattribute* ">"
+; This is slightly more permissive than the lua one, as it matches opening and
+; closing tag names
+closeblocktag ← "<" spnl "/" blocktag spnl ">"
+blocktag ← "address" / "blockqoute" / "center" / "dir" / "div" / "dl"
+         / "fieldset" / "form" / "h1" / "h2" / "h3" / "h4" / "h5"
+         / "h6" / "hr" / "isindex" / "menu" / "noframes" / "noscript"
+         / "ol" / "p" / "pre" / "table" / "ul" / "dd" / "ht"
+         / "frameset" / "li" / "tbody" / "td" / "tfoot" / "th"
+         / "thead" / "tr" / "script"
+
 
 References ← ( Reference / ( nonemptyline+ blankline+ ) / line )* blankline* eof
 

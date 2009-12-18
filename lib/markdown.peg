@@ -58,7 +58,7 @@ ListItem ← ListBlock ( NestedList / ListContinuationBlock* )
 ListBlock ← line ListBlockLine*
 ListContinuationBlock ← blankline* indent ListBlock
 NestedList ← ( optionallyindentedline !( bullet / enumerator ) )+
-ListBlockLine ← 
+ListBlockLine ←  !( blankline ) !( indent? ( bullet / enumerator ) ) optionallyindentedline
 
 InBlockTags ← openblocktag ( HtmlBlock / ( [^] !( closeblocktag ) ) )* closeblocktag
 HtmlBlock ← InBlockTags selfclosingblocktag htmlcomment blankline+
@@ -70,8 +70,12 @@ Blockquote ← ( BlockquoteLine !( blankline ) )+
 VerbatimChunk ← blankline* ( indentedline !( blankline ) )+
 Verbatim ← VerbatinChunk+ ( blankline+ / eof )
 
-Label ← 
-RefTitle ←
+Label ← "[" ( "" &( ( ( Label / Inline ) !( "]" ) )+ ) )
+        ( Label / ( Inline !( "]" ) ) )+ "]"
+RefTitle ← ["] ( [^] !( ["]? blankline ) )* ["]
+         \ "'" ( [^] !( "'"? blankline ) )* "'"
+         \ "(" ( [^] !( ")" blankline ) )* ")"
+         \ ""
 RefSrc ← nonspacechar+
 Reference ← nonindentspace Inline+ newline blankline+
 

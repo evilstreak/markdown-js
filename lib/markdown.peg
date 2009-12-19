@@ -2,7 +2,7 @@ Document ← ( P_interblockspace Block )* P_blankline* P_eof
 
 
 ; 'Generics' from lunamark/parser/generic.lua
-P_spacechar ← [:Zs:]
+P_spacechar ← [U+0020 U+0009]
 P_newline ← [U+000D]? [U+000A]
 P_nonspacechar ← !(P_newline / P_spacechar) [^]
 P_sp ← P_spacechar?

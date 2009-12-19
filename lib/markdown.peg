@@ -1,6 +1,6 @@
 Document ← &( References ) ( P_interblockspace Block )* P_blankline* P_eof
 
-P_spacechar ← [ U+0020 U+0009 ]
+P_spacechar ← [:Zs:]
 P_sp ← P_spacechar?
 P_spnl ← P_sp (P_newline P_sp)?
 P_specialchar ← [* _ ` & < ! \ [ U+005D ]
@@ -82,9 +82,9 @@ Verbatim ← VerbatinChunk+ ( P_blankline+ / P_eof )
 Label ← "[" ( "" &( ( ( Label / Inline ) !( "]" ) )+ ) )
         ( Label / ( Inline !( "]" ) ) )+ "]"
 RefTitle ← ["] ( [^] !( ["]? P_blankline ) )* ["]
-         \ "'" ( [^] !( "'"? P_blankline ) )* "'"
-         \ "(" ( [^] !( ")" P_blankline ) )* ")"
-         \ ""
+         / "'" ( [^] !( "'"? P_blankline ) )* "'"
+         / "(" ( [^] !( ")" P_blankline ) )* ")"
+         / ""
 RefSrc ← P_nonspacechar+
 Reference ← P_nonindentspace Inline+ P_newline P_blankline+
 
@@ -95,7 +95,7 @@ Inline ← Endline / UlOrStarLine / Space / Strong / Emph / Image / Link
 
 RawHtml ← P_htmlcomment / P_htmltag
 
-EscapedChar ← "\\" [^] !( P_newline )
+EscapedChar ← [U+005C] [^] !( P_newline )
 
 Entity ← HexEntity / DecEntity / CharEntity
 HexEntity ← "&#" [Xx] [0-9a-fA-F]+ ";"

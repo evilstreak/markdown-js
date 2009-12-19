@@ -30,9 +30,14 @@ for ( var f in fixtures ) {
         ? fs.rawOpen( tests[ t ] + ".html", "r" ).readWhole()
         : fs.rawOpen( tests[ t ] + ".xhtml", "r" ).readWhole();
 
-      asserts.same( markdown.toHTML( text ),
-                    html,
-                    tests[ t ].substring( tests[ t ].lastIndexOf( "/" ) + 1 ) );
+      try {
+        asserts.same( markdown.toHTML( text ),
+                      html,
+                      tests[ t ].substring( tests[ t ].lastIndexOf( "/" ) + 1 ) );
+      }
+      catch( e ) {
+        asserts.ok( 0, "Couldn't parse " + tests[ t ].substring( tests[ t ].lastIndexOf( "/" ) + 1 ) + " -- " + e );
+      }
     }
   }
 }

@@ -14,6 +14,7 @@ P_nonemptyline ← ( [^] !(P_newline) )+ P_newline
 P_space ← P_spacechar+
 P_lineof_star ← P_nonindentspace ("*" P_sp){3} P_newline P_blankline+
 P_lineof_dash ← P_nonindentspace ("-" P_sp){3} P_newline P_blankline+
+P_lineof_underscore ← P_nonindentspace ("_" P_sp){3} P_newline P_blankline+
 P_bullet ← P_nonindentspace ( "+" / ("*" !(P_lineof_star)) / ( "-" !(P_lineof_dash) ) ) P_space
 P_enumerator ← P_nonindentspace [0-9]+ "." P_space
 P_nonindentspace ← " "{0,3}
@@ -86,7 +87,12 @@ RefTitle ← ["] ( [^] !( ["]? P_blankline ) )* ["]
          / "(" ( [^] !( ")" P_blankline ) )* ")"
          / ""
 RefSrc ← P_nonspacechar+
-Reference ← P_nonindentspace Inline+ P_newline P_blankline+
+;Reference = generic.nonindentspace * _"Label" * p":" * generic.spnl * _"RefSrc" * generic.spnl * _"RefTitle" * generic.blankline^0 / writer.reference,;
+Reference ← P_nonindentspace Label ":" P_spnl RefSrc P_spnl RefTitle P_blankline* /Inline+ P_newline P_blankline+
+
+HorizontalRule ← P_lineof_star / P_lineof_dash / P_lineof_underscore
+
+Para ← P_nonindentspace Inline+ P_newline P_blankline+
 
 Plain ← Inline+
 

@@ -12,21 +12,26 @@ P_interblockspace ← P_blankline*
 P_line ← ( ( [^] !(P_newline) )* P_newline ) / ( [^] P_eof )
 P_nonemptyline ← ( [^] !(P_newline) )+ P_newline
 P_space ← P_spacechar+
+P_nonspacechar ← [^] !( P_spacechar / P_newline )
 P_lineof_star ← P_nonindentspace ("*" P_sp){3} P_newline P_blankline+
 P_lineof_dash ← P_nonindentspace ("-" P_sp){3} P_newline P_blankline+
 P_lineof_underscore ← P_nonindentspace ("_" P_sp){3} P_newline P_blankline+
 P_bullet ← P_nonindentspace ( "+" / ("*" !(P_lineof_star)) / ( "-" !(P_lineof_dash) ) ) P_space
 P_enumerator ← P_nonindentspace [0-9]+ "." P_space
 P_nonindentspace ← " "{0,3}
+P_linechar ← [^ U+000A U+000D]
 ; Need to work out what ' / ""' does
 ; indent = p"    " + (nonindentspace * p"\t") / ""
 P_indent ← " "{4} / ( P_nonindentspace [U+0009] )
+P_indentedline ← P_indent P_linechar+ ( P_newline / P_eof )
+P_optionallyindentedline ← P_indent? P_linechar+ ( P_newline / P_eof )
 
 ; openblocktag = p"<" * spnl * lpeg.Cg(blocktag, "opentag") * spnl * htmlattribute^0 * p">"
 P_openblocktag ← "<" P_spnl P_blocktag P_spnl P_htmlattribute* ">"
 ; This is slightly more permissive than the lua one, as it matches opening and
 ; closing tag names
 P_closeblocktag ← "<" P_spnl "/" P_blocktag P_spnl ">"
+P_selfclosingblocktag ← "<" P_spnl "/"? P_blocktag P_spnl P_htmlattribute* "/" P_spnl ">"
 P_blocktag ← "address" / "blockqoute" / "center" / "dir" / "div" / "dl"
          / "fieldset" / "form" / "h1" / "h2" / "h3" / "h4" / "h5"
          / "h6" / "hr" / "isindex" / "menu" / "noframes" / "noscript"
@@ -41,6 +46,8 @@ P_htmlattributevalue ← ( P_singlequoted / P_doublequoted )
                      / ( [^] !(P_spacechar) )+
 
 P_htmlattribute ← ( P_alphanumeric / [_-] )+ P_spnl ("=" P_spnl P_htmlattributevalue)? P_spnl
+P_htmlcomment ← "<!--" ( [^] !( "-->" ) )* "-->"
+P_htmltag ← "<" P_spnl "/"? P_alphanumeric+ P_spnl P_htmlattribute* "/"? P_spnl ">"
 
 ; TODO: support multiple ticks, ala: ``foo`bar``
 ; openticks = lpeg.Cg(p"`"^1, "ticks")
@@ -83,7 +90,7 @@ BlockquoteLine ← ( ( P_nonindentspace ">" " "? P_linechar* P_newline )+
 Blockquote ← ( BlockquoteLine !( P_blankline ) )+
 
 VerbatimChunk ← P_blankline* ( P_indentedline !( P_blankline ) )+
-Verbatim ← VerbatinChunk+ ( P_blankline+ / P_eof )
+Verbatim ← VerbatimChunk+ ( P_blankline+ / P_eof )
 
 Label ← "[" ( "" &( ( ( Label / Inline ) !( "]" ) )+ ) )
         ( Label / ( Inline !( "]" ) ) )+ "]"

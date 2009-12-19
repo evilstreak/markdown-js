@@ -131,7 +131,7 @@ ReferenceLink ← ReferenceLinkDouble / ReferenceLinkSingle
 ReferenceLinkDouble ← Label P_spnl Label
 ReferenceLinkSingle ← Label P_spnl "[]"?
 AutoLinkUrl ← "<" ( P_alphanumeric+ "://" ( [^] !( P_newline / ">" ) )+ ) ">"
-AutoLinkEmail = "<" ( ( P_alphanumeric / [-_+] )+ "@" ( [^] !( P_newline / ">" ) )+ ) ">"
+AutoLinkEmail ← "<" ( ( P_alphanumeric / [-_+] )+ "@" ( [^] !( P_newline / ">" ) )+ ) ">"
 
 BasicSource ← ( P_nonspacechar !( [()>] ) )+
             / ( "(" Source ")" )+

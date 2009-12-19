@@ -33,6 +33,14 @@ P_blocktag ← "address" / "blockqoute" / "center" / "dir" / "div" / "dl"
          / "frameset" / "li" / "tbody" / "td" / "tfoot" / "th"
          / "thead" / "tr" / "script"
 
+P_alphanumeric ← [A-Z a-z 0-9]
+P_singlequoted ← ( "'" ( [^] !( P_blankline / "'" ) )* "'" )+
+P_doublequoted ← ( [U+022] ( [^] !( P_blankline / [U+0022] ) )* [U+0022] )+
+P_htmlattributevalue ← ( P_singlequoted / P_doublequoted )
+                     / ( [^] !(P_spacechar) )+
+
+P_htmlattribute ← ( P_alphanumeric / [_-] )+ P_spnl ("=" P_spnl P_htmlattributevalue)? P_spnl
+
 
 
 References ← ( Reference / ( P_nonemptyline+ P_blankline+ ) / P_line )* P_blankline* P_eof

@@ -77,9 +77,9 @@ Block ← Blockquote / Verbatim / Reference / HorizontalRule / Heading
 
 Heading ← AtxHeading / SetextHeading
 AtxStart ← "#"{1,6}
-AtxInline ← !( AtxEnd ) Inline
+AtxInline ← ( !( AtxEnd ) Inline )+
 AtxEnd ← P_sp "#"* P_sp P_newline P_blankline*
-AtxHeading ← AtxStart P_sp AtxInline+ AtxEnd
+AtxHeading ← AtxStart P_sp AtxInline AtxEnd
 SetextHeading ← SetextHeadingBig / SetextHeadingSmall
 SetextHeadingBig ← ( !( Endline ) Inline )+ P_newline "="{3,} P_newline P_blankline*
 SetextHeadingSmall ← ( !( Endline ) Inline )+ P_newline "-"{3,} P_newline P_blankline*
@@ -170,6 +170,6 @@ LinkTitle ← ["] ( !( ["] P_sp ")" ) [^] )* ["]
 
 ExplicitLink ← Label P_spnl "(" P_sp Source P_spnl LinkTitle P_sp ")"
 
-Str ← P_normalchar+
+Str ← ( !( P_specialchar / P_spacechar / P_newline) [^] )+
 Space ← P_spacechar+
 Symbol ← P_specialchar

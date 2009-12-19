@@ -1,37 +1,49 @@
 Document ← ( P_interblockspace Block )* P_blankline* P_eof
 
+
+; 'Generics' from lunamark/parser/generic.lua
 P_spacechar ← [:Zs:]
-P_sp ← P_spacechar?
-P_spnl ← P_sp (P_newline P_sp)?
-P_specialchar ← [* _ ` & < ! \ [ U+005D ]
 P_newline ← [U+000D]? [U+000A]
-P_normalchar ← [^] !( P_specialchar / P_spacechar / P_newline)
-P_blankline ← P_spacechar* P_newline
-P_eof ← !([^])
-P_interblockspace ← P_blankline*
-P_line ← ( ( [^] !(P_newline) )* P_newline ) / ( [^] P_eof )
-P_nonemptyline ← ( [^] !(P_newline) )+ P_newline
+P_nonspacechar ← !(P_newline / P_spacechar) [^]
+P_sp ← P_spacechar?
 P_space ← P_spacechar+
-P_nonspacechar ← [^] !( P_spacechar / P_newline )
-P_lineof_star ← P_nonindentspace ("*" P_sp){3} P_newline P_blankline+
-P_lineof_dash ← P_nonindentspace ("-" P_sp){3} P_newline P_blankline+
-P_lineof_underscore ← P_nonindentspace ("_" P_sp){3} P_newline P_blankline+
-P_bullet ← P_nonindentspace ( "+" / ("*" !(P_lineof_star)) / ( "-" !(P_lineof_dash) ) ) P_space
-P_enumerator ← P_nonindentspace [0-9]+ "." P_space
+P_eof ← !([^])
 P_nonindentspace ← " "{0,3}
-P_linechar ← [^ U+000A U+000D]
+P_blankline ← P_sp P_newline
+P_skipblanklines ← (P_blankline)*
+P_linechar ← !(P_newline) [^]
 ; Need to work out what ' / ""' does
 ; indent = p"    " + (nonindentspace * p"\t") / ""
 P_indent ← " "{4} / ( P_nonindentspace [U+0009] )
-P_indentedline ← P_indent P_linechar+ ( P_newline / P_eof )
-P_optionallyindentedline ← P_indent? P_linechar+ ( P_newline / P_eof )
+P_indentedline ← P_indent P_linechar+ (P_newline / P_eof)
+P_optionallyindentedline ← P_indent? P_linechar+ (P_newline / P_eof)
+P_spnl ← P_sp (P_newline P_sp)?
+P_specialchar ← [* _ ` & < ! \ U+005B U+005D ]
+P_normalchar ← !( P_specialchar / P_spacechar / P_newline) [^]
+P_alphanumeric ← [A-Z a-z 0-9]
+P_line ← ( P_linechar* P_newline ) / ( [^]+ P_eof )
+P_nonemptyline ← P_linechar+ P_newline
 
-; openblocktag = p"<" * spnl * lpeg.Cg(blocktag, "opentag") * spnl * htmlattribute^0 * p">"
-P_openblocktag ← "<" P_spnl P_blocktag P_spnl P_htmlattribute* ">"
-; This is slightly more permissive than the lua one, as it matches opening and
-; closing tag names
-P_closeblocktag ← "<" P_spnl "/" P_blocktag P_spnl ">"
-P_selfclosingblocktag ← "<" P_spnl "/"? P_blocktag P_spnl P_htmlattribute* "/" P_spnl ">"
+P_singlequoted ← [U+0027] ( !( P_blankline / [U+0027] ) [^] )* [U+0027]
+P_doublequoted ← [U+0022] ( !( P_blankline / [U+0022] ) [^] )* [U+0022]
+P_htmlattributevalue ← ( P_singlequoted / P_doublequoted ) / ( !(P_spacechar) [^] )+
+P_htmlattribute ← ( P_alphanumeric / [_-] )+ P_spnl ("=" P_spnl P_htmlattributevalue)? P_spnl
+P_htmlcomment ← "<!--" ( !("-->") [^] )* "-->"
+P_htmltag ← "<" P_spnl "/"? P_alphanumeric+ P_spnl P_htmlattribute* "/"? P_spnl ">"
+
+; TODO: is {3} really 3 or more, or is it just 3?
+P_lineof_star ← P_nonindentspace ("*" P_sp){3} P_newline P_blankline+
+P_lineof_dash ← P_nonindentspace ("-" P_sp){3} P_newline P_blankline+
+P_lineof_underscore ← P_nonindentspace ("_" P_sp){3} P_newline P_blankline+
+P_bullet ← P_nonindentspace ( "+" / ( !(P_lineof_star) "*" ) / ( !(P_lineof_dash) "-" ) ) P_space
+P_enumerator ← P_nonindentspace [0-9]+ "." P_space
+
+; TODO: support multiple ticks, ala: ``foo`bar``
+; openticks = lpeg.Cg(p"`"^1, "ticks")
+; closeticks = sp * lpeg.Cmt(c(p"`"^1) * lpeg.Cb("ticks"), function(s,i,a,b) return string.len(a) == string.len(b) and i end)
+; inticks = openticks * sp * c((p(1) - (blankline + closeticks))^1) * closeticks
+P_inticks ← "`" P_sp ( !( P_blankline / "`" ) [^] )+ "`"
+
 P_blocktag ← "address" / "blockqoute" / "center" / "dir" / "div" / "dl"
          / "fieldset" / "form" / "h1" / "h2" / "h3" / "h4" / "h5"
          / "h6" / "hr" / "isindex" / "menu" / "noframes" / "noscript"
@@ -39,21 +51,19 @@ P_blocktag ← "address" / "blockqoute" / "center" / "dir" / "div" / "dl"
          / "frameset" / "li" / "tbody" / "td" / "tfoot" / "th"
          / "thead" / "tr" / "script"
 
-P_alphanumeric ← [A-Z a-z 0-9]
-P_singlequoted ← ( "'" ( [^] !( P_blankline / "'" ) )* "'" )+
-P_doublequoted ← ( [U+022] ( [^] !( P_blankline / [U+0022] ) )* [U+0022] )+
-P_htmlattributevalue ← ( P_singlequoted / P_doublequoted )
-                     / ( [^] !(P_spacechar) )+
+; openblocktag = p"<" * spnl * lpeg.Cg(blocktag, "opentag") * spnl * htmlattribute^0 * p">"
+P_openblocktag ← "<" P_spnl P_blocktag P_spnl P_htmlattribute* ">"
+; This is slightly more permissive than the lua one, as it matches opening and
+; closing tag names
+P_closeblocktag ← "<" P_spnl "/" P_blocktag P_spnl ">"
 
-P_htmlattribute ← ( P_alphanumeric / [_-] )+ P_spnl ("=" P_spnl P_htmlattributevalue)? P_spnl
-P_htmlcomment ← "<!--" ( [^] !( "-->" ) )* "-->"
-P_htmltag ← "<" P_spnl "/"? P_alphanumeric+ P_spnl P_htmlattribute* "/"? P_spnl ">"
+; TODO: Why is there an optional '/' at the start?
+P_selfclosingblocktag ← "<" P_spnl "/"? P_spnl P_blocktag P_spnl P_htmlattribute* "/" P_spnl ">"
 
-; TODO: support multiple ticks, ala: ``foo`bar``
-; openticks = lpeg.Cg(p"`"^1, "ticks")
-; closeticks = sp * lpeg.Cmt(c(p"`"^1) * lpeg.Cb("ticks"), function(s,i,a,b) return string.len(a) == string.len(b) and i end)
-; inticks = openticks * sp * c((p(1) - (blankline + closeticks))^1) * closeticks
-P_inticks ← "`" P_sp ( [^] !( P_blankline / "`" ) )+ "`"
+; TODO: The lua version only yields a blank line unless we're at the beginning of the document
+; We can't do that yet tho.
+P_interblockspace ← P_blankline*
+
 
 
 ;References ← ( Reference / ( P_nonemptyline+ P_blankline+ ) / P_line )* P_blankline* P_eof

@@ -1,4 +1,4 @@
-Document ← &( References ) ( P_interblockspace Block )* P_blankline* P_eof
+Document ← ( P_interblockspace Block )* P_blankline* P_eof
 
 P_spacechar ← [:Zs:]
 P_sp ← P_spacechar?
@@ -56,51 +56,50 @@ P_htmltag ← "<" P_spnl "/"? P_alphanumeric+ P_spnl P_htmlattribute* "/"? P_spn
 P_inticks ← "`" P_sp ( [^] !( P_blankline / "`" ) )+ "`"
 
 
-References ← ( Reference / ( P_nonemptyline+ P_blankline+ ) / P_line )* P_blankline* P_eof
+;References ← ( Reference / ( P_nonemptyline+ P_blankline+ ) / P_line )* P_blankline* P_eof
 
 Block ← Blockquote / Verbatim / Reference / HorizontalRule / Heading
       / OrderedList / BulletList / HtmlBlock / Para / Plain
 
 Heading ← AtxHeading / SetextHeading
 AtxStart ← "#"{1,6}
-AtxInline ← Inline !( AtxEnd )
+AtxInline ← !( AtxEnd ) Inline
 AtxEnd ← P_sp "#"* P_sp P_newline P_blankline*
 AtxHeading ← AtxStart P_sp AtxInline+ AtxEnd
 SetextHeading ← SetextHeadingBig / SetextHeadingSmall
-SetextHeadingBig ← ( Inline !( Endline ) )+ P_newline "="{3,} P_newline P_blankline
-SetextHeadingSmall ← ( Inline !( Endline ) )+ P_newline "-"{3,} P_newline P_blankline
+SetextHeadingBig ← ( !( Endline ) Inline )+ P_newline "="{3,} P_newline P_blankline*
+SetextHeadingSmall ← ( !( Endline ) Inline )+ P_newline "-"{3,} P_newline P_blankline*
 
 BulletList ← BulletListTight / BulletListLoose
-BulletListTight ← ( P_bullet ListItem )+ P_blankline*
+BulletListTight ← ( P_bullet ListItem )+ P_blankline* !( P_bullet )
 BulletListLoose ← ( P_bullet ListItem P_blankline* )+
 OrderedList ← OrderedListTight / OrderedListLoose
-OrderedListTight ← ( P_enumerator ListItem )+ P_blankline*
+OrderedListTight ← ( P_enumerator ListItem )+ P_blankline* !( P_enumerator )
 OrderedListLoose ← ( P_enumerator ListItem P_blankline* )+
 ListItem ← ListBlock ( NestedList / ListContinuationBlock* )
 ListBlock ← P_line ListBlockLine*
 ListContinuationBlock ← P_blankline* P_indent ListBlock
-NestedList ← ( P_optionallyindentedline !( P_bullet / P_enumerator ) )+
+NestedList ← ( !( P_bullet / P_enumerator ) P_optionallyindentedline )+
 ListBlockLine ←  !( P_blankline ) !( P_indent? ( P_bullet / P_enumerator ) ) P_optionallyindentedline
 
-InBlockTags ← P_openblocktag ( HtmlBlock / ( [^] !( P_closeblocktag ) ) )* P_closeblocktag
+InBlockTags ← P_openblocktag ( HtmlBlock / ( !( P_closeblocktag ) [^] ) )* P_closeblocktag
 HtmlBlock ← InBlockTags P_selfclosingblocktag P_htmlcomment P_blankline+
 
 BlockquoteLine ← ( ( P_nonindentspace ">" " "? P_linechar* P_newline )+
-                 ( ( P_linechar+ !( P_blankline ) ) P_newline )* P_blankline* )+
-Blockquote ← ( BlockquoteLine !( P_blankline ) )+
+                 ( !( P_blankline ) P_linechar+ P_newline )* P_blankline* )+
+Blockquote ← ( !( P_blankline ) BlockquoteLine )+
 
-VerbatimChunk ← P_blankline* ( P_indentedline !( P_blankline ) )+
+VerbatimChunk ← P_blankline* ( !( P_blankline ) P_indentedline )+
 Verbatim ← VerbatimChunk+ ( P_blankline+ / P_eof )
 
-Label ← "[" ( "" &( ( ( Label / Inline ) !( "]" ) )+ ) )
-        ( Label / ( Inline !( "]" ) ) )+ "]"
-RefTitle ← ["] ( [^] !( ["]? P_blankline ) )* ["]
-         / "'" ( [^] !( "'"? P_blankline ) )* "'"
-         / "(" ( [^] !( ")" P_blankline ) )* ")"
+Label ← "[" ( !( "]" ) ( Label / Inline ) )+ "]"
+RefTitle ← ["] ( !( ["]? P_blankline ) [^] )* ["]
+         / "'" ( !( "'"? P_blankline ) [^] )* "'"
+         / "(" ( !( ")" P_blankline ) [^] )* ")"
          / ""
 RefSrc ← P_nonspacechar+
 ;Reference = generic.nonindentspace * _"Label" * p":" * generic.spnl * _"RefSrc" * generic.spnl * _"RefTitle" * generic.blankline^0 / writer.reference,;
-Reference ← P_nonindentspace Label ":" P_spnl RefSrc P_spnl RefTitle P_blankline* /Inline+ P_newline P_blankline+
+Reference ← P_nonindentspace Label ":" P_spnl RefSrc P_spnl RefTitle P_blankline*
 
 HorizontalRule ← P_lineof_star / P_lineof_dash / P_lineof_underscore
 
@@ -113,7 +112,7 @@ Inline ← Str / Endline / UlOrStarLine / Space / Strong / Emph / Image / Link
 
 RawHtml ← P_htmlcomment / P_htmltag
 
-EscapedChar ← [U+005C] [^] !( P_newline )
+EscapedChar ← [U+005C] !( P_newline ) [^]
 
 Entity ← HexEntity / DecEntity / CharEntity
 HexEntity ← "&#" [Xx] [0-9a-fA-F]+ ";"
@@ -130,29 +129,29 @@ Code ← P_inticks
 UlOrStarLine ← "*"{4,} / "_"{4,} / P_space [*_]+ &( P_space )
 
 Emph ← EmphStar / EmphUl
-EmphStar ← "*" !( P_spacechar / P_newline ) ( Inline !( "*" ) )+ "*"
-EmphUl ← "_" !( P_spacechar / P_newline ) ( Inline !( "_" ) )+ "_"
+EmphStar ← "*" !( P_spacechar / P_newline ) ( !( "*" ) Inline )+ "*"
+EmphUl ← "_" !( P_spacechar / P_newline ) ( !( "_" ) Inline )+ "_"
 
 Strong ← StrongStar / StrongUl
-StrongStar ← "**" !( P_spacechar / P_newline ) ( Inline !( "**" ) )+ "**"
-StrongUl ← "__" !( P_spacechar / P_newline ) ( Inline !( "__" ) )+ "__"
+StrongStar ← "**" !( P_spacechar / P_newline ) ( !( "**" ) Inline )+ "**"
+StrongUl ← "__" !( P_spacechar / P_newline ) ( !( "__" ) Inline )+ "__"
 
 Image ← "!" ( ExplicitLink / ReferenceLink )
 Link ← ExplicitLink / ReferenceLink / AutoLinkUrl / AutoLinkEmail
 ReferenceLink ← ReferenceLinkDouble / ReferenceLinkSingle
 ReferenceLinkDouble ← Label P_spnl Label
-ReferenceLinkSingle ← Label P_spnl "[]"?
-AutoLinkUrl ← "<" ( P_alphanumeric+ "://" ( [^] !( P_newline / ">" ) )+ ) ">"
-AutoLinkEmail ← "<" ( ( P_alphanumeric / [-_+] )+ "@" ( [^] !( P_newline / ">" ) )+ ) ">"
+ReferenceLinkSingle ← Label ( P_spnl "[]" )?
+AutoLinkUrl ← "<" ( P_alphanumeric+ "://" ( !( P_newline / ">" ) [^] )+ ) ">"
+AutoLinkEmail ← "<" ( P_alphanumeric / [-_+] )+ "@" ( !( P_newline / ">" ) [^] )+ ">"
 
-BasicSource ← ( P_nonspacechar !( [()>] ) )+
+BasicSource ← ( !( [()>] ) P_nonspacechar )+
             / ( "(" Source ")" )+
             / ""
 AngleSource ← "<" BasicSource ">"
 Source ← AngleSource / BasicSource
 
-LinkTitle ← ["] ( [^] !( ["] P_sp ")" ) )*
-          / "'" ( [^] !( "'" P_sp ")" ) )*
+LinkTitle ← ["] ( !( ["] P_sp ")" ) [^] )* ["]
+          / "'" ( !( "'" P_sp ")" ) [^] )* "'"
           / ""
 
 ExplicitLink ← Label P_spnl "(" P_sp Source P_spnl LinkTitle P_sp ")"

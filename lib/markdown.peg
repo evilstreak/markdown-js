@@ -103,7 +103,7 @@ DecEntity ← "&#" [0-9]+ ";"
 CharEntity ← "&" P_alphanumeric+ ";"
 
 Endline ← LineBreak / TerminalEndline / NormalEndline
-NormalEndline ← 
+NormalEndline ←  P_sp P_newline !( P_blankline / ">" / AtxStart / ( P_line [-=]{3,} P_newline ) )
 TerminalEndline ← P_sp P_newline P_eof
 LineBreak ← "  " NormalEndline
 

@@ -42,6 +42,11 @@ P_htmlattributevalue ← ( P_singlequoted / P_doublequoted )
 
 P_htmlattribute ← ( P_alphanumeric / [_-] )+ P_spnl ("=" P_spnl P_htmlattributevalue)? P_spnl
 
+; TODO: support multiple ticks, ala: ``foo`bar``
+; openticks = lpeg.Cg(p"`"^1, "ticks")
+; closeticks = sp * lpeg.Cmt(c(p"`"^1) * lpeg.Cb("ticks"), function(s,i,a,b) return string.len(a) == string.len(b) and i end)
+; inticks = openticks * sp * c((p(1) - (blankline + closeticks))^1) * closeticks
+P_inticks ← "`" P_sp ( [^] !( P_blankline / "`" ) )+ "`"
 
 
 References ← ( Reference / ( P_nonemptyline+ P_blankline+ ) / P_line )* P_blankline* P_eof

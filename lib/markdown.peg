@@ -108,7 +108,7 @@ Para ← P_nonindentspace Inline+ P_newline P_blankline+
 
 Plain ← Inline+
 
-Inline ← Endline / UlOrStarLine / Space / Strong / Emph / Image / Link
+Inline ← Str / Endline / UlOrStarLine / Space / Strong / Emph / Image / Link
        / Code / RawHtml / Entity / EscapedChar / Symbol
 
 RawHtml ← P_htmlcomment / P_htmltag

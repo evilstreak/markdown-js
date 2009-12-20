@@ -4,7 +4,7 @@ const test = require('test'),
       markdown = require( "markdown" );
 
 // get the list of all test collections
-var fixtures = fs.list( "fixtures" );
+var fixtures = fs.list( module.resource.resolve("fixtures") );
 
 // get rid of the README
 fixtures = fixtures.filter( function( x ) ! x.match( /\/README$/ ) );

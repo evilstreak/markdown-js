@@ -258,7 +258,7 @@ tests = {
       "Code block correct for abutting para");
 
     asserts.same(
-      next, ["  bar"],
+      next, [mk_block("  bar")],
       "paragraph put back into next block");
 
     asserts.same(

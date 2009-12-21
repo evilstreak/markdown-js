@@ -92,7 +92,7 @@ Markdown.dialects = {};
 Markdown.dialects.Default = {
   block: {
     atxHeader: function atxHeader( block, next ) {
-      var m = block.match( /^(#{1,6})\s*(.*?)\s*#*$/ );
+      var m = block.match( /^(#{1,6})\s*(.*?)\s*#*(?:\n\s*)*$/ );
 
       if ( !m ) return undefined;
 
@@ -102,7 +102,7 @@ Markdown.dialects.Default = {
     },
 
     setextHeader: function setextHeader( block, next ) {
-      var m = block.match( /^(.*)\n([-=])\2\2+$/ );
+      var m = block.match( /^(.*)\n([-=])\2\2+(?:\n\s*)*$/ );
 
       if ( !m ) return undefined;
 
@@ -205,27 +205,27 @@ tests = {
   }),
 
   test_headers: tests.meta(function(md) {
-    var h1 = md.dialect.block.atxHeader( "# h1 #", [] ),
+    var h1 = md.dialect.block.atxHeader( "# h1 #\n\n", [] ),
         h2;
 
     asserts.same(
       h1,
-      md.dialect.block.setextHeader( "h1\n===", [] ),
+      md.dialect.block.setextHeader( "h1\n===\n\n", [] ),
       "Atx and Setext style H1s should produce the same output" );
 
     asserts.same(
-      md.dialect.block.atxHeader("# h1"),
+      md.dialect.block.atxHeader("# h1\n\n"),
       h1,
       "Closing # optional on atxHeader");
 
     asserts.same(
-      h2 = md.dialect.block.atxHeader( "## h2", [] ),
+      h2 = md.dialect.block.atxHeader( "## h2\n\n", [] ),
       [["header", {level: 2}, "h2"]],
       "Atx h2 has right level");
 
     asserts.same(
       h2,
-      md.dialect.block.setextHeader( "h2\n---", [] ),
+      md.dialect.block.setextHeader( "h2\n---\n\n", [] ),
       "Atx and Setext style H2s should produce the same output" );
 
   }),

@@ -23,7 +23,7 @@ var mk_block = Markdown.mk_block = function(block, trail) {
 // Internal - split source into rough blocks
 Markdown.prototype.split_blocks = function splitBlocks( input ) {
   // [\s\S] matches _anything_ (newline or space)
-  var re = /([\s\S]+?)((?:\s*\n|$)+)/g,
+  var re = /([\s\S]+?)($|\n(?:\s*\n|$)+)/g,
       blocks = [],
       m;
 
@@ -226,13 +226,13 @@ var tests = {
 
 tests = {
   test_split_block: tests.meta(function(md) {
-    var input = "# h1 #\n\npara1\n  \n\n\n\npara2\n",
+    var input = "# h1 #\n\npara1\npara1L2\n  \n\n\n\npara2\n",
         blocks = md.split_blocks(input);
 
     asserts.same(
         blocks,
         [mk_block( "# h1 #", "\n\n" ),
-         mk_block( "para1", "\n  \n\n\n\n" ),
+         mk_block( "para1\npara1L2", "\n  \n\n\n\n" ),
          mk_block( "para2", "\n" )
         ],
         "split_block should record trailing newlines");

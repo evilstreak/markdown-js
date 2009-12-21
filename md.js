@@ -194,9 +194,20 @@ Markdown.dialects.Default = {
       return [ list ];
     },
 
+    blockquote: function blockquote( block, next ) {
+      if ( block[0] != ">" )
+        return undefined;
+
+      // Strip off the leading "> " and re-process as a block.
+      var input =  block.replace( /^>\s/gm, ''),
+          children = this.toTree(input);
+
+      return [ [ "blockquote" ].concat(children) ];
+    },
+
     para: function para( block, next ) {
       // everything's a para!
-      return [ [ "para", block ] ];
+      return [ [ "para", block.valueOf() ] ];
     }
   },
 
@@ -308,6 +319,16 @@ tests = {
       md.dialect.block.bulletList( mk_block("* foo\n  baz\n* bar\n  baz"), [] ),
       [ [ "bulletlist", [ "listitem", "foo\nbaz" ], [ "listitem", "bar\nbaz" ] ] ],
       "multiline tidy bullets");
+
+  }),
+
+  test_blockquote: tests.meta(function(md) {
+    var bq = md.dialect.block.blockquote;
+    asserts.same(
+      bq.call( md, mk_block("> foo\n> bar"), [] ),
+      [ ["blockquote", ["para", "foo\nbar"] ] ],
+      "simple blockquote");
+
   })
 }
 

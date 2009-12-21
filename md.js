@@ -148,22 +148,17 @@ Markdown.dialects.Default = {
       //
       // There might also be adjacent code block to merge.
 
-      var ret = undefined,
+      var ret = [],
           re = /^(?:[ ]{4}|[ ]{0,3}\t)(.*)\n?/,
           lines;
 
-      code_blocks:
-      while (block) {
-        // 4 spaces, or 1..3 spaces and a tab + content
-        // or a space only line
-        var m = block.match( re );
+      // 4 spaces, or 1..3 spaces and a tab + content
+      var m = block.match( re );
 
-        if ( !m ) break;
+      if ( !m ) return undefined;
 
-        // Merging, add the blank lines.
-        if (ret) ret.push(lines);
-        else     ret = [];
-
+      block_search:
+      do {
         // Now pull out the rest of the lines
         var b = this.loop_re_over_block(
                   re, block.valueOf(), function( m ) { ret.push( m[1] ) } );
@@ -171,17 +166,24 @@ Markdown.dialects.Default = {
         if (b.length) {
           // Case alluded to in first comment. push it back on as a new block
           next.unshift( mk_block(b, block.trailing) );
-          block = null;
+          break block_search;
         }
-        else {
-          // Pull how how many blanks lines follow - minus two to account for .join
-          lines = block.trailing.replace(/[^\n]/g, '').substring(2);
+        else if (next.length) {
           // Check the next block - it might be code too
+          var m = next[0].match( re );
+
+          if ( !m ) break block_search;
+
+          // Pull how how many blanks lines follow - minus two to account for .join
+          ret.push ( block.trailing.replace(/[^\n]/g, '').substring(2) );
+
           block = next.shift();
         }
-      }
+        else
+          break block_search;
+      } while (true);
 
-      return ret ? [ [ "code_block", ret.join("\n") ] ] : undefined;
+      return [ [ "code_block", ret.join("\n") ] ];
     },
 
     bulletList: function bulletList( block, next ) {
@@ -318,13 +320,18 @@ tests = {
 
   test_code: tests.meta(function(md) {
     var code = md.dialect.block.code,
-        next = [];
+        next = [ mk_block("next") ];
 
     asserts.same(
-      code.call( md, mk_block("    foo\n    bar"), [] ),
+      code.call( md, mk_block("    foo\n    bar"), next ),
       [["code_block", "foo\nbar" ]],
       "Code block correct");
 
+    asserts.same(
+      next, [mk_block("next")],
+      "next untouched when its not code");
+
+    next = [];
     asserts.same(
       code.call( md, mk_block("    foo\n  bar"), next ),
       [["code_block", "foo" ]],

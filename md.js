@@ -3,25 +3,32 @@ var Markdown = exports.Markdown = function Markdown(dialect) {
   this.dialect = dialect || Markdown.dialects.Default;
 }
 
+var mk_block = Markdown.mk_block = function(block, trail) {
+  // Be helpful for default case in tests.
+  if ( arguments.length == 1 ) trail = "\n\n";
+
+  var s = new String(block);
+  s.trailing = trail;
+  // To make it clear its not just a string
+  s.toSource = function() {
+    return "Markdown.mk_block( " +
+            uneval(block) +
+            ", " +
+            uneval(trail) +
+            " )"
+  }
+  return s;
+}
+
 // Internal - split source into rough blocks
 Markdown.prototype.split_blocks = function splitBlocks( input ) {
-  // reverse the string so we can mimic a lookbehind
-  var blocks = input.split( '' ).reverse().join( '' )
-              .split( /(?=\n(?:\s*\n)+(?!\s*\n))/ ).reverse();
+  // [\s\S] matches _anything_ (newline or space)
+  var re = /([\s\S]+?)((?:\s*\n|$)+)/g,
+      blocks = [],
+      m;
 
-  // flip each string back around
-  for ( var i in blocks )
-    blocks[ i ] = blocks[ i ].split( '' ).reverse().join( '' );
-
-  // collapse blanklines
-  var j = 0;
-  while ( j < blocks.length - 1 ) {
-    if ( blocks[ j + 1 ].match( /^(?:\s*\n)+$/ ) ) {
-      blocks[ j ] += blocks.splice( j + 1, 1 ).pop();
-    }
-    else {
-      j++;
-    }
+  while ( ( m = re(input) ) != null ) {
+    blocks.push( mk_block( m[1], m[2] ) );
   }
 
   return blocks;
@@ -121,34 +128,39 @@ Markdown.dialects.Default = {
       // There might also be adjacent code block to merge.
 
       var ret = undefined,
-          regexp = /^(?:[ ]{4}|[ ]{1,3}[\t])(.*)\n?/;
+          regexp = /^(?:[ ]{4}|[ ]{0,3}[\t])(.*)\n?/,
+          lines;
 
       code_blocks:
       while (block) {
-        // 4 spaces, or 1..3 spaces and a tab
+        // 4 spaces, or 1..3 spaces and a tab + content
+        // or a space only line
         var m = block.match( regexp );
 
         if ( !m ) break;
 
         // Merging, add the 2 blank lines. TODO: It could have been more!
-        if (ret) ret[1] += "\n\n" + m[1];
+        if (ret) ret[1] += lines + m[1];
         else     ret = ["code_block", m[1]];
 
+        var b = block.valueOf();
         // Now pull out the rest of the lines
         do  {
-          block = block.substr( m[0].length );
-          m = block.match( regexp );
+          b = b.substr( m[0].length );
+          m = b.match( regexp );
 
           if ( !m ) break;
           ret[1] += "\n" +m[1];
-        } while (block.length);
+        } while (b.length);
 
-        if (block.length) {
+        if (b.length) {
           // Case alluded to in first comment. push it back on as a new block
-          next.unshift(block);
+          next.unshift( mk_block(b, block.trailing) );
           block = null;
         }
         else {
+          // Pull how how many blanks lines follow
+          lines = block.trailing.replace(/[^\n]*/, '');
           // Check the next block - it might be code too
           block = next.shift();
         }
@@ -195,14 +207,16 @@ tests = {
   test_split_block: tests.meta(function(md) {
     var input = "# h1 #\n\npara1\n  \n\n\n\npara2\n",
         blocks = md.split_blocks(input);
+    print( "XYZ" in blocks[0] );
 
     asserts.same(
         blocks,
-        ["# h1 #\n\n",
-         "para1\n  \n\n\n\n",
-         "para2\n"
+        [mk_block( "# h1 #", "\n\n" ),
+         mk_block( "para1", "\n  \n\n\n\n" ),
+         mk_block( "para2", "\n" )
         ],
-        "split_block should preserve trailing newlines");
+        "split_block should record trailing newlines");
+
   }),
 
   test_headers: tests.meta(function(md) {
@@ -233,13 +247,13 @@ tests = {
 
   test_code: tests.meta(function(md) {
     asserts.same(
-      md.dialect.block.code( "    foo\n    bar", [] ),
+      md.dialect.block.code( mk_block("    foo\n    bar"), [] ),
       [["code_block", "foo\nbar" ]],
       "Code block correct");
 
     var next = [];
     asserts.same(
-      md.dialect.block.code( "    foo\n  bar", next ),
+      md.dialect.block.code( mk_block("    foo\n  bar"), next ),
       [["code_block", "foo" ]],
       "Code block correct for abutting para");
 
@@ -248,7 +262,7 @@ tests = {
       "paragraph put back into next block");
 
     asserts.same(
-      md.dialect.block.code( "    foo", ["    bar", ] ),
+      md.dialect.block.code( mk_block("    foo"), [mk_block("    bar"), ] ),
       [["code_block", "foo\n\nbar" ]],
       "adjacent code blocks ");
 

@@ -99,6 +99,18 @@ Markdown.prototype.toTree = function toTree( source ) {
 // Noop by default
 Markdown.prototype.debug = function () {}
 
+Markdown.prototype.loop_on_block = function( re, block, cb ) {
+  // Dont use /g regexps with this
+  var m,
+      b = block.valueOf();
+
+  while ( b.length && (m = re(b) ) != null) {
+    b = b.substr( m[0].length );
+    cb(m);
+  }
+  return b;
+}
+
 Markdown.dialects = {};
 Markdown.dialects.Default = {
   block: {
@@ -149,18 +161,12 @@ Markdown.dialects.Default = {
         if ( !m ) break;
 
         // Merging, add the blank lines.
-        if (ret) ret[1] += lines + m[1];
-        else     ret = ["code_block", m[1]];
+        if (ret) ret.push(lines);
+        else     ret = [];
 
-        var b = block.valueOf();
         // Now pull out the rest of the lines
-        do  {
-          b = b.substr( m[0].length );
-          m = b.match( re );
-
-          if ( !m ) break;
-          ret[1] += "\n" +m[1];
-        } while (b.length);
+        var b = this.loop_on_block(
+                  re, block.valueOf(), function( m ) { ret.push( m[1] ) } );
 
         if (b.length) {
           // Case alluded to in first comment. push it back on as a new block
@@ -168,14 +174,14 @@ Markdown.dialects.Default = {
           block = null;
         }
         else {
-          // Pull how how many blanks lines follow
-          lines = block.trailing.replace(/[^\n]/g, '');
+          // Pull how how many blanks lines follow - minus two to account for .join
+          lines = block.trailing.replace(/[^\n]/g, '').substring(2);
           // Check the next block - it might be code too
           block = next.shift();
         }
       }
 
-      return ret ? [ret] : undefined;
+      return ret ? [ [ "code_block", ret.join("\n") ] ] : undefined;
     },
 
     bulletList: function bulletList( block, next ) {
@@ -286,14 +292,16 @@ tests = {
   }),
 
   test_code: tests.meta(function(md) {
+    var code = md.dialect.block.code,
+        next = [];
+
     asserts.same(
-      md.dialect.block.code( mk_block("    foo\n    bar"), [] ),
+      code.call( md, mk_block("    foo\n    bar"), [] ),
       [["code_block", "foo\nbar" ]],
       "Code block correct");
 
-    var next = [];
     asserts.same(
-      md.dialect.block.code( mk_block("    foo\n  bar"), next ),
+      code.call( md, mk_block("    foo\n  bar"), next ),
       [["code_block", "foo" ]],
       "Code block correct for abutting para");
 
@@ -302,12 +310,12 @@ tests = {
       "paragraph put back into next block");
 
     asserts.same(
-      md.dialect.block.code( mk_block("    foo"), [mk_block("    bar"), ] ),
+      code.call( md, mk_block("    foo"), [mk_block("    bar"), ] ),
       [["code_block", "foo\n\nbar" ]],
       "adjacent code blocks ");
 
     asserts.same(
-      md.dialect.block.code( mk_block("    foo","\n  \n      \n"), [mk_block("    bar"), ] ),
+      code.call( md, mk_block("    foo","\n  \n      \n"), [mk_block("    bar"), ] ),
       [["code_block", "foo\n\n\nbar" ]],
       "adjacent code blocks preserve correct number of empty lines");
 

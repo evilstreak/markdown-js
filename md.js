@@ -53,8 +53,9 @@ Markdown.prototype.processBlock = function processBlock( block, next ) {
     var res = cbs[ ord[i] ].call( this, block, next );
     if ( res ) {
       print("  matched");
-      if (res.length > 0 && res[0] instanceof Array )
-        print(ord[i], "didn't return a proper array");
+      if ( !res instanceof Array || !( res.length > 0 && res[0] instanceof Array ) )
+        print(" ", ord[i], "didn't return a proper array");
+      print( "" );
       return res;
     }
   }

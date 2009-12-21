@@ -5,10 +5,24 @@ var Markdown = exports.Markdown = function Markdown(dialect) {
 
 // Internal - split source into rough blocks
 Markdown.prototype.split_blocks = function splitBlocks( input ) {
-  var blocks = input.split( /\n(?:\s*\n)+|\n$/ );
+  // reverse the string so we can mimic a lookbehind
+  var blocks = input.split( '' ).reverse().join( '' )
+              .split( /(?=\n(?:\s*\n)+(?!\s*\n))/ ).reverse();
 
-  // cleanup the empty last child from `\n$` matching
-  if ( blocks[ blocks.length - 1 ] === "" ) blocks.pop();
+  // flip each string back around
+  for ( var i in blocks )
+    blocks[ i ] = blocks[ i ].split( '' ).reverse().join( '' );
+
+  // collapse blanklines
+  var j = 0;
+  while ( j < blocks.length - 1 ) {
+    if ( blocks[ j + 1 ].match( /^(?:\s*\n)+$/ ) ) {
+      blocks[ j ] += blocks.splice( j + 1, 1 ).pop();
+    }
+    else {
+      j++;
+    }
+  }
 
   return blocks;
 }
@@ -183,11 +197,11 @@ tests = {
 
     asserts.same(
         blocks,
-        ["# h1 #",
-         "para1",
-         "para2"
+        ["# h1 #\n\n",
+         "para1\n  \n\n\n\n",
+         "para2\n"
         ],
-        "split_block stripped off final \\n");
+        "split_block should preserve trailing newlines");
   }),
 
   test_headers: tests.meta(function(md) {

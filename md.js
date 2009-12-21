@@ -20,6 +20,13 @@ Markdown.prototype.split_blocks = function splitBlocks( input ) {
  *
  * Process `block` and return an array of JsonML nodes representing `block`.
  *
+ * It does this by asking each block level function in the dialect to process
+ * the block until one can. Succesful handling is indicated by returning an
+ * array (with zero or more JsonML nodes), failure by a false value.
+ *
+ * Blocks handlers are responsible for calling [[Markdown#processInline]]
+ * themselves as appropriate.
+ *
  * If the blocks were split incorrectly or adjacent blocks need collapsing you
  * can adjust `next` in place using shift/splice etc.
  */
@@ -91,6 +98,50 @@ Markdown.dialects.Default = {
       return [ header ];
     },
 
+    code: function code( block, next ) {
+      // |    Foo
+      // |bar
+      // should be a code block followed by a paragraph. Fun
+      //
+      // There might also be adjacent code block to merge.
+
+      var ret = undefined,
+          regexp = /^(?:[ ]{4}|[ ]{1,3}[\t])(.*)\n?/;
+
+      code_blocks:
+      while (block) {
+        // 4 spaces, or 1..3 spaces and a tab
+        var m = block.match( regexp );
+
+        if ( !m ) break;
+
+        // Merging, add the 2 blank lines. TODO: It could have been more!
+        if (ret) ret[1] += "\n\n" + m[1];
+        else     ret = ["code_block", m[1]];
+
+        // Now pull out the rest of the lines
+        do  {
+          block = block.substr( m[0].length );
+          m = block.match( regexp );
+
+          if ( !m ) break;
+          ret[1] += "\n" +m[1];
+        } while (block.length);
+
+        if (block.length) {
+          // Case alluded to in first comment. push it back on as a new block
+          next.unshift(block);
+          block = null;
+        }
+        else {
+          // Check the next block - it might be code too
+          block = next.shift();
+        }
+      }
+
+      return ret ? [ret] : undefined;
+    },
+
     bulletList: function bulletList( block, next ) {
       // copout
       return undefined;
@@ -149,6 +200,30 @@ tests = {
       md.dialect.block.atxHeader( "## h2", [] ),
       md.dialect.block.setextHeader( "h2\n---", [] ),
       "Atx and Setext style H2s should produce the same output" );
+
+  }),
+
+  test_code: tests.meta(function(md) {
+    asserts.same(
+      md.dialect.block.code( "    foo\n    bar", [] ),
+      [["code_block", "foo\nbar" ]],
+      "Code block correct");
+
+    var next = [];
+    asserts.same(
+      md.dialect.block.code( "    foo\n  bar", next ),
+      [["code_block", "foo" ]],
+      "Code block correct for abutting para");
+
+    asserts.same(
+      next, ["  bar"],
+      "paragraph put back into next block");
+
+    asserts.same(
+      md.dialect.block.code( "    foo", ["    bar", ] ),
+      [["code_block", "foo\n\nbar" ]],
+      "adjacent code blocks ");
+
   })
 }
 

@@ -44,7 +44,7 @@ Markdown.prototype.processBlock = function processBlock( block, next ) {
       return res;
     }
   }
-  
+
   // Uhoh! no match! Should we throw an error?
   return [];
 }
@@ -57,7 +57,7 @@ Markdown.prototype.processBlock = function processBlock( block, next ) {
  **/
 Markdown.prototype.toTree = function toTree( source ) {
   var blocks = this.split_blocks( source );
-  
+
   // Make tree a member variable so its easier to mess with in extensions
   this.tree = this.tree || [];
 
@@ -146,7 +146,7 @@ Markdown.dialects.Default = {
       // copout
       return undefined;
     },
-    
+
     para: function para( block, next ) {
       // everything's a para!
       return [ [ "para", block ] ];
@@ -162,7 +162,7 @@ Markdown.dialects.Default = {
   var ord = [];
   for (i in d) ord.push( i );
   d.__order__ = ord;
-  
+
 })( Markdown.dialects.Default.block );
 
 exports.toTree = function( source ) {
@@ -172,8 +172,8 @@ exports.toTree = function( source ) {
 
 
 var tests = {
-  meta: function(fn) { 
-    return function() { fn( new Markdown ) } 
+  meta: function(fn) {
+    return function() { fn( new Markdown ) }
   }
 };
 tests = {
@@ -186,7 +186,7 @@ tests = {
         ["# h1 #",
          "para1",
          "para2"
-        ], 
+        ],
         "split_block stripped off final \\n");
   }),
 

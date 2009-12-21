@@ -180,19 +180,19 @@ Markdown.dialects.Default = {
 
     bulletList: function bulletList( block, next ) {
       // accept if it starts with a bullet and a space
-      if ( !block.match( /^[*+-]\s/ ) ) return undefined;
+      if ( !block.match( /^ {0,3}[*+-]\s/ ) ) return undefined;
 
       var list = [ "bulletlist" ],
           lines = block.split( /(?=\n)/ ),
           i = 0;
 
       while ( i < lines.length ) {
-        var line = lines[ i ].replace( /\n?[*+-]\s+/, "" );
+        var line = lines[ i ].replace( /\n? {0,3}[*+-]\s+/, "" );
 
         // see if the next line is a continuation
         while ( i + 1 < lines.length && !lines[ i + 1 ].match( /[*+-]\s/ ) ) {
           var extra = lines.splice( i + 1, 1 )[ 0 ];
-          line += extra.replace( /^(\n?)  /, "$1" );
+          line += extra.replace( /^(\n?) {0,3}[ \t]?/, "$1" );
         }
 
         list.push( [ "listitem", line ] );
@@ -329,6 +329,15 @@ tests = {
       [ [ "bulletlist", [ "listitem", "foo\nbaz" ], [ "listitem", "bar\nbaz" ] ] ],
       "multiline tidy bullets");
 
+    asserts.same(
+      md.dialect.block.bulletList( mk_block("* foo\n     baz"), [] ),
+      [ [ "bulletlist", [ "listitem", "foo\n baz" ] ] ],
+      "only trim 4 spaces from the start of the line");
+
+    asserts.same(
+      md.dialect.block.bulletList( mk_block(" * one\n  * two\n   * three" ), [] ),
+      [ [ "bulletlist", [ "listitem", "one" ], [ "listitem", "two" ], [ "listitem", "three" ] ] ],
+      "bullets can be indented up to three spaces");
   }),
 
   test_blockquote: tests.meta(function(md) {

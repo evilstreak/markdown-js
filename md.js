@@ -191,13 +191,26 @@ tests = {
   }),
 
   test_headers: tests.meta(function(md) {
+    var h1 = md.dialect.block.atxHeader( "# h1 #", [] ),
+        h2;
+
     asserts.same(
-      md.dialect.block.atxHeader( "# h1 #", [] ),
+      h1,
       md.dialect.block.setextHeader( "h1\n===", [] ),
       "Atx and Setext style H1s should produce the same output" );
 
     asserts.same(
-      md.dialect.block.atxHeader( "## h2", [] ),
+      md.dialect.block.atxHeader("# h1"),
+      h1,
+      "Closing # optional on atxHeader");
+
+    asserts.same(
+      h2 = md.dialect.block.atxHeader( "## h2", [] ),
+      [["header", {level: 2}, "h2"]],
+      "Atx h2 has right level");
+
+    asserts.same(
+      h2,
       md.dialect.block.setextHeader( "h2\n---", [] ),
       "Atx and Setext style H2s should produce the same output" );
 

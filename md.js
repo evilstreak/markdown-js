@@ -99,14 +99,14 @@ Markdown.prototype.toTree = function toTree( source ) {
 // Noop by default
 Markdown.prototype.debug = function () {}
 
-Markdown.prototype.loop_on_block = function( re, block, cb ) {
+Markdown.prototype.loop_re_over_block = function( re, block, cb ) {
   // Dont use /g regexps with this
   var m,
       b = block.valueOf();
 
   while ( b.length && (m = re(b) ) != null) {
     b = b.substr( m[0].length );
-    cb(m);
+    cb.call(this, m);
   }
   return b;
 }
@@ -165,7 +165,7 @@ Markdown.dialects.Default = {
         else     ret = [];
 
         // Now pull out the rest of the lines
-        var b = this.loop_on_block(
+        var b = this.loop_re_over_block(
                   re, block.valueOf(), function( m ) { ret.push( m[1] ) } );
 
         if (b.length) {
@@ -218,6 +218,31 @@ Markdown.dialects.Default = {
           children = this.toTree(input);
 
       return [ [ "blockquote" ].concat(children) ];
+    },
+
+    referenceDefn: function referenceDefn( block, next) {
+      var re = /^\s*\[(.*?)\]:\s*<?(\S+)>?(?:\s+(?:(['"])(.*?)\3|\((.*?)\)))?\n?/;
+      // interesting matches are [ , ref_id, url, , title, title ]
+
+      if ( !block.match(re) )
+        return undefined;
+
+      var b = this.loop_re_over_block(re, block, function( m ) {
+        var ref = this.references[ m[1].toLowerCase() ] = {
+          href: m[2],
+        };
+
+        if (m[4] !== undefined)
+          ref.title = m[4];
+        else if (m[5] !== undefined)
+          ref.title = m[5];
+
+      } );
+
+      if (b.length)
+        next.unshift( mk_block( b, block.trailing ) );
+
+      return [];
     },
 
     para: function para( block, next ) {
@@ -362,7 +387,6 @@ tests = {
 
   }),
 
-
   test_horizRule: tests.meta(function(md) {
     var hr = md.dialect.block.horizRule,
         strs = ["---", "_ __", "** ** **"];
@@ -372,6 +396,30 @@ tests = {
         [ [ "hr" ] ],
         "simple hr from " + s);
     });
+  }),
+
+  test_referenceDefn: tests.meta(function(md) {
+    var rd = md.dialect.block.referenceDefn;
+
+    [ '[id]: http://example.com/  "Optional Title Here"',
+      "[id]: http://example.com/  'Optional Title Here'",
+      '[id]: http://example.com/  (Optional Title Here)'
+    ].forEach( function(s) {
+      asserts.same( rd.call( md, mk_block(s) ), [], "ref processed");
+
+      asserts.same(md.references,
+                   { "id": { href: "http://example.com/", title: "Optional Title Here" } },
+                   "reference extracted");
+
+      md.references = {}; // Clear for next run
+    });
+
+    // Check a para abbuting a ref works right
+    var next = [];
+    asserts.same( rd.call( md, mk_block("[id]: example.com\npara"), next ), [], "ref processed");
+    asserts.same(md.references, { "id": { href: "example.com" } }, "reference extracted");
+    asserts.same(next, [ mk_block("para") ], "paragraph put back into blocks");
+
   })
 }
 

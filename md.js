@@ -338,6 +338,11 @@ tests = {
       md.dialect.block.bulletList( mk_block(" * one\n  * two\n   * three" ), [] ),
       [ [ "bulletlist", [ "listitem", "one" ], [ "listitem", "two" ], [ "listitem", "three" ] ] ],
       "bullets can be indented up to three spaces");
+
+    asserts.same(
+      md.dialect.block.bulletList( mk_block("  * one"), [ mk_block("    two") ] ),
+      [ [ "bulletlist", [ "listitem", [ "para", "one" ], [ "para", "two" ] ] ] ],
+      "loose bullet lists can have multiple paragraphs");
   }),
 
   test_blockquote: tests.meta(function(md) {

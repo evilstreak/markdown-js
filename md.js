@@ -123,6 +123,12 @@ Markdown.dialects.Default = {
       return [ header ];
     },
 
+    horizRule: function horizRule( block, next) {
+      if ( !block.match( /^([*-_])([ ]*\1){2,}$/ ) )
+        return undefined
+      return [ [ "hr" ] ];
+    },
+
     code: function code( block, next ) {
       // |    Foo
       // |bar
@@ -332,6 +338,18 @@ tests = {
       [ ["blockquote", ["para", "foo\nbar"] ] ],
       "simple blockquote");
 
+  }),
+
+
+  test_horizRule: tests.meta(function(md) {
+    var hr = md.dialect.block.horizRule,
+        strs = ["---", "_ __", "** ** **"];
+    strs.forEach( function(s) {
+      asserts.same(
+        hr.call( md, mk_block(s), [] ),
+        [ [ "hr" ] ],
+        "simple hr from " + s);
+    });
   })
 }
 

@@ -128,18 +128,18 @@ Markdown.dialects.Default = {
       // There might also be adjacent code block to merge.
 
       var ret = undefined,
-          regexp = /^(?:[ ]{4}|[ ]{0,3}[\t])(.*)\n?/,
+          re = /^(?:[ ]{4}|[ ]{0,3}\t)(.*)\n?/,
           lines;
 
       code_blocks:
       while (block) {
         // 4 spaces, or 1..3 spaces and a tab + content
         // or a space only line
-        var m = block.match( regexp );
+        var m = block.match( re );
 
         if ( !m ) break;
 
-        // Merging, add the 2 blank lines. TODO: It could have been more!
+        // Merging, add the blank lines.
         if (ret) ret[1] += lines + m[1];
         else     ret = ["code_block", m[1]];
 
@@ -147,7 +147,7 @@ Markdown.dialects.Default = {
         // Now pull out the rest of the lines
         do  {
           b = b.substr( m[0].length );
-          m = b.match( regexp );
+          m = b.match( re );
 
           if ( !m ) break;
           ret[1] += "\n" +m[1];
@@ -160,7 +160,7 @@ Markdown.dialects.Default = {
         }
         else {
           // Pull how how many blanks lines follow
-          lines = block.trailing.replace(/[^\n]*/, '');
+          lines = block.trailing.replace(/[^\n]/g, '');
           // Check the next block - it might be code too
           block = next.shift();
         }
@@ -228,7 +228,6 @@ tests = {
   test_split_block: tests.meta(function(md) {
     var input = "# h1 #\n\npara1\n  \n\n\n\npara2\n",
         blocks = md.split_blocks(input);
-    print( "XYZ" in blocks[0] );
 
     asserts.same(
         blocks,
@@ -286,6 +285,11 @@ tests = {
       md.dialect.block.code( mk_block("    foo"), [mk_block("    bar"), ] ),
       [["code_block", "foo\n\nbar" ]],
       "adjacent code blocks ");
+
+    asserts.same(
+      md.dialect.block.code( mk_block("    foo","\n  \n      \n"), [mk_block("    bar"), ] ),
+      [["code_block", "foo\n\n\nbar" ]],
+      "adjacent code blocks preserve correct number of empty lines");
 
   }),
 

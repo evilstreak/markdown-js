@@ -56,13 +56,13 @@ Markdown.prototype.processBlock = function processBlock( block, next ) {
       ord = cbs.__order__;
 
   for ( var i = 0; i < ord.length; i++ ) {
-    print( "Testing", ord[i] );
+    this.debug( "Testing", ord[i] );
     var res = cbs[ ord[i] ].call( this, block, next );
     if ( res ) {
-      print("  matched");
+      this.debug("  matched");
       if ( !res instanceof Array || !( res.length > 0 && res[0] instanceof Array ) )
-        print(" ", ord[i], "didn't return a proper array");
-      print( "" );
+        this.debug(" ", ord[i], "didn't return a proper array");
+      this.debug( "" );
       return res;
     }
   }
@@ -95,6 +95,9 @@ Markdown.prototype.toTree = function toTree( source ) {
 
   return this.tree;
 }
+
+// Noop by default
+Markdown.prototype.debug = function () {}
 
 Markdown.dialects = {};
 Markdown.dialects.Default = {

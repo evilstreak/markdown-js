@@ -170,8 +170,28 @@ Markdown.dialects.Default = {
     },
 
     bulletList: function bulletList( block, next ) {
-      // copout
-      return undefined;
+      // accept if it starts with a bullet and a space
+      if ( !block.match( /^[*+-]\s/ ) ) return undefined;
+
+      var list = [ "bulletlist" ],
+          lines = block.split( /(?=\n)/ ),
+          i = 0;
+
+      while ( i < lines.length ) {
+        var line = lines[ i ].replace( /\n?[*+-]\s+/, "" );
+
+        // see if the next line is a continuation
+        while ( i + 1 < lines.length && !lines[ i + 1 ].match( /[*+-]\s/ ) ) {
+          var extra = lines.splice( i + 1, 1 )[ 0 ];
+          line += extra.replace( /^(\n?)  /, "$1" );
+        }
+
+        list.push( [ "listitem", line ] );
+
+        ++i;
+      }
+
+      return [ list ];
     },
 
     para: function para( block, next ) {
@@ -203,6 +223,7 @@ var tests = {
     return function() { fn( new Markdown ) }
   }
 };
+
 tests = {
   test_split_block: tests.meta(function(md) {
     var input = "# h1 #\n\npara1\n  \n\n\n\npara2\n",
@@ -266,6 +287,23 @@ tests = {
       [["code_block", "foo\n\nbar" ]],
       "adjacent code blocks ");
 
+  }),
+
+  test_bulletlist: tests.meta(function(md) {
+    asserts.same(
+      md.dialect.block.bulletList( mk_block("* foo\n* bar"), [] ),
+      [ [ "bulletlist", [ "listitem", "foo" ], [ "listitem", "bar" ] ] ],
+      "single line bullets");
+
+    asserts.same(
+      md.dialect.block.bulletList( mk_block("* foo\nbaz\n* bar\nbaz"), [] ),
+      [ [ "bulletlist", [ "listitem", "foo\nbaz" ], [ "listitem", "bar\nbaz" ] ] ],
+      "multiline lazy bullets");
+
+    asserts.same(
+      md.dialect.block.bulletList( mk_block("* foo\n  baz\n* bar\n  baz"), [] ),
+      [ [ "bulletlist", [ "listitem", "foo\nbaz" ], [ "listitem", "bar\nbaz" ] ] ],
+      "multiline tidy bullets");
   })
 }
 

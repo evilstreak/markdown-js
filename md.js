@@ -97,7 +97,7 @@ Markdown.prototype.toTree = function toTree( source ) {
   var blocks = this.split_blocks( source );
 
   // Make tree a member variable so its easier to mess with in extensions
-  this.tree = this.tree || [];
+  this.tree = this.tree || [ "markdown" ];
 
   blocks:
   while ( blocks.length ) {

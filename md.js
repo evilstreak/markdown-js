@@ -232,10 +232,16 @@ Markdown.dialects.Default = {
         return undefined;
 
       // Strip off the leading "> " and re-process as a block.
-      var input =  block.replace( /^>\s/gm, ''),
-          children = this.toTree(input);
+      var input =  block.replace( /^> ?/gm, ''),
+          old_tree = this.tree;
 
-      return [ [ "blockquote" ].concat(children) ];
+      try {
+        this.tree = [ "blockquote" ];
+        return [ this.toTree(input) ];
+      }
+      finally {
+        this.tree = old_tree;
+      }
     },
 
     referenceDefn: function referenceDefn( block, next) {
@@ -420,6 +426,15 @@ tests = {
       bq.call( md, mk_block("> foo\n> bar"), [] ),
       [ ["blockquote", ["para", "foo\nbar"] ] ],
       "simple blockquote");
+
+    // Note: this tests horizRule as well through block processing.
+    asserts.same(
+      bq.call( md, mk_block("> foo\n> bar\n>\n>- - - "), [] ),
+      [ ["blockquote",
+          ["para", "foo\nbar"],
+          ["hr"]
+      ] ],
+      "blockquote with intersting content");
 
   }),
 

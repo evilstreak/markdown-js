@@ -20,6 +20,8 @@ var mk_block = Markdown.mk_block = function(block, trail) {
   return s;
 }
 
+Markdown.prototype.tabstop = 4;
+
 // Internal - split source into rough blocks
 Markdown.prototype.split_blocks = function splitBlocks( input ) {
   // [\s\S] matches _anything_ (newline or space)
@@ -27,8 +29,22 @@ Markdown.prototype.split_blocks = function splitBlocks( input ) {
       blocks = [],
       m;
 
+  var replace = "";
+  while (replace.length < this.tabstop) { replace += " " }
+
+  var tab_re = new RegExp("^((?:" + replace + ")*)?( {0,"+this.tabstop+"}\t)", "gm")
   while ( ( m = re(input) ) != null ) {
-    blocks.push( mk_block( m[1], m[2] ) );
+    var orig, replaced = m[1];
+
+    // Replace leading tabs until we've got them all. We need to loop because of
+    // anchor on the regex and wanting to only replace tabs in the indent, not
+    // the body.
+    do {
+      orig = replaced;
+      replaced = orig.replace(tab_re, "$1" + replace );
+    } while (orig != replaced);
+
+    blocks.push( mk_block( orig, m[2] ) );
   }
 
   return blocks;
@@ -149,10 +165,10 @@ Markdown.dialects.Default = {
       // There might also be adjacent code block to merge.
 
       var ret = [],
-          re = /^(?:[ ]{4}|[ ]{0,3}\t)(.*)\n?/,
+          re = /^[ ]{4}(.*)\n?/,
           lines;
 
-      // 4 spaces, or 1..3 spaces and a tab + content
+      // 4 spaces + content
       var m = block.match( re );
 
       if ( !m ) return undefined;
@@ -200,7 +216,7 @@ Markdown.dialects.Default = {
         // see if the next line is a continuation
         while ( i + 1 < lines.length && !lines[ i + 1 ].match( /[*+-]\s/ ) ) {
           var extra = lines.splice( i + 1, 1 )[ 0 ];
-          line += extra.replace( /^(\n?) {0,3}[ \t]?/, "$1" );
+          line += extra.replace( /^(\n?) {0,4}/, "$1" );
         }
 
         list.push( [ "listitem", line ] );

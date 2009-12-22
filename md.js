@@ -202,30 +202,130 @@ Markdown.dialects.Default = {
       return [ [ "code_block", ret.join("\n") ] ];
     },
 
-    bulletList: function bulletList( block, next ) {
-      // accept if it starts with a bullet and a space
-      if ( !block.match( /^ {0,3}[*+-]\s/ ) ) return undefined;
+    // There are two types of lists. Tight and loose. Tight lists have no whitespace
+    // between the items (and result in text just in the <li>) and loose lists,
+    // which have an empty line between list items, resulting in (one or more)
+    // paragraphs inside the <li>.
+    //
+    // There are all sorts wierd edge cases about the original markdown.pl's
+    // handling of lists
+    //
+    // * list specifier ignored if indent matches (both loose and tight)
+    // * indent a list item by 8 spaces and you get a cont-line. 7 you get a nested
+    //   list.
+    // * if indentation of subsequent list makers is different to first one, even if
+    //   less, you get a nested list
+    //
+    lists: (function( ) {
+      // Use a closure to hide a few variables.
+      var any_list = "[*+-]|\\d\\.",
+          bullet_list = /[*+-]/,
+          number_list = /\d+\./,
+          // Capture leading indent as it matters for determining nested lists.
+          is_list_re = new RegExp( "^( {0,3})(" + any_list + ")\\s" );
 
-      var list = [ "bulletlist" ],
-          lines = block.split( /(?=\n)/ ),
-          i = 0;
 
-      while ( i < lines.length ) {
-        var line = lines[ i ].replace( /\n? {0,3}[*+-]\s+/, "" );
+      // The matcher function
+      return exports.b = function( block, next ) {
+        var m = block.match( is_list_re );
+        if ( !m ) return undefined;
 
-        // see if the next line is a continuation
-        while ( i + 1 < lines.length && !lines[ i + 1 ].match( /[*+-]\s/ ) ) {
-          var extra = lines.splice( i + 1, 1 )[ 0 ];
-          line += extra.replace( /^(\n?) {0,4}/, "$1" );
+        function make_list( sigil ) {
+          var list = bullet_list( sigil )
+                   ? ["bulletlist"]
+                   : ["numberlist"];
+
+          stack.push( list );
+          return list;
         }
 
-        list.push( [ "listitem", line ] );
 
-        ++i;
+        var stack = [], // Stack of lists for nesting.
+            list = make_list( m[2] ),
+            last_li,
+            inner_blocks = [],
+            indent = m[1],
+            loose = false;
+
+        // Loop to search over block looking for inner block elements and loose lists
+        loose_search:
+        do {
+          // Split into lines preserving new lines at end of line
+          var lines = block.split( /(?=\n)/ );
+          //b.replace( /.*(\n|$)/g, function(l) { if (l.length) lines.push(l); return "" } );
+
+          // Normalize/deal with differing indents.
+          // if its a list and matches original, add a new item.
+          // if its a list and different, create a new nested list
+          //   (Indent differs - start a new nested list. Yes really, even if its less.)
+          // else continuation line
+          var line_re = new RegExp(
+            "(^" + indent + "(?:" + any_list + ")\\s+)|" + // m[1]
+            "(" + is_list_re.source + ")|"               + // m[2],m[3],m[4]
+            "(^ {0,4})"                                   // m[5]
+          );
+          //print( "line_re", line_re );
+
+          // Loop over the lines in this block looking for tight lists.
+          tight_search:
+          for (var i=0; i < lines.length; i++) {
+            var nl = "",
+                l = lines[i].replace(/^\n/, function(n) { nl = n; return "" });
+
+            m = l.match( line_re );
+            //print( "line match:", uneval(m) );
+
+            if ( m[1] ) {
+              // New list item at same level
+              last_li = [ "listitem" ];
+              list.push(last_li);
+              nl = "";
+            }
+            else if ( m[2] ) {
+              //print ( "new nested list" );
+              // New nested list
+              list = make_list( m[2] );
+              last_li.push( list );
+              last_li = list[1] = [ "listitem" ];
+              nl = "";
+            }
+
+            if ( loose && last_li[0] != "para" ) {
+              // TODO: this might need to call processBlock!
+              last_li.push( [ "para" ].concat( last_li.splice( 1 ) ) );
+            }
+
+            // Add content
+            if (l.length > m[0].length) {
+
+              var cont = nl + l.substr( m[0].length );
+              if (loose) {
+                last_li.push( [ "para", cont ] );
+                loose = false;
+              }
+              else if (last_li.length == 1 || typeof last_li[last_li.length-1] != "string")
+                last_li.push( cont );
+              else
+                last_li[last_li.length-1] += cont;
+            }
+          } // tight_search
+
+          // Look at the next block - we might have a loose list. or an extra
+          // paragraph for the current li
+          var next_block = next[0] && next[0].valueOf() || "";
+
+          if ( next_block.match(is_list_re) || next_block.match( /^ / ) ) {
+            block = next.shift();
+            //print( "next_block:", uneval(next_block) );
+            loose = true;
+            continue loose_search;
+          }
+          break;
+        } while( true ); // loose_search
+
+        return [ stack[0] ];
       }
-
-      return [ list ];
-    },
+    })(),
 
     blockquote: function blockquote( block, next ) {
       if ( block[0] != ">" )
@@ -376,7 +476,7 @@ tests = {
   }),
 
   test_bulletlist: tests.meta(function(md) {
-    var bl = md.dialect.block.bulletList;
+    var bl = md.dialect.block.lists;
 
     asserts.same(
       bl( mk_block("* foo\n* bar"), [] ),
@@ -398,15 +498,80 @@ tests = {
       [ [ "bulletlist", [ "listitem", "foo\n baz" ] ] ],
       "only trim 4 spaces from the start of the line");
 
+    /* Test wrong: should end up with 3 nested lists here
     asserts.same(
       bl( mk_block(" * one\n  * two\n   * three" ), [] ),
       [ [ "bulletlist", [ "listitem", "one" ], [ "listitem", "two" ], [ "listitem", "three" ] ] ],
       "bullets can be indented up to three spaces");
+    */
 
     asserts.same(
       bl( mk_block("  * one"), [ mk_block("    two") ] ),
       [ [ "bulletlist", [ "listitem", [ "para", "one" ], [ "para", "two" ] ] ] ],
       "loose bullet lists can have multiple paragraphs");
+
+/* Other cases to test:
+__in__
+ * foo
+      * bar
+    * baz
+__out__
+[ "ul",
+  [ "li",
+    "foo",
+    [ "ul",
+      [ "li",
+        "bar",
+        [ "ul",
+          [ "li", "baz" ]
+        ]
+      ]
+    ]
+  ]
+]
+__in__
+  * foo
+   * bar
+* baz
+ * fnord
+__out__
+[ "ul",
+  [ "li",
+    "foo",
+    [ "ul",
+      [ "li", "bar" ],
+      [ "li", "baz" ],
+      [ "li", "fnord" ]
+    ]
+  ]
+]
+__in__
+*
+foo
+bar
+_out__
+[ "ul", [ "li", "foo\nbar" ] ]
+__in__
+ * foo
+
+ 1. bar
+__out__
+[ "ul", [ "li", "foo" ], [ "li", "bar" ] ]
+__in__
+   * foo
+  * bar
+ * baz
+__out__
+[ "ul",
+  [ "li",
+    "foo",
+    [ "ul",
+      [ "li", "bar" ],
+      [ "li", "baz" ]
+    ]
+  ],
+]
+*/
   }),
 
   test_horizRule: tests.meta(function(md) {

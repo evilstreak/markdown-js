@@ -152,7 +152,7 @@ Markdown.dialects.Default = {
     },
 
     horizRule: function horizRule( block, next) {
-      if ( !block.match( /^([*-_])([ ]*\1){2,}$/ ) )
+      if ( !block.match( /^([*-_])([ \t]*\1){2,}[ \t]*$/ ) )
         return undefined
       return [ [ "hr" ] ];
     },
@@ -403,6 +403,17 @@ tests = {
       "loose bullet lists can have multiple paragraphs");
   }),
 
+  test_horizRule: tests.meta(function(md) {
+    var hr = md.dialect.block.horizRule,
+        strs = ["---", "_ __", "** ** **", "--- "];
+    strs.forEach( function(s) {
+      asserts.same(
+        hr.call( md, mk_block(s), [] ),
+        [ [ "hr" ] ],
+        "simple hr from " + uneval(s));
+    });
+  }),
+
   test_blockquote: tests.meta(function(md) {
     var bq = md.dialect.block.blockquote;
     asserts.same(
@@ -410,17 +421,6 @@ tests = {
       [ ["blockquote", ["para", "foo\nbar"] ] ],
       "simple blockquote");
 
-  }),
-
-  test_horizRule: tests.meta(function(md) {
-    var hr = md.dialect.block.horizRule,
-        strs = ["---", "_ __", "** ** **"];
-    strs.forEach( function(s) {
-      asserts.same(
-        hr.call( md, mk_block(s), [] ),
-        [ [ "hr" ] ],
-        "simple hr from " + s);
-    });
   }),
 
   test_referenceDefn: tests.meta(function(md) {

@@ -370,33 +370,35 @@ tests = {
   }),
 
   test_bulletlist: tests.meta(function(md) {
+    var bl = md.dialect.block.bulletList;
+
     asserts.same(
-      md.dialect.block.bulletList( mk_block("* foo\n* bar"), [] ),
+      bl( mk_block("* foo\n* bar"), [] ),
       [ [ "bulletlist", [ "listitem", "foo" ], [ "listitem", "bar" ] ] ],
       "single line bullets");
 
     asserts.same(
-      md.dialect.block.bulletList( mk_block("* foo\nbaz\n* bar\nbaz"), [] ),
+      bl( mk_block("* foo\nbaz\n* bar\nbaz"), [] ),
       [ [ "bulletlist", [ "listitem", "foo\nbaz" ], [ "listitem", "bar\nbaz" ] ] ],
       "multiline lazy bullets");
 
     asserts.same(
-      md.dialect.block.bulletList( mk_block("* foo\n  baz\n* bar\n  baz"), [] ),
+      bl( mk_block("* foo\n  baz\n* bar\n  baz"), [] ),
       [ [ "bulletlist", [ "listitem", "foo\nbaz" ], [ "listitem", "bar\nbaz" ] ] ],
       "multiline tidy bullets");
 
     asserts.same(
-      md.dialect.block.bulletList( mk_block("* foo\n     baz"), [] ),
+      bl( mk_block("* foo\n     baz"), [] ),
       [ [ "bulletlist", [ "listitem", "foo\n baz" ] ] ],
       "only trim 4 spaces from the start of the line");
 
     asserts.same(
-      md.dialect.block.bulletList( mk_block(" * one\n  * two\n   * three" ), [] ),
+      bl( mk_block(" * one\n  * two\n   * three" ), [] ),
       [ [ "bulletlist", [ "listitem", "one" ], [ "listitem", "two" ], [ "listitem", "three" ] ] ],
       "bullets can be indented up to three spaces");
 
     asserts.same(
-      md.dialect.block.bulletList( mk_block("  * one"), [ mk_block("    two") ] ),
+      bl( mk_block("  * one"), [ mk_block("    two") ] ),
       [ [ "bulletlist", [ "listitem", [ "para", "one" ], [ "para", "two" ] ] ] ],
       "loose bullet lists can have multiple paragraphs");
   }),

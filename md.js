@@ -127,6 +127,16 @@ Markdown.prototype.loop_re_over_block = function( re, block, cb ) {
   return b;
 }
 
+exports.toHtml = function toHtml( source ) {
+  var md = new Markdown,
+      jsonml = require( "lib/jsonml" ),
+      md_tree = md.toTree( source ),
+      html_tree = jsonml.toHtml( md_tree ),
+      html = jsonml.render( html_tree );
+
+  return html;
+}
+
 Markdown.dialects = {};
 Markdown.dialects.Default = {
   block: {

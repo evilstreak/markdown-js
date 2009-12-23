@@ -1,7 +1,7 @@
 const test = require('test'),
       asserts = test.asserts,
       fs = require( "fs-base" ),
-      markdown = require( "md" );
+      markdown = require( "markdown" );
 
 // get the list of all test collections
 var fixtures = fs.list( module.resource.resolve("fixtures") );

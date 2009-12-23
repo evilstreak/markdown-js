@@ -1,6 +1,6 @@
 var Markdown = exports.Markdown = function Markdown(dialect) {
   this.references = { };
-  this.dialect = dialect || Markdown.dialects.Default;
+  this.dialect = dialect || Markdown.dialects.Gruber;
 }
 
 var mk_block = Markdown.mk_block = function(block, trail) {
@@ -138,7 +138,7 @@ exports.toHtml = function toHtml( source ) {
 }
 
 Markdown.dialects = {};
-Markdown.dialects.Default = {
+Markdown.dialects.Gruber = {
   block: {
     atxHeader: function atxHeader( block, next ) {
       var m = block.match( /^(#{1,6})\s*(.*?)\s*#*(?:\n\s*)*$/ );
@@ -448,7 +448,7 @@ Markdown.dialects.Default = {
   for (i in d) ord.push( i );
   d.__order__ = ord;
 
-})( Markdown.dialects.Default.block );
+})( Markdown.dialects.Gruber.block );
 
 exports.toTree = function( source ) {
   var md = new Markdown();

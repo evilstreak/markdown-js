@@ -31,16 +31,16 @@ for ( var f in fixtures ) {
 
         // load the target output
         if ( fs.isFile( tests[ t ] + ".json" ) ) {
-          var json_file = fs.rawOpen( tests[ t ] + ".json", "r" ),
-              json = JSON.parse( json_file.readWhole() );
-          json_file.close();
-
           try {
+            var json_file = fs.rawOpen( tests[ t ] + ".json", "r" ),
+                json = JSON.parse( json_file.readWhole() );
+            json_file.close();
+
             var output = markdown.toHTMLTree( markdown.parse( text ) );
             asserts.same( output, json, test_name );
           }
           catch( e ) {
-            asserts.ok( 0, "Couldn't parse " + test_name + ": " + e );
+            asserts.ok( 0, "Failed with error on " + test_name + ": " + e );
           }
         }
         else {

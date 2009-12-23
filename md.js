@@ -210,13 +210,10 @@ Markdown.dialects.Default = {
     // There are all sorts wierd edge cases about the original markdown.pl's
     // handling of lists
     //
-    // * list specifier ignored if indent matches (both loose and tight)
-    // * indent a list item by 8 spaces and you get a cont-line. 7 you get a nested
-    //   list. (this is due to looking for code block I think)
-    // * if indentation of subsequent list makers is different to first one, even if
-    //   less, you get a nested list
-    //   + If they indent is less than 4, adjecnt differnt <li>s are merged.
-    //   + Something else happens if its greater than 4 indent
+    // Nested lists are supposed to be indented by four chars per level. But if
+    // they aren't, you can get a nested list by indenting by less than four so
+    // long as the indent doesn't match an the indent of an existing list item
+    // in the 'nest stack'.
     //
     lists: (function( ) {
       // Use a closure to hide a few variables.
@@ -226,24 +223,35 @@ Markdown.dialects.Default = {
           // Capture leading indent as it matters for determining nested lists.
           is_list_re = new RegExp( "^( {0,3})(" + any_list + ")[ \t]+" );
 
+      // Create a regexp suitable for matching an li for a given stack depth
+      function regex_for_depth(indent, depth) {
+        depth++; // Match a list one deeper than the current depth
+
+
+        return new RegExp(
+          "(?:^( {0," + ((depth*4)-1) + "})(" + any_list + ")\\s+)|" + // m[1],m[2]
+          "(^(?:[ ]{4}){0," + (depth-2) + "}[ ]{0,4})"                 // m[3]
+        );
+
+      }
 
       // The matcher function
       return exports.b = function( block, next ) {
         var m = block.match( is_list_re );
         if ( !m ) return undefined;
 
-        function make_list( sigil ) {
-          var list = bullet_list( sigil )
+        function make_list( m ) {
+          var list = bullet_list( m[2] )
                    ? ["bulletlist"]
                    : ["numberlist"];
 
-          stack.push( list );
+          stack.push( { list: list, indent: m[1] } );
           return list;
         }
 
 
         var stack = [], // Stack of lists for nesting.
-            list = make_list( m[2] ),
+            list = make_list( m ),
             last_li,
             inner_blocks = [],
             indent = m[1],
@@ -255,19 +263,6 @@ Markdown.dialects.Default = {
         do {
           // Split into lines preserving new lines at end of line
           var lines = block.split( /(?=\n)/ );
-          //b.replace( /.*(\n|$)/g, function(l) { if (l.length) lines.push(l); return "" } );
-
-          // Normalize/deal with differing indents.
-          // if its a list and matches original, add a new item.
-          // if its a list and different, create a new nested list
-          //   (Indent differs - start a new nested list. Yes really, even if
-          //    its less. Well most of the time. See comments at start of fn)
-          // else continuation line
-          var line_re = new RegExp(
-            "(^" + indent + "(?:" + any_list + ")\\s+)|" + // m[1]
-            "(^( {0,7})(" + any_list + ")\\s+)|"          + // m[2],m[3],m[4]
-            "(^ {0,4})"                                    // m[5]
-          );
 
           // Loop over the lines in this block looking for tight lists.
           tight_search:
@@ -275,46 +270,63 @@ Markdown.dialects.Default = {
             var nl = "",
                 l = lines[i].replace(/^\n/, function(n) { nl = n; return "" });
 
+            // TODO: really should cache this
+            var line_re = regex_for_depth( indent, stack.length );
+
             m = l.match( line_re );
             //print( "line:", uneval(l), "\nline match:", uneval(m) );
 
-            if ( m[1] ) {
-              // New list item at same level
-              if (stack.length > 1 ) {
-                stack.splice(1);
-                list = stack[0]
-              }
-
-              last_li = [ "listitem" ];
-              list.push(last_li);
-              nl = "";
-              // We got back to same level
-              prev_indent = indent
-            }
-            else if ( m[2] ) {
-              if ( stack.length == 1 || m[3].length > 4 || prev_indent > 4 ) {
-                // New nested list
+            // We have a list item
+            if ( m[1] !== undefined ) {
+              var wanted_depth = Math.floor(m[1].length/4)+1;
+              //print( "want:", wanted_depth, "stack:", stack.length);
+              if ( wanted_depth > stack.length ) {
+                // Deep enough for a nested list outright
                 //print ( "new nested list" );
-                list = make_list( m[4] );
+                list = make_list( m );
                 last_li.push( list );
                 last_li = list[1] = [ "listitem" ];
               }
               else {
+                // We aren't deep enough to be strictly a new level. This is
+                // where Md.pl goes nuts. If the indent matches a level in the
+                // stack, put it there, put it one deeper then the wanted_depth
+                // deserves.
+                var found = stack.some(function(s, i) {
+                  if (s.indent != m[1]) return false;
+                  list = s.list;     // Found the level we want
+                  stack.splice(i+1); // Remove the others
+                  //print("found");
+                  return true;       // And stop looping
+                });
+
+                if (!found) {
+                  //print("not found. l:", uneval(l));
+                  wanted_depth++;
+                  if (wanted_depth <= stack.length) {
+                    stack.splice(wanted_depth);
+                    //print("Desired depth now", wanted_depth, "stack:", stack.length);
+                    list = stack[wanted_depth-1].list;
+                    //print("list:", uneval(list) );
+                  }
+                  else {
+                    //print ("made new stack for messy indent");
+                    list = make_list(m);
+                    last_li.push(list);
+                  }
+                }
+
+                //print( uneval(list), "last", list === stack[stack.length-1].list );
                 last_li = [ "listitem" ];
                 list.push(last_li);
-              }
+              } // end depth of shenegains
               nl = "";
-              prev_indent = m[3].length;
+              prev_indent = m[1].length;
             }
             else {
               // Continuation line.
               //  Supress \n when previous line was empty
               if (last_li.length == 1)nl = "";
-            }
-
-            if ( loose && last_li[0] != "para" ) {
-              // TODO: this might need to call processBlock!
-              last_li.push( [ "para" ].concat( last_li.splice( 1 ) ) );
             }
 
             // Add content
@@ -338,14 +350,29 @@ Markdown.dialects.Default = {
 
           if ( next_block.match(is_list_re) || next_block.match( /^ / ) ) {
             block = next.shift();
-            //print( "next_block:", uneval(next_block) );
+
+            // Make sure all listitems up the stack are paragraphs
+            stack.forEach( function(s, i) {
+              var list = s.list;
+              var last_li = list[list.length-1];
+              // TODO: this might need to call processBlock on the content!
+              if (i+1 == stack.length) {
+                // Last stack frame
+                last_li.push( ["para"].concat( last_li.splice(1) ) );
+              }
+              else {
+                var sublist = last_li.pop();
+                last_li.push( ["para"].concat( last_li.splice(1) ), sublist );
+              }
+            });
+
             loose = true;
             continue loose_search;
           }
           break;
         } while( true ); // loose_search
 
-        return [ stack[0] ];
+        return [ stack[0].list ];
       }
     })(),
 
@@ -558,7 +585,10 @@ tests = {
      |   * baz
      */
     asserts.same(
-      bl( mk_block(" * foo\n      * bar\n    * baz"), [] ),
+      bl( mk_block(" * foo\n" +
+                   "      * bar\n" +
+                   "    * baz"),
+          [] ),
       [ [ "bulletlist",
           [ "listitem",
             "foo",
@@ -612,36 +642,145 @@ tests = {
       ] ],
       "Interesting indented lists III");
 
-/* Other cases to test:
-__in__ IV:
- * foo
+    /* Case IV:
+     | * foo
+     |
+     | 1. bar
+     */
+    asserts.same(
+      bl( mk_block(" * foo"), [ mk_block(" 1. bar\n") ] ),
+      [ [ "bulletlist",
+          ["listitem", ["para", "foo"] ],
+          ["listitem", ["para", "bar"] ]
+      ] ],
+      "Different lists at same indent IV");
 
- 1. bar
-__out__
-[ "ul", [ "li", "foo" ], [ "li", "bar" ] ]
-__in__ V:
-   * foo
-  * bar
- * baz
-__out__
-[ "ul",
-  [ "li",
-    "foo",
-    [ "ul",
-      [ "li", "bar" ],
-      [ "li", "baz" ]
-    ]
-  ],
-]
-__in__ VI:
-   * foo
-  * bar
- * baz
-* HATE
-  * flibble
-   * quxx
-    * nest?
-*/
+    /* Case V:
+     |   * foo
+     |  * bar
+     | * baz
+     */
+    asserts.same(
+      bl( mk_block("   * foo\n  * bar\n * baz"), [] ),
+      [ [ "bulletlist",
+          [ "listitem",
+            "foo",
+            [ "bulletlist",
+              ["listitem", "bar"],
+              ["listitem", "baz"],
+            ]
+          ]
+      ] ],
+      "Indenting Case V")
+
+    /* Case VI: deep nesting
+     |* one
+     |    * two
+     |        * three
+     |            * four
+     */
+    asserts.same(
+      bl( mk_block("* one\n    * two\n        * three\n            * four"), [] ),
+      [ [ "bulletlist",
+          [ "listitem",
+            "one",
+            [ "bulletlist",
+              [ "listitem",
+                "two",
+                [ "bulletlist",
+                  [ "listitem",
+                    "three",
+                    [ "bulletlist",
+                      [ "listitem", "four" ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+      ] ],
+      "deep nested lists VI")
+
+    /* Case VII: This one is just fruity!
+     |   * foo
+     |  * bar
+     | * baz
+     |* HATE
+     |  * flibble
+     |   * quxx
+     |    * nest?
+     */
+    asserts.same(
+      bl( mk_block("   * foo\n" +
+                   "  * bar\n" +
+                   " * baz\n" +
+                   "* HATE\n" +
+                   "  * flibble\n" +
+                   "   * quxx\n" +
+                   "    * nest?\n" +
+                   "        * where\n" +
+                   "      * am\n" +
+                   "     * i?"),
+        [] ),
+      [ [ "bulletlist",
+          [ "listitem",
+            "foo",
+            [ "bulletlist",
+              ["listitem", "bar"],
+              ["listitem", "baz"],
+              ["listitem", "HATE"],
+              ["listitem", "flibble"]
+            ]
+          ],
+          [ "listitem",
+            "quxx",
+            [ "bulletlist",
+              [ "listitem",
+                "nest?",
+                [ "bulletlist",
+                  ["listitem", "where"],
+                  ["listitem", "am"],
+                  ["listitem", "i?"]
+                ]
+              ]
+            ]
+          ]
+      ] ],
+      "Indenting Case VII");
+
+    /* Case VIII: Deep nesting + code block
+     |   * one
+     |    * two
+     |        * three
+     |                * four
+     |
+     |                foo
+     */
+    asserts.same(
+      bl( mk_block("   * one\n" +
+                   "    1. two\n" +
+                   "        * three\n" +
+                   "                * four",
+                   "\n\n"),
+          [ mk_block("                foo") ] ),
+      [ [ "bulletlist",
+          [ "listitem",
+            ["para", "one"],
+            [ "numberlist",
+              [ "listitem",
+                ["para", "two"],
+                [ "bulletlist",
+                  [ "listitem",
+                    [ "para", "three\n    *four"],
+                    ["codeblock", "foo"]
+                  ]
+                ]
+              ]
+            ]
+          ]
+      ] ],
+      "Case VIII: Deep nesting and code block");
+
   }),
 
   test_horizRule: tests.meta(function(md) {

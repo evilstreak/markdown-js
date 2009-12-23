@@ -218,12 +218,16 @@ Markdown.dialects.Default = {
     // paragraphs inside the <li>.
     //
     // There are all sorts wierd edge cases about the original markdown.pl's
-    // handling of lists
+    // handling of lists:
     //
-    // Nested lists are supposed to be indented by four chars per level. But if
-    // they aren't, you can get a nested list by indenting by less than four so
-    // long as the indent doesn't match an the indent of an existing list item
-    // in the 'nest stack'.
+    // * Nested lists are supposed to be indented by four chars per level. But
+    //   if they aren't, you can get a nested list by indenting by less than
+    //   four so long as the indent doesn't match an the indent of an existing
+    //   list item in the 'nest stack'.
+    //
+    // * The type of the list (bullet or number) is controled just by the first
+    //   item at the indent. subsjent changes are ignored unless they are for
+    //   nested lists
     //
     lists: (function( ) {
       // Use a closure to hide a few variables.

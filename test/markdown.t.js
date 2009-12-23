@@ -24,25 +24,27 @@ for ( var f in fixtures ) {
 
       for ( var t in tests ) {
         // load the raw text
-        var text_file = fs.rawOpen( tests[ t ] + ".text", "r" ),
+        var test_name = tests[ t ].substring( tests[ t ].lastIndexOf( "/" ) + 1 ),
+            text_file = fs.rawOpen( tests[ t ] + ".text", "r" ),
             text = text_file.readWhole();
         text_file.close();
 
         // load the target output
-        var html_file = fs.isFile( tests[ t ] + ".html" )
-          ? fs.rawOpen( tests[ t ] + ".html", "r" )
-          : fs.rawOpen( tests[ t ] + ".xhtml", "r" );
+        if ( fs.isFile( tests[ t ] + ".json" ) ) {
+          var json_file = fs.rawOpen( tests[ t ] + ".json", "r" ),
+              json = JSON.parse( json_file.readWhole() );
+          json_file.close();
 
-        var html = html_file.readWhole();
-        html_file.close();
-
-        try {
-          asserts.same( markdown.toHtml( text ),
-                        html,
-                        tests[ t ].substring( tests[ t ].lastIndexOf( "/" ) + 1 ) );
+          try {
+            var output = markdown.toHTMLTree( markdown.parse( text ) );
+            asserts.same( output, json, test_name );
+          }
+          catch( e ) {
+            asserts.ok( 0, "Couldn't parse " + test_name + ": " + e );
+          }
         }
-        catch( e ) {
-          asserts.ok( 0, "Couldn't parse " + tests[ t ].substring( tests[ t ].lastIndexOf( "/" ) + 1 ) + " -- " + e );
+        else {
+          asserts.ok( 0, "No target output for " + test_name );
         }
       }
     }

@@ -212,9 +212,11 @@ Markdown.dialects.Default = {
     //
     // * list specifier ignored if indent matches (both loose and tight)
     // * indent a list item by 8 spaces and you get a cont-line. 7 you get a nested
-    //   list.
+    //   list. (this is due to looking for code block I think)
     // * if indentation of subsequent list makers is different to first one, even if
     //   less, you get a nested list
+    //   + If they indent is less than 4, adjecnt differnt <li>s are merged.
+    //   + Something else happens if its greater than 4 indent
     //
     lists: (function( ) {
       // Use a closure to hide a few variables.
@@ -222,7 +224,7 @@ Markdown.dialects.Default = {
           bullet_list = /[*+-]/,
           number_list = /\d+\./,
           // Capture leading indent as it matters for determining nested lists.
-          is_list_re = new RegExp( "^( {0,3})(" + any_list + ")\\s" );
+          is_list_re = new RegExp( "^( {0,3})(" + any_list + ")[ \t]+" );
 
 
       // The matcher function
@@ -245,6 +247,7 @@ Markdown.dialects.Default = {
             last_li,
             inner_blocks = [],
             indent = m[1],
+            prev_indent = indent.length,
             loose = false;
 
         // Loop to search over block looking for inner block elements and loose lists
@@ -257,14 +260,14 @@ Markdown.dialects.Default = {
           // Normalize/deal with differing indents.
           // if its a list and matches original, add a new item.
           // if its a list and different, create a new nested list
-          //   (Indent differs - start a new nested list. Yes really, even if its less.)
+          //   (Indent differs - start a new nested list. Yes really, even if
+          //    its less. Well most of the time. See comments at start of fn)
           // else continuation line
           var line_re = new RegExp(
             "(^" + indent + "(?:" + any_list + ")\\s+)|" + // m[1]
-            "(" + is_list_re.source + ")|"               + // m[2],m[3],m[4]
-            "(^ {0,4})"                                   // m[5]
+            "(^( {0,7})(" + any_list + ")\\s+)|"          + // m[2],m[3],m[4]
+            "(^ {0,4})"                                    // m[5]
           );
-          //print( "line_re", line_re );
 
           // Loop over the lines in this block looking for tight lists.
           tight_search:
@@ -273,21 +276,40 @@ Markdown.dialects.Default = {
                 l = lines[i].replace(/^\n/, function(n) { nl = n; return "" });
 
             m = l.match( line_re );
-            //print( "line match:", uneval(m) );
+            //print( "line:", uneval(l), "\nline match:", uneval(m) );
 
             if ( m[1] ) {
               // New list item at same level
+              if (stack.length > 1 ) {
+                stack.splice(1);
+                list = stack[0]
+              }
+
               last_li = [ "listitem" ];
               list.push(last_li);
               nl = "";
+              // We got back to same level
+              prev_indent = indent
             }
             else if ( m[2] ) {
-              //print ( "new nested list" );
-              // New nested list
-              list = make_list( m[2] );
-              last_li.push( list );
-              last_li = list[1] = [ "listitem" ];
+              if ( stack.length == 1 || m[3].length > 4 || prev_indent > 4 ) {
+                // New nested list
+                //print ( "new nested list" );
+                list = make_list( m[4] );
+                last_li.push( list );
+                last_li = list[1] = [ "listitem" ];
+              }
+              else {
+                last_li = [ "listitem" ];
+                list.push(last_li);
+              }
               nl = "";
+              prev_indent = m[3].length;
+            }
+            else {
+              // Continuation line.
+              //  Supress \n when previous line was empty
+              if (last_li.length == 1)nl = "";
             }
 
             if ( loose && last_li[0] != "para" ) {
@@ -510,54 +532,94 @@ tests = {
       [ [ "bulletlist", [ "listitem", [ "para", "one" ], [ "para", "two" ] ] ] ],
       "loose bullet lists can have multiple paragraphs");
 
+    /* Case: no space after bullet - not a list
+     | *↵
+     |foo
+     */
+    asserts.same(
+      bl( mk_block(" *\nfoo") ),
+      undefined,
+      "Space required after bullet to trigger list");
+
+    /* Case: note the space after the bullet
+     | *␣
+     |foo
+     |bar
+     */
+    asserts.same(
+      bl( mk_block(" * \nfoo\nbar"), [ ] ),
+      [ [ "bulletlist", [ "listitem", "foo\nbar" ] ] ],
+      "space+continuation lines");
+
+
+    /* Case I:
+     | * foo
+     |     * bar
+     |   * baz
+     */
+    asserts.same(
+      bl( mk_block(" * foo\n      * bar\n    * baz"), [] ),
+      [ [ "bulletlist",
+          [ "listitem",
+            "foo",
+            [ "bulletlist",
+              [ "listitem",
+                "bar",
+                [ "bulletlist",
+                  [ "listitem", "baz" ]
+                ]
+              ]
+            ]
+          ]
+      ] ],
+      "Interesting indented lists I");
+
+    /* Case II:
+     | * foo
+     |      * bar
+     | * baz
+     */
+    asserts.same(
+      bl( mk_block(" * foo\n      * bar\n * baz"), [] ),
+      [ [ "bulletlist",
+          [ "listitem",
+            "foo",
+            [ "bulletlist",
+              [ "listitem", "bar" ]
+            ]
+          ],
+          [ "listitem", "baz" ]
+      ] ],
+      "Interesting indented lists II");
+
+    /* Case III:
+     |  * foo
+     |   * bar
+     |* baz
+     | * fnord
+     */
+    asserts.same(
+      bl( mk_block("  * foo\n   * bar\n* baz\n * fnord"), [] ),
+      [ [ "bulletlist",
+          [ "listitem",
+            "foo",
+            [ "bulletlist",
+              [ "listitem", "bar" ],
+              [ "listitem", "baz" ],
+              [ "listitem", "fnord" ]
+            ]
+          ]
+      ] ],
+      "Interesting indented lists III");
+
 /* Other cases to test:
-__in__
- * foo
-      * bar
-    * baz
-__out__
-[ "ul",
-  [ "li",
-    "foo",
-    [ "ul",
-      [ "li",
-        "bar",
-        [ "ul",
-          [ "li", "baz" ]
-        ]
-      ]
-    ]
-  ]
-]
-__in__
-  * foo
-   * bar
-* baz
- * fnord
-__out__
-[ "ul",
-  [ "li",
-    "foo",
-    [ "ul",
-      [ "li", "bar" ],
-      [ "li", "baz" ],
-      [ "li", "fnord" ]
-    ]
-  ]
-]
-__in__
-*
-foo
-bar
-_out__
-[ "ul", [ "li", "foo\nbar" ] ]
-__in__
+__in__ IV:
  * foo
 
  1. bar
 __out__
 [ "ul", [ "li", "foo" ], [ "li", "bar" ] ]
-__in__
+__in__ V:
    * foo
   * bar
  * baz
@@ -571,6 +633,14 @@ __out__
     ]
   ],
 ]
+__in__ VI:
+   * foo
+  * bar
+ * baz
+* HATE
+  * flibble
+   * quxx
+    * nest?
 */
   }),
 

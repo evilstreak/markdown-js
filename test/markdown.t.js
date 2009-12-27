@@ -4,17 +4,14 @@ const test = require('test'),
       markdown = require( "markdown" );
 
 // get the list of all test collections
-var fixtures = fs.list( module.resource.resolve("fixtures") );
+var features = fs.list( module.resource.resolve( "features" ) );
 
-// get rid of the README
-fixtures = fixtures.filter( function( x ) ! x.match( /\/README$/ ) );
-
-for ( var f in fixtures ) {
-  ( function( fixture ) {
-    var name = fixture.substring( fixture.lastIndexOf( "/" ) + 1 );
+for ( var f in features ) {
+  ( function( feature ) {
+    var name = feature.substring( feature.lastIndexOf( "/" ) + 1 );
     exports[ "test_" + name ] = function() {
-      // grab all the test files in this fixture
-      var tests = fs.list( fixture );
+      // grab all the test files in this feature
+      var tests = fs.list( feature );
 
       // filter to only the raw files
       tests = tests.filter( function( x ) x.match( /\.text$/ ) );
@@ -48,7 +45,7 @@ for ( var f in fixtures ) {
         }
       }
     }
-  } )( fixtures[ f ] );
+  } )( features[ f ] );
 }
 
 if ( require.main === module ) {

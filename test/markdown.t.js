@@ -9,7 +9,7 @@ var path = module.resource.resolve( "features" ),
     features = fs.list( path );
 
 // if features were passed on the command line, filter to them
-if ( args.length ) {
+if ( require.main === module && args.length ) {
   features = features.filter( function( x ) args.indexOf( x ) !== -1 );
 }
 

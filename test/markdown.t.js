@@ -4,14 +4,16 @@ const test = require('test'),
       markdown = require( "markdown" );
 
 // get the list of all test collections
-var features = fs.list( module.resource.resolve( "features" ) );
+var path = module.resource.resolve( "features" ),
+    features = fs.list( path );
 
 for ( var f in features ) {
   ( function( feature ) {
-    var name = feature.substring( feature.lastIndexOf( "/" ) + 1 );
-    exports[ "test_" + name ] = function() {
+    exports[ "test_" + feature ] = function() {
+      var test_path = path + feature + "/";
+
       // grab all the test files in this feature
-      var tests = fs.list( feature );
+      var tests = fs.list( test_path );
 
       // filter to only the raw files
       tests = tests.filter( function( x ) x.match( /\.text$/ ) );
@@ -22,14 +24,14 @@ for ( var f in features ) {
       for ( var t in tests ) {
         // load the raw text
         var test_name = tests[ t ].substring( tests[ t ].lastIndexOf( "/" ) + 1 ),
-            text_file = fs.rawOpen( tests[ t ] + ".text", "r" ),
+            text_file = fs.rawOpen( test_path + tests[ t ] + ".text", "r" ),
             text = text_file.readWhole();
         text_file.close();
 
         // load the target output
-        if ( fs.isFile( tests[ t ] + ".json" ) ) {
+        if ( fs.isFile( test_path + tests[ t ] + ".json" ) ) {
           try {
-            var json_file = fs.rawOpen( tests[ t ] + ".json", "r" ),
+            var json_file = fs.rawOpen( test_path + tests[ t ] + ".json", "r" ),
                 json = JSON.parse( json_file.readWhole() );
             json_file.close();
 

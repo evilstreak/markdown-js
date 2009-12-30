@@ -386,19 +386,20 @@ tests = {
       "[id]: http://example.com/  'Optional Title Here'",
       '[id]: http://example.com/  (Optional Title Here)'
     ].forEach( function(s) {
-      asserts.same( rd.call( md, mk_block(s) ), [], "ref processed");
+      md.tree = ["markdown"];
 
-      asserts.same(md.references,
+      asserts.same(rd.call( md, mk_block(s) ), [], "ref processed");
+
+      asserts.same(md.tree[ 1 ].references,
                    { "id": { href: "http://example.com/", title: "Optional Title Here" } },
                    "reference extracted");
-
-      md.references = {}; // Clear for next run
     });
 
     // Check a para abbuting a ref works right
+    md.tree = ["markdown"];
     var next = [];
-    asserts.same( rd.call( md, mk_block("[id]: example.com\npara"), next ), [], "ref processed");
-    asserts.same(md.references, { "id": { href: "example.com" } }, "reference extracted");
+    asserts.same(rd.call( md, mk_block("[id]: example.com\npara"), next ), [], "ref processed");
+    asserts.same(md.tree[ 1 ].references, { "id": { href: "example.com" } }, "reference extracted");
     asserts.same(next, [ mk_block("para") ], "paragraph put back into blocks");
 
   }),

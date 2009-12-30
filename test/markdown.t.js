@@ -1,11 +1,17 @@
 const test = require('test'),
       asserts = test.asserts,
       fs = require( "fs-base" ),
-      markdown = require( "markdown" );
+      markdown = require( "markdown" ),
+      args = require( "system" ).args.splice( 1 );
 
 // get the list of all test collections
 var path = module.resource.resolve( "features" ),
     features = fs.list( path );
+
+// if features were passed on the command line, filter to them
+if ( args.length ) {
+  features = features.filter( function( x ) args.indexOf( x ) !== -1 );
+}
 
 for ( var f in features ) {
   ( function( feature ) {

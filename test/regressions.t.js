@@ -375,7 +375,7 @@ tests = {
           ["para", "foo\nbar"],
           ["hr"]
       ] ],
-      "blockquote with intersting content");
+      "blockquote with interesting content");
 
   }),
 
@@ -407,7 +407,7 @@ tests = {
   test_inline_br: tests.meta(function(md) {
     asserts.same(
       md.processInline("foo  \n\\[bar"),
-      [ "foo", ["linebreak"], "[bar" ], "linebreak+escpae");
+      [ "foo", ["linebreak"], "[bar" ], "linebreak+escape");
   }),
 
   test_inline_escape: tests.meta(function(md) {

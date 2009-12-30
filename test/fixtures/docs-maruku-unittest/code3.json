@@ -1,34 +1,8 @@
-["html",
-  ["p",
-    "This is code (4 spaces):"
-  ],
-  ["pre",
-    ["code",
-      "Code"
-    ]
-  ],
-  ["p",
-    "This is not code"
-  ],
-  ["pre",
-    ["code",
-      "Code"
-    ]
-  ],
-  ["p",
-    "This is code (1 tab):"
-  ],
-  ["pre",
-    ["code",
-      "Code"
-    ]
-  ],
-  ["p",
-    "This is not code"
-  ],
-  ["pre",
-    ["code",
-      "Code"
-    ]
-  ]
-]
+["html", ["p", "This is code (4 spaces):"],
+    ["pre", ["code", "Code"]],
+    ["p", "This is not code"],
+    ["pre", ["code", "Code"]],
+    ["p", "This is code (1 tab):"],
+    ["pre", ["code", "Code"]],
+    ["p", "This is not code"],
+    ["pre", ["code", "Code"]]]

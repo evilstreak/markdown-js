@@ -1,12 +1,1 @@
-["html",
-  ["p",
-    ["em",
-      "Hello!"
-    ],
-    " how are ",
-    ["strong",
-      "you"
-    ],
-    "?"
-  ]
-]
+["html", ["p", ["em", "Hello!"], " how are ", ["strong", "you"], "?"]]

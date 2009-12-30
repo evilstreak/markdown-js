@@ -97,7 +97,7 @@ tests = {
     asserts.same(
       bl( mk_block("* [text](url)" ), [] ),
       [ [ "bulletlist", [ "listitem", [ "link", { href: "url" }, "text" ] ] ] ],
-      "link in bullet");
+      "link in bullet (TODO)");
 
     asserts.same(
       bl( mk_block("* foo\nbaz\n* bar\nbaz"), [] ),
@@ -346,7 +346,7 @@ tests = {
             ]
           ]
       ] ],
-      "Case VIII: Deep nesting and code block");
+      "Case VIII: Deep nesting and code block (TODO)");
 
   }),
 

@@ -11,16 +11,16 @@ tests = {
   test_split_block: tests.meta(function(md) {
     asserts.same(
         md.split_blocks( "# h1 #\n\npara1\npara1L2\n  \n\n\n\npara2\n" ),
-        [mk_block( "# h1 #", "\n\n" ),
-         mk_block( "para1\npara1L2", "\n  \n\n\n\n" ),
-         mk_block( "para2", "\n" )
+        [mk_block( "# h1 #", "\n\n", 1 ),
+         mk_block( "para1\npara1L2", "\n  \n\n\n\n", 3 ),
+         mk_block( "para2", "\n", 9 )
         ],
         "split_block should record trailing newlines");
 
     asserts.same(
         md.split_blocks( "\n\n# heading #\n\npara\n" ),
-        [mk_block( "# heading #", "\n\n" ),
-         mk_block( "para", "\n" )
+        [mk_block( "# heading #", "\n\n", 3 ),
+         mk_block( "para", "\n", 5 )
         ],
         "split_block should ignore leading newlines");
   }),

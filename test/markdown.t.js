@@ -46,6 +46,8 @@ for ( var f in features ) {
           }
           catch( e ) {
             asserts.ok( 0, "Failed with error on " + test_name + ": " + e );
+            if ( e.stack )
+              asserts.diag( e.stack );
           }
         }
         else {

@@ -2,7 +2,11 @@
   ["ul",
     ["li",
       ["p",
-        "List item\nwith ",
+        "List item ",
+        ["em",
+          "ending"
+        ],
+        "\nwith ",
         ["em",
           "emphasis"
         ],

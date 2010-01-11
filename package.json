@@ -1,0 +1,43 @@
+{
+  "name" : "markdown-js",
+  "version" : "0.1.0",
+  "description" : "A Markdown parser for javascript",
+  "keywords" : [ "markdown", "text processing" ],
+  "maintainers" : [
+    {
+      "name" : "Dominic Baggott",
+      "email" : "dominic.baggott@gmail.com",
+      "web" : "http://evilstreak.co.uk"
+    },
+    {
+      "name" : "Ash Berlin",
+      "email" : "ash_markdownjs@firemirror.com",
+      "web" : "http://ashberlin.com"
+    }
+  ],
+  "contributors" : [
+    {
+      "name" : "Dominic Baggott",
+      "email" : "dominic.baggott@gmail.com",
+      "web" : "http://evilstreak.co.uk"
+    },
+    {
+      "name" : "Ash Berlin",
+      "email" : "ash_markdownjs@firemirror.com",
+      "web" : "http://ashberlin.com"
+    }
+  ],
+  "bugs" : "http://github.com/evilstreak/markdown-js/issues",
+  "licenses" : [
+    {
+      "type" : "MIT",
+      "url" : "http://www.opensource.org/licenses/mit-license.php"
+    }
+  ],
+  "repositories" : [
+    {
+      "type" : "git",
+      "url" : "http://github.com/evilstreak/markdown-js"
+    }
+  ]
+]

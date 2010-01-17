@@ -476,12 +476,12 @@ tests = {
                                     "inline link IV" );
 
     asserts.same( md.processInline( "[text][id]" ),
-                                    [ [ "link_ref", { ref: "id" }, "text" ] ],
+                                    [ [ "link_ref", { ref: "id", original: "[text][id]" }, "text" ] ],
                                     "ref link I" );
 
     asserts.same( md.processInline( "[text] [id]" ),
-                                    [ [ "link_ref", { ref: "text" }, "text" ], " ",
-                                      [ "link_ref", { ref: "id" }, "id" ] ],
+                                    [ [ "link_ref", { ref: "text", original: "[text]" }, "text" ], " ",
+                                      [ "link_ref", { ref: "id", original: "[id]" }, "id" ] ],
                                     "ref link II" );
   }),
 

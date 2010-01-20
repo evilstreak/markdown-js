@@ -1,0 +1,6 @@
+["html",
+  ["p",
+    { "class" : "foo bar" },
+    "Here's a paragraph\nwith multiple classes"
+  ]
+]

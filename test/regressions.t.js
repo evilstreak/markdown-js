@@ -276,6 +276,9 @@ tests = {
      |  * flibble
      |   * quxx
      |    * nest?
+     |        * where
+     |      * am
+     |     * i?
      */
     asserts.same(
       bl( mk_block("   * foo\n" +

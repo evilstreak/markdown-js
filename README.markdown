@@ -62,3 +62,7 @@ some processing or modification of the data at an intermediate stage.
 For example, you may want to grab a list of all URLs linked to in the
 document before rendering it to HTML which you could do by recursing
 through the HTML tree looking for `a` nodes.
+
+## License
+
+Released under the MIT license.

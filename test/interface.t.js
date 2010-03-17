@@ -9,10 +9,15 @@ tests = {
   test_arguments_untouched: function() {
     var input = "A [link][id] by id.\n\n[id]: http://google.com",
         tree = markdown.parse( input ),
-        clone = clone_array( tree ),
-        output = markdown.toHTML( tree );
+        clone = clone_array( tree );
+
+
+    var output = markdown.toHTML( tree );
 
     asserts.same( tree, clone, "tree isn't modified" );
+    // We had a problem where we would acidentally remove the references
+    // property from the root. We want to check the output is the same when
+    // called twice.
     asserts.same( markdown.toHTML( tree ), output, "output is consistent" );
   }
 }

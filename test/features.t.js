@@ -63,6 +63,7 @@ if ( require.main === module ) {
     "headers",
     "horizontal_rules",
     "images",
+    "linebreaks",
     "links",
     "lists"
   ];

@@ -1,12 +1,7 @@
-const test = require('test'),
-      asserts = test.asserts,
-      fs = require( "fs-base" ),
-      markdown = require( "markdown" ),
-      args = require( "system" ).args.splice( 1 );
+var markdown = require('markdown')
 
 function test_dialect( dialect, features ) {
-  var path = module.resource.resolve( "features" ),
-      dialect_test = exports[ "test_" + dialect ] = {};
+  var dialect_test = exports[ "test_" + dialect ] = {};
 
   for ( var f in features ) {
     ( function( feature ) {
@@ -17,24 +12,21 @@ function test_dialect( dialect, features ) {
         var tests = fs.list( test_path );
 
         // filter to only the raw files
-        tests = tests.filter( function( x ) x.match( /\.text$/ ) );
+        tests = tests.filter( function( x ) {return x.match( /\.text$/ ) } );
 
         // remove the extensions
-        tests = tests.map( function( x ) x.replace( /\.text$/, "" ) );
+        tests = tests.map( function( x ) {return x.replace( /\.text$/, "" ) } );
 
         for ( var t in tests ) {
           // load the raw text
           var test_name = tests[ t ].substring( tests[ t ].lastIndexOf( "/" ) + 1 ),
-              text_file = fs.rawOpen( test_path + tests[ t ] + ".text", "r" ),
-              text = text_file.readWhole();
-          text_file.close();
+              text = slurpFile( test_path + tests[ t ] + ".text" );
 
           // load the target output
           if ( fs.isFile( test_path + tests[ t ] + ".json" ) ) {
             try {
-              var json_file = fs.rawOpen( test_path + tests[ t ] + ".json", "r" ),
-                  json = JSON.parse( json_file.readWhole() );
-              json_file.close();
+              var json_text = slurpFile( test_path + tests[ t ] + ".json" );
+              var json = JSON.parse( json_text );
 
               var output = markdown.toHTMLTree( text, dialect );
               asserts.same( output, json, test_name );
@@ -53,6 +45,51 @@ function test_dialect( dialect, features ) {
     } )( features[ f ] );
   }
 }
+
+
+// Bootstrap code
+if ( typeof process != "undefined" && process.title == "node" ) {
+  // Setup for node
+  var test = require( 'patr/runner' ),
+      asserts = require( 'assert' ),
+      n_fs = require( 'fs' ),
+      args = process.argv.splice( 1 ),
+      path = __dirname + "/features/";
+
+  test.runner = test.run;
+
+  var slurpFile = function( f ) {
+    return n_fs.readFileSync( f, 'utf8' );
+  }
+
+  var fs = {
+    list: n_fs.readdirSync,
+    rawOpen: n_fs.openSync,
+    isFile: function( f ) {
+      return n_fs.statSync( f ).isFile()
+    },
+  };
+
+  asserts.same = asserts.deepEqual;
+}
+else {
+  // Setup for flusspferd
+  var test = require('test');
+      asserts = test.asserts,
+      fs = require( "fs-base" ),
+      args = require( "system" ).args.splice( 1 ),
+      path = module.resource.resolve( "features" );
+
+  var slurpFile = function ( f ) {
+    var s = fs.rawOpen( f, "r" );
+    var t = s.readWhole();
+    s.close();
+    return t;
+  }
+}
+
+
+
 
 if ( require.main === module ) {
   var dialects = {};

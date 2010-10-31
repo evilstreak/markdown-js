@@ -63,6 +63,14 @@ For example, you may want to grab a list of all URLs linked to in the
 document before rendering it to HTML which you could do by recursing
 through the HTML tree looking for `a` nodes.
 
+## Running tests
+
+To run the tests under node you will need [patr] installed, then do
+
+    $ NODE_PATH=lib node test/features.t.js
+
+[patr]: http://github.com/kriszyp/patr
+
 ## License
 
 Released under the MIT license.

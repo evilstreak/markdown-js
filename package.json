@@ -1,6 +1,6 @@
 {
   "name" : "markdown-js",
-  "version" : "0.1.2",
+  "version" : "0.2.0",
   "description" : "A Markdown parser for javascript",
   "keywords" : [ "markdown", "text processing" ],
   "maintainers" : [
@@ -39,5 +39,17 @@
       "type" : "git",
       "url" : "http://github.com/evilstreak/markdown-js"
     }
-  ]
+  ],
+  "overlay" : {
+    "npm" : {
+      "name" : "markdown",
+      "main" : "./lib/index.js",
+      "repositories" : [
+        {
+          "type" : "git",
+          "url" : "git://github.com/evilstreak/markdown-js.git"
+        }
+      ]
+    }
+  }
 }

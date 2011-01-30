@@ -3,7 +3,7 @@
     [ "li", 
       ["p", "before"],
       ["hr"],
-      ["p", "after"],
+      ["p", "after"]
     ]
   ]
 ]

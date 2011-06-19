@@ -1,7 +1,7 @@
 ["html",
   ["ul",
     [ "li", "foo" ],
-    [ "li", "bar" ],
+    [ "li", "bar" ]
   ],
   ["hr"],
   ["p", "after"]

@@ -28,7 +28,7 @@ process should actually look, which include:
 The simple way to use it with CommonJS is:
 
     var input = "# Heading\n\nParagraph";
-    var output = require( "markdown" ).toHTML( input );
+    var output = require( "markdown" ).markdown.toHTML( input );
     print( output );
 
 If you want more control check out the documentation in

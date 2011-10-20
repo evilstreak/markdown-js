@@ -27,19 +27,19 @@
       "web" : "http://ashberlin.com"
     }
   ],
-  "bugs" : "http://github.com/evilstreak/markdown-js/issues",
+  "bugs" : {
+    "url": "http://github.com/evilstreak/markdown-js/issues"
+  },
   "licenses" : [
     {
       "type" : "MIT",
       "url" : "http://www.opensource.org/licenses/mit-license.php"
     }
   ],
-  "repositories" : [
-    {
-      "type" : "git",
-      "url" : "git://github.com/evilstreak/markdown-js.git"
-    }
-  ],
+  "repository" : {
+    "type" : "git",
+    "url" : "git://github.com/evilstreak/markdown-js.git"
+  },
   "main" : "./lib/index.js",
   "bin": {
     "md2html": "./bin/md2html.js"

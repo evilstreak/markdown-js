@@ -23,6 +23,16 @@ process should actually look, which include:
 
 [JsonML]: http://jsonml.org/ "JSON Markup Language"
 
+## Installation
+
+Just the `markdown` library:
+
+    npm install markdown
+
+Also install `md2html` to `/usr/local/bin` (or wherever)
+
+    npm install -g markdown
+
 ## Usage
 
 The simple way to use it with CommonJS is:
@@ -38,6 +48,10 @@ and hosted somewhere for nicer browsing.
 
 We're yet to try it out in a browser, though it's high up on our list of
 things to sort out for this project.
+
+### md2html
+
+    md2html /path/to/doc.md > /path/to/doc.html
 
 [lib/markdown.js]: http://github.com/evilstreak/markdown-js/blob/master/lib/markdown.js
 

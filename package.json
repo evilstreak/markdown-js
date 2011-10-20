@@ -45,5 +45,8 @@
       "name" : "markdown",
       "main" : "./lib/index.js"
     }
+  },
+  "bin": {
+    "md2html": "./bin/md2html.js"
   }
 }

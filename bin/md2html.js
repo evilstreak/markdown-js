@@ -26,7 +26,5 @@
     return;
   }
 
-  console.log(markdown);
-
   fs.readFile(fullpath, convert);
 }())

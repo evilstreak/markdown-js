@@ -25,6 +25,10 @@
       "name" : "Ash Berlin",
       "email" : "ash_markdownjs@firemirror.com",
       "web" : "http://ashberlin.com"
+    },
+    {
+      "name": "Garen Torikian",
+      "email": "gjtorikian@gmail.com"
     }
   ],
   "bugs" : {

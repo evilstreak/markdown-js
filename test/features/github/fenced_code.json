@@ -1,0 +1,9 @@
+["html",
+  ["p",
+    "The following code paragraph should span two blocks"],
+  ["pre",
+    ["code",
+      "First block\n\n    * Next block"
+    ]
+  ]
+]

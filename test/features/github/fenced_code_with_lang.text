@@ -1,0 +1,9 @@
+For extra awesome, add the name of a programming language to the first fence, in order to syntax highlight it.
+
+```perl
+var x = function () {
+  console.log("This actually has 'perl' as a tag!")
+};
+```
+
+Of course, you'll have to implement your own highlighter.

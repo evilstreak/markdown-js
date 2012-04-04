@@ -30,10 +30,10 @@ function test_dialect( dialect, features ) {
           var tests = fs.readdirSync( test_path );
 
           // filter to only the raw files
-          tests = tests.filter( function( x ) {return x.match( /\.text$/ ) } );
+          tests = tests.filter( function( x ) {return x.match( /\.text$/ ); } );
 
           // remove the extensions
-          tests = tests.map( function( x ) {return x.replace( /\.text$/, "" ) } );
+          tests = tests.map( function( x ) {return x.replace( /\.text$/, "" ); } );
 
           for ( var t in tests ) {
             // load the raw text
@@ -48,7 +48,7 @@ function test_dialect( dialect, features ) {
             tap.equivalent( output, json, testName, {todo: isFile( testFileBase + ".todo" )} );
           }
           tap.end();
-        });
+        } );
       } )( features[ f ] );
     }
   });
@@ -77,6 +77,6 @@ dialects.Maruku.push( "meta", "definition_lists" );
 //   features = features.filter( function( x ) args.indexOf( x ) !== -1 );
 // }
 
-for ( d in dialects ) {
+for ( var d in dialects ) {
   test_dialect( d, dialects[ d ] );
 }

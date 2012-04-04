@@ -1,4 +1,4 @@
-var markdown = require('markdown')
+var markdown = require('markdown');
 
 function test_dialect( dialect, features ) {
   var dialect_test = exports[ "test_" + dialect ] = {};
@@ -12,10 +12,10 @@ function test_dialect( dialect, features ) {
         var tests = fs.list( test_path );
 
         // filter to only the raw files
-        tests = tests.filter( function( x ) {return x.match( /\.text$/ ) } );
+        tests = tests.filter( function( x ) {return x.match( /\.text$/ ); } );
 
         // remove the extensions
-        tests = tests.map( function( x ) {return x.replace( /\.text$/, "" ) } );
+        tests = tests.map( function( x ) {return x.replace( /\.text$/, "" ); } );
 
         for ( var t in tests ) {
           // load the raw text
@@ -41,51 +41,52 @@ function test_dialect( dialect, features ) {
             asserts.ok( 0, "No target output for " + test_name );
           }
         }
-      }
+      };
     } )( features[ f ] );
   }
 }
 
 
 // Bootstrap code
+var test, asserts, fs, args, path, slurpFile;
 if ( typeof process != "undefined" && process.title == "node" ) {
   // Setup for node
-  var test = require( 'patr/runner' ),
-      asserts = require( 'assert' ),
-      n_fs = require( 'fs' ),
-      args = process.argv.splice( 1 ),
-      path = __dirname + "/features/";
+  test = require( 'patr/runner' );
+  asserts = require( 'assert' );
+  var n_fs = require( 'fs' );
+  args = process.argv.splice( 1 );
+  path = __dirname + "/features/";
 
   test.runner = test.run;
 
-  var slurpFile = function( f ) {
+  slurpFile = function( f ) {
     return n_fs.readFileSync( f, 'utf8' );
-  }
+  };
 
-  var fs = {
+  fs = {
     list: n_fs.readdirSync,
     rawOpen: n_fs.openSync,
     isFile: function( f ) {
-      return n_fs.statSync( f ).isFile()
-    },
+      return n_fs.statSync( f ).isFile();
+    }
   };
 
   asserts.same = asserts.deepEqual;
 }
 else {
   // Setup for flusspferd
-  var test = require('test');
-      asserts = test.asserts,
-      fs = require( "fs-base" ),
-      args = require( "system" ).args.splice( 1 ),
-      path = module.resource.resolve( "features" );
+  test = require('test');
+  asserts = test.asserts;
+  fs = require( "fs-base" );
+  args = require( "system" ).args.splice( 1 );
+  path = module.resource.resolve( "features" );
 
-  var slurpFile = function ( f ) {
+  slurpFile = function ( f ) {
     var s = fs.rawOpen( f, "r" );
     var t = s.readWhole();
     s.close();
     return t;
-  }
+  };
 }
 
 

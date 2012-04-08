@@ -43,5 +43,8 @@
   "main" : "./lib/index.js",
   "bin": {
     "md2html": "./bin/md2html.js"
+  },
+  "devDependencies": {
+    "tap": "0"
   }
 }

@@ -79,11 +79,15 @@ through the HTML tree looking for `a` nodes.
 
 ## Running tests
 
-To run the tests under node you will need [patr] installed, then do
+To run the tests under node you will need tap installed (it's listed as a
+devDependencies so `npm install` from the checkout should be enough), then do
 
-    $ NODE_PATH=lib node test/features.t.js
+    $ ./node_modules/.bin/tap test/*.t.js
 
-[patr]: http://github.com/kriszyp/patr
+## Contributing
+
+Do the usual github fork and pull request dance. Add yourself to the
+contributors section of package.json too if you want to.
 
 ## License
 

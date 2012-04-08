@@ -4,15 +4,28 @@
 
   var fs = require('fs')
     , markdown = require('markdown').markdown
-    , fullpath = process.argv[2]
+    , nopt = require("nopt")
     , stream
+    , opts
     , buffer = ""
     ;
 
-  if (fullpath == '--help') {
-    console.warn('usage:', process.argv[1].split('/').pop(), '/path/to/doc.md');
-    process.exit();
+  opts = nopt(
+    { "dialect": [ "Gruber", "Maruku"]
+    , "help": Boolean
+    }
+  );
+
+  if (opts.help) {
+    var name = process.argv[1].split('/').pop()
+    console.warn( require('util').format(
+      'usage: %s [--dialect=DIALECT] FILE\n\nValid dialects are Gruber (the default) or Maruku',
+      name
+    ) );
+    process.exit(0);
   }
+
+  var fullpath = opts.argv.remain[0];
 
   if (fullpath && fullpath !== "-") {
     stream = fs.createReadStream(fullpath);
@@ -32,7 +45,7 @@
   });
 
   stream.on('end', function() {
-    var html = markdown.toHTML(buffer);
+    var html = markdown.toHTML(buffer, opts.dialect);
     console.log(html);
   });
 

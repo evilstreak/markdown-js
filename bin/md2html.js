@@ -14,7 +14,7 @@
     process.exit();
   }
 
-  if (fullpath) {
+  if (fullpath && fullpath !== "-") {
     stream = fs.createReadStream(fullpath);
   } else {
     stream = process.stdin;

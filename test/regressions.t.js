@@ -455,6 +455,10 @@ test( "inline_img", function(t, md) {
                                   [ [ "img", { href: "url", alt: "alt", title: "title" } ] ],
                                   "inline img IV" );
 
+  t.equivalent( md.processInline( '![Alt text](/path/to/img\\\\.jpg "Optional title")' ),
+                                  [ [ "img", { href: "/path/to/img\\.jpg", alt: "Alt text", title: "Optional title" } ] ],
+                                  "inline img IV" );
+
   t.equivalent( md.processInline( "![alt][id]" ),
                                   [ [ "img_ref", { ref: "id", alt: "alt", original: "![alt][id]" } ] ],
                                   "ref img I" );

@@ -464,7 +464,7 @@ test( "inline_img", function(t, md) {
                                   "ref img II" );
 });
 
-test( "inline_likn", function(t, md) {
+test( "inline_link", function(t, md) {
 
   t.equivalent( md.processInline( "[text] (url)" ),
                                   [ [ "link", { href: "url" }, "text" ] ],
@@ -488,6 +488,20 @@ test( "inline_likn", function(t, md) {
 
   t.equivalent( md.processInline( "[text] [id]" ),
                                   [ [ "link_ref", { ref: "id", original: "[text] [id]" }, "text" ] ],
+                                  "ref link II" );
+
+  t.equivalent( md.processInline( "[to put it another way][SECTION 1] or even [link this](#SECTION-1)" ),
+                                  [
+                                    [ "link_ref",
+                                      { ref: "section 1", original: "[to put it another way][SECTION 1]" },
+                                      "to put it another way"
+                                    ],
+                                    " or even ",
+                                    [ "link",
+                                      { href: "#SECTION-1" },
+                                      "link this"
+                                    ],
+                                  ],
                                   "ref link II" );
 });
 

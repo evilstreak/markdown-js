@@ -456,11 +456,11 @@ test( "inline_img", function(t, md) {
                                   "inline img IV" );
 
   t.equivalent( md.processInline( "![alt][id]" ),
-                                  [ [ "img_ref", { ref: "id", alt: "alt", text: "![alt][id]" } ] ],
+                                  [ [ "img_ref", { ref: "id", alt: "alt", original: "![alt][id]" } ] ],
                                   "ref img I" );
 
   t.equivalent( md.processInline( "![alt] [id]" ),
-                                  [ [ "img_ref", { ref: "id", alt: "alt", text: "![alt] [id]" } ] ],
+                                  [ [ "img_ref", { ref: "id", alt: "alt", original: "![alt] [id]" } ] ],
                                   "ref img II" );
 });
 

@@ -72,10 +72,15 @@ dialects.Gruber = [
 dialects.Maruku = dialects.Gruber.slice( 0 );
 dialects.Maruku.push( "meta", "definition_lists" );
 
-// TODO if dialects/features were passed on the command line, filter to them
-// if ( args.length ) {
-//   features = features.filter( function( x ) args.indexOf( x ) !== -1 );
-// }
+// Filter the dialects ot just rerun part of the tests easier
+var wanted;
+if ( wanted = process.env[ "DIALECTS" ] ) {
+  wanted = wanted.split( /\s+/ );
+  Object.keys(dialects).forEach( function( k ) {
+    if ( wanted.indexOf( k ) === -1 ) delete dialects[ k ]
+  } );
+}
+// TODO if features too
 
 for ( var d in dialects ) {
   test_dialect( d, dialects[ d ] );

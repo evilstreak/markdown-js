@@ -1,0 +1,11 @@
+[ "html",
+  [ "p",
+    "This word should_not_be_emphasized"
+  ],
+  [ "p",
+    "This word should ",
+    [ "em", "be_emphasized" ],
+    " and ",
+    [ "strong", "this is strong" ]
+  ]
+]

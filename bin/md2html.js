@@ -11,7 +11,7 @@
     ;
 
   opts = nopt(
-    { "dialect": [ "Gruber", "Maruku"]
+    { "dialect": Object.keys( markdown.Markdown.dialects )
     , "help": Boolean
     }
   );

@@ -72,7 +72,7 @@ dialects.Gruber = [
 dialects.Maruku = dialects.Gruber.slice( 0 );
 dialects.Maruku.push( "meta", "definition_lists" );
 
-dialects.Github = [ "github" ]
+dialects.Github = [ "emphasis", "github" ]
 
 // Filter the dialects ot just rerun part of the tests easier
 var wanted;

@@ -1,6 +1,6 @@
 # Changelog for markdown
 
-## HEAD
+## v0.4.0 - 2012-06-09
 
 - Fix for anchors enclosed by parenthesis (issue #46)
 - `npm test` will now run the entire test suite cleanly. (switch tests over to

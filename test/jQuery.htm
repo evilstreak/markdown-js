@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <title>Markdown-js jQuery test</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" ></script>
+    <script src="../lib/markdown.js" ></script>
+  </head>
+  <body>
+    <div class="markdown">
+###TEST
+ 
+* Punkt 1
+* Punkt 2
+* Punkt 3
+    </div>
+    <script>
+      jQuery("div.markdown").markdown();
+    </script>
+  </body>
+</head>

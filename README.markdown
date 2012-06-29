@@ -46,8 +46,10 @@ If you want more control check out the documentation in
 available (including examples!). One day we'll get the docs generated
 and hosted somewhere for nicer browsing.
 
-We're yet to try it out in a browser, though it's high up on our list of
-things to sort out for this project.
+If you want to use this with jQuery in the browser, just include `lib/markdown.js`. 
+Then you can just say:
+
+    jQuery("div.markdown").markdown();
 
 ### md2html
 

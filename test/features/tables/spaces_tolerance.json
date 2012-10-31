@@ -1,0 +1,38 @@
+[ "html",
+  [ "p",
+    "This is a table (look out, less than 4 spaces\nbefore headers and rule)."
+  ],
+  [ "table",
+    [ "thead",
+      [ "tr",
+        [ "th",
+          "Header"
+        ],
+        [ "th",
+          "Header"
+        ]
+      ]
+    ],
+    [ "tbody",
+      [ "tr",
+        [ "td",
+          "1"
+        ],
+        [ "td",
+          "2"
+        ]
+      ],
+      [ "tr",
+        [ "td",
+          "3"
+        ],
+        [ "td",
+          "4"
+        ]
+      ]
+    ]
+  ],
+  [ "p",
+    "Yeah, right."
+  ]
+]

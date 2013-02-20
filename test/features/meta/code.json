@@ -1,8 +1,8 @@
 ["html",
   ["pre",
-    { "class" : "foo" },
+    { "foo" : "bar" },
     ["code",
-      "a code block;\n\nwith multiple lines;\n\nand a class;"
+      "A pre with an\narbitrary attribute."
     ]
   ]
 ]

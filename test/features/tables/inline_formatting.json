@@ -1,0 +1,38 @@
+[ "html",
+  [ "table",
+    [ "thead",
+      [ "tr",
+        [ "th",
+          "Function name"
+        ],
+        [ "th",
+          "Description"
+        ]
+      ]
+    ],
+    [ "tbody",
+      [ "tr",
+        [ "td",
+          [ "code",
+            "help()"
+          ]
+        ],
+        [ "td",
+          "Display the help window."
+        ]
+      ],
+      [ "tr",
+        [ "td",
+          [ "code",
+            "destroy()"
+          ]
+        ],
+        [ "td",
+          [ "strong",
+            "Destroy your computer!"
+          ]
+        ]
+      ]
+    ]
+  ]
+]

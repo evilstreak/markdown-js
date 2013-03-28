@@ -1,0 +1,32 @@
+[ "html",
+  [ "table",
+    [ "thead",
+      [ "tr",
+        [ "th",
+          "First Header"
+        ],
+        [ "th",
+          "Second Header"
+        ]
+      ]
+    ],
+    [ "tbody",
+      [ "tr",
+        [ "td",
+          "Content 1"
+        ],
+        [ "td",
+          "Content 2"
+        ]
+      ],
+      [ "tr",
+        [ "td",
+          "Content 3"
+        ],
+        [ "td",
+          "Content 4"
+        ]
+      ]
+    ]
+  ]
+]

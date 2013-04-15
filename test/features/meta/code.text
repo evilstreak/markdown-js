@@ -1,6 +1,3 @@
-    a code block;
-
-    with multiple lines;
-
-    and a class;
-{: .foo}
+    A pre with an
+    arbitrary attribute.
+{: foo=bar}

@@ -46,8 +46,29 @@ If you want more control check out the documentation in
 available (including examples!). One day we'll get the docs generated
 and hosted somewhere for nicer browsing.
 
-We're yet to try it out in a browser, though it's high up on our list of
-things to sort out for this project.
+It also works in a browser; here is a complete example:
+
+    <!DOCTYPE html>
+    <html>
+      <body>
+        <textarea id="text-input" oninput="this.editor.update()"
+                  rows="6" cols="60">Type **Markdown** here.</textarea>
+        <div id="preview"> </div>
+        <script src="lib/markdown.js"></script>
+        <script>
+          function Editor(input, preview)
+          {
+            this.update = function () {
+              preview.innerHTML = markdown.toHTML(input.value);
+            }
+            input.editor = this;
+            this.update();
+          }
+          var $ = function (id) { return document.getElementById(id); };
+          new Editor($("text-input"), $("preview"));
+        </script>
+      </body>
+    </html>
 
 ### md2html
 
@@ -92,3 +113,20 @@ contributors section of package.json too if you want to.
 ## License
 
 Released under the MIT license.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

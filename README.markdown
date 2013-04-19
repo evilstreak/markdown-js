@@ -29,22 +29,20 @@ Just the `markdown` library:
 
     npm install markdown
 
-Also install `md2html` to `/usr/local/bin` (or wherever)
+Optionally, install `md2html` into your path
 
     npm install -g markdown
 
 ## Usage
 
-The simple way to use it with CommonJS is:
+### Node
 
-    var input = "# Heading\n\nParagraph";
-    var output = require( "markdown" ).markdown.toHTML( input );
-    print( output );
+The simple way to use it with node is:
 
-If you want more control check out the documentation in
-[lib/markdown.js] which details all the methods and parameters
-available (including examples!). One day we'll get the docs generated
-and hosted somewhere for nicer browsing.
+    var markdown = require( "markdown" ).markdown;
+    console.log( markdown.toHTML( "Hello *World*!" ) );
+
+### Browser
 
 It also works in a browser; here is a complete example:
 
@@ -70,11 +68,61 @@ It also works in a browser; here is a complete example:
       </body>
     </html>
 
-### md2html
+### Command line
 
+Assuming you've installed the `md2html` script (see Installation,
+above), you can convert markdown to html:
+
+    # read from a file
     md2html /path/to/doc.md > /path/to/doc.html
 
+    # or from stdin
+    echo 'Hello *World*!' | md2html
+
+### More options
+
+If you want more control check out the documentation in
+[lib/markdown.js] which details all the methods and parameters
+available (including examples!). One day we'll get the docs generated
+and hosted somewhere for nicer browsing.
+
 [lib/markdown.js]: http://github.com/evilstreak/markdown-js/blob/master/lib/markdown.js
+
+Meanwhile, here's an example of using the multi-step processing to
+make wiki-style linking work by filling in missing link references:
+
+    var md = require( "markdown" ).markdown,
+        text = "[Markdown] is a simple text-based [markup language]\n" +
+               "created by [John Gruber]\n\n" +
+               "[John Gruber]: http://daringfireball.net";
+
+    // parse the markdown into a tree and grab the link references
+    var tree = md.parse( text ),
+        refs = tree[ 1 ].references;
+
+    // iterate through the tree finding link references
+    ( function find_link_refs( jsonml ) {
+      if ( jsonml[ 0 ] === "link_ref" ) {
+        var ref = jsonml[ 1 ].ref;
+
+        // if there's no reference, define a wiki link
+        if ( !refs[ ref ] ) {
+          refs[ ref ] = {
+            href: "http://en.wikipedia.org/wiki/" + ref.replace(/\s+/, "_" )
+          };
+        }
+      }
+      else if ( Array.isArray( jsonml[ 1 ] ) ) {
+        jsonml[ 1 ].forEach( find_link_refs );
+      }
+      else if ( Array.isArray( jsonml[ 2 ] ) ) {
+        jsonml[ 2 ].forEach( find_link_refs );
+      }
+    } )( tree );
+
+    // convert the tree into html
+    var html = md.renderJsonML( md.toHTMLTree( tree ) );
+    console.log( html );
 
 ## Intermediate Representation
 
@@ -103,7 +151,7 @@ through the HTML tree looking for `a` nodes.
 To run the tests under node you will need tap installed (it's listed as a
 devDependencies so `npm install` from the checkout should be enough), then do
 
-    $ ./node_modules/.bin/tap test/*.t.js
+    $ npm test
 
 ## Contributing
 

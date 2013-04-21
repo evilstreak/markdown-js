@@ -523,3 +523,13 @@ test( "inline_autolink", function(t, md) {
                                   [ [ "link", { href: "mailto:foo@bar.com" }, "foo@bar.com" ] ],
                                   "autolink III" );
 });
+
+test( "line_endings", function(t, md) {
+  // try to generate this tree with all types of line ending
+  var tree = [ "markdown", [ "para", "Foo" ], [ "para", "Bar" ] ];
+
+  t.equivalent( md.toTree( "Foo\n\nBar", [ "markdown" ] ), tree, "Unix line endings" );
+  t.equivalent( md.toTree( "Foo\r\n\r\nBar", [ "markdown" ] ), tree, "Windows line endings" );
+  t.equivalent( md.toTree( "Foo\r\rBar", [ "markdown" ] ), tree, "Mac line endings" );
+  t.equivalent( md.toTree( "Foo\r\n\nBar", [ "markdown" ] ), tree, "Mixed line endings" );
+});

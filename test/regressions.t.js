@@ -36,12 +36,12 @@ test("split_block", function(t, md) {
 test("headers", function(t, md) {
   t.equivalent(
     md.dialect.block.setextHeader( "h1\n===\n\n", [] ),
-    [ [ 'header', { level: 1 }, 'h1' ] ],
+    [ [ "header", { level: 1 }, "h1" ] ],
     "Atx and Setext style H1s should produce the same output" );
 
   t.equivalent(
     md.dialect.block.atxHeader.call( md, "# h1\n\n"),
-    [ [ 'header', { level: 1 }, 'h1' ] ],
+    [ [ "header", { level: 1 }, "h1" ] ],
     "Closing # optional on atxHeader");
 
   t.equivalent(
@@ -364,7 +364,7 @@ test( "horizRule", function(t, md) {
     t.equivalent(
       hr.call( md, mk_block(s), [] ),
       [ [ "hr" ] ],
-      "simple hr from " + require('util').inspect(s));
+      "simple hr from " + require("util").inspect(s));
   });
 });
 

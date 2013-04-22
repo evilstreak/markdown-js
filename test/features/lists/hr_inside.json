@@ -1,6 +1,6 @@
 ["html",
   ["ul",
-    [ "li", 
+    [ "li",
       ["p", "before"],
       ["hr"],
       ["p", "after"]

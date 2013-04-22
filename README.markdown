@@ -1,5 +1,4 @@
-markdown-js
-===========
+# markdown-js
 
 Yet another markdown parser, this time for JavaScript. There's a few
 options that precede this project but they all treat markdown to HTML
@@ -7,12 +6,11 @@ conversion as a single step process. You pass markdown in and get HTML
 out, end of story. We had some pretty particular views on how the
 process should actually look, which include:
 
-  * producing well-formed HTML. This means that em and strong nesting is
-    important, as is the ability to output as both HTML and XHTML
+  * producing well-formed HTML. This means that `em` and `strong` nesting
+    is important, as is the ability to output as both HTML and XHTML
 
   * having an intermediate representation to allow processing of parsed
-    data (we in fact have two, both [JsonML]: a markdown tree and an
-    HTML tree)
+    data (we in fact have two, both [JsonML]: a markdown tree and an HTML tree)
 
   * being easily extensible to add new dialects without having to
     rewrite the entire parsing mechanics
@@ -39,45 +37,50 @@ Optionally, install `md2html` into your path
 
 The simple way to use it with node is:
 
-    var markdown = require( "markdown" ).markdown;
-    console.log( markdown.toHTML( "Hello *World*!" ) );
+```js
+var markdown = require( "markdown" ).markdown;
+console.log( markdown.toHTML( "Hello *World*!" ) );
+```
 
 ### Browser
 
 It also works in a browser; here is a complete example:
 
-    <!DOCTYPE html>
-    <html>
-      <body>
-        <textarea id="text-input" oninput="this.editor.update()"
-                  rows="6" cols="60">Type **Markdown** here.</textarea>
-        <div id="preview"> </div>
-        <script src="lib/markdown.js"></script>
-        <script>
-          function Editor(input, preview)
-          {
-            this.update = function () {
-              preview.innerHTML = markdown.toHTML(input.value);
-            }
-            input.editor = this;
-            this.update();
-          }
-          var $ = function (id) { return document.getElementById(id); };
-          new Editor($("text-input"), $("preview"));
-        </script>
-      </body>
-    </html>
+```html
+<!DOCTYPE html>
+<html>
+  <body>
+    <textarea id="text-input" oninput="this.editor.update()"
+              rows="6" cols="60">Type **Markdown** here.</textarea>
+    <div id="preview"> </div>
+    <script src="lib/markdown.js"></script>
+    <script>
+      function Editor(input, preview) {
+        this.update = function () {
+          preview.innerHTML = markdown.toHTML(input.value);
+        };
+        input.editor = this;
+        this.update();
+      }
+      var $ = function (id) { return document.getElementById(id); };
+      new Editor($("text-input"), $("preview"));
+    </script>
+  </body>
+</html>
+```
 
 ### Command line
 
 Assuming you've installed the `md2html` script (see Installation,
 above), you can convert markdown to html:
 
-    # read from a file
-    md2html /path/to/doc.md > /path/to/doc.html
+```bash
+# read from a file
+md2html /path/to/doc.md > /path/to/doc.html
 
-    # or from stdin
-    echo 'Hello *World*!' | md2html
+# or from stdin
+echo 'Hello *World*!' | md2html
+```
 
 ### More options
 
@@ -91,38 +94,40 @@ and hosted somewhere for nicer browsing.
 Meanwhile, here's an example of using the multi-step processing to
 make wiki-style linking work by filling in missing link references:
 
-    var md = require( "markdown" ).markdown,
-        text = "[Markdown] is a simple text-based [markup language]\n" +
-               "created by [John Gruber]\n\n" +
-               "[John Gruber]: http://daringfireball.net";
+```js
+var md = require( "markdown" ).markdown,
+    text = "[Markdown] is a simple text-based [markup language]\n" +
+           "created by [John Gruber]\n\n" +
+           "[John Gruber]: http://daringfireball.net";
 
-    // parse the markdown into a tree and grab the link references
-    var tree = md.parse( text ),
-        refs = tree[ 1 ].references;
+// parse the markdown into a tree and grab the link references
+var tree = md.parse( text ),
+    refs = tree[ 1 ].references;
 
-    // iterate through the tree finding link references
-    ( function find_link_refs( jsonml ) {
-      if ( jsonml[ 0 ] === "link_ref" ) {
-        var ref = jsonml[ 1 ].ref;
+// iterate through the tree finding link references
+( function find_link_refs( jsonml ) {
+  if ( jsonml[ 0 ] === "link_ref" ) {
+    var ref = jsonml[ 1 ].ref;
 
-        // if there's no reference, define a wiki link
-        if ( !refs[ ref ] ) {
-          refs[ ref ] = {
-            href: "http://en.wikipedia.org/wiki/" + ref.replace(/\s+/, "_" )
-          };
-        }
-      }
-      else if ( Array.isArray( jsonml[ 1 ] ) ) {
-        jsonml[ 1 ].forEach( find_link_refs );
-      }
-      else if ( Array.isArray( jsonml[ 2 ] ) ) {
-        jsonml[ 2 ].forEach( find_link_refs );
-      }
-    } )( tree );
+    // if there's no reference, define a wiki link
+    if ( !refs[ ref ] ) {
+      refs[ ref ] = {
+        href: "http://en.wikipedia.org/wiki/" + ref.replace(/\s+/, "_" )
+      };
+    }
+  }
+  else if ( Array.isArray( jsonml[ 1 ] ) ) {
+    jsonml[ 1 ].forEach( find_link_refs );
+  }
+  else if ( Array.isArray( jsonml[ 2 ] ) ) {
+    jsonml[ 2 ].forEach( find_link_refs );
+  }
+} )( tree );
 
-    // convert the tree into html
-    var html = md.renderJsonML( md.toHTMLTree( tree ) );
-    console.log( html );
+// convert the tree into html
+var html = md.renderJsonML( md.toHTMLTree( tree ) );
+console.log( html );
+```
 
 ## Intermediate Representation
 
@@ -149,14 +154,14 @@ through the HTML tree looking for `a` nodes.
 ## Running tests
 
 To run the tests under node you will need tap installed (it's listed as a
-devDependencies so `npm install` from the checkout should be enough), then do
+`devDependencies` so `npm install` from the checkout should be enough), then do
 
     $ npm test
 
 ## Contributing
 
 Do the usual github fork and pull request dance. Add yourself to the
-contributors section of package.json too if you want to.
+contributors section of [package.json](/package.json) too if you want to.
 
 ## License
 

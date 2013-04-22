@@ -1,9 +1,9 @@
-var markdown = require('../lib/markdown');
+var markdown = require("../lib/markdown");
 
 function test_dialect( dialect, features ) {
-  var fs = require('fs'),
-      path = require('path'),
-      tap = require('tap');
+  var fs = require("fs"),
+      path = require("path"),
+      tap = require("tap");
 
   var slurpFile = function slurpFile( path ) {
     return fs.readFileSync( path, "utf8" );

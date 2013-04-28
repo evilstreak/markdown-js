@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>QUnit basic example</title>
+  <link rel="stylesheet" href="qunit/qunit.css">
+</head>
+<body>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+  <script src="qunit/qunit.js"></script>
+  <script src="../lib/markdown.js"></script>
+  <script>
+    var noop = function() {};
+
+    var qunitTest = test;
+
+    var adapt = function( fn ) {
+      return function( assert ) {
+        fn( { end: noop,
+              equivalent: assert.deepEqual },
+            new markdown.Markdown );
+      };
+    };
+
+    var require = function() { return {
+      inspect: noop,
+      Markdown: markdown.Markdown,
+      test: function( title, fn ) {
+        qunitTest( title, adapt( fn ) );
+      }
+    }; };
+  </script>
+  <script src="regressions.t.js"></script>
+</body>
+</html>

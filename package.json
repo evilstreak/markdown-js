@@ -33,12 +33,12 @@
     "md2html": "./bin/md2html.js"
   },
   "dependencies": {
-    "nopt": "1"
+    "nopt": "~2.1.1"
   },
   "devDependencies": {
-    "tap": "0"
+    "tap": "~0.3.3"
   },
   "scripts": {
-    "test": "tap test/*.t.js"
+    "test": "tap ./test/*.t.js"
   }
 }

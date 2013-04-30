@@ -1,25 +1,24 @@
-var markdown = require("../lib/markdown"),
-    test = require("tap").test;
+// require modules under node.js; in a browser they'll already be present
+if ( typeof chai === "undefined" ) { var chai = require( "chai" ); }
+if ( typeof markdown === "undefined" ) { var markdown = require( "../lib/markdown" ); }
 
-// var markdown = require('Markdown');
+var assert = chai.assert;
 
-function clone_array( input ) {
-  // Helper method. Since the objects are plain round trip through JSON to get
-  // a clone
-  return JSON.parse( JSON.stringify( input ) );
-}
-
-test("arguments untouched", function(t) {
+suite( "arguments untouched", function() {
   var input = "A [link][id] by id.\n\n[id]: http://google.com",
       tree = markdown.parse( input ),
-      clone = clone_array( tree ),
+      // round trip through JSON to deep copy the tree
+      clone = JSON.parse( JSON.stringify( tree ) ),
       output = markdown.toHTML( tree );
 
-  t.equivalent( tree, clone, "tree isn't modified" );
+  test( "tree isn't modified", function() {
+    assert.deepEqual( tree, clone );
+  } );
+
   // We had a problem where we would accidentally remove the references
   // property from the root. We want to check the output is the same when
   // called twice.
-  t.equivalent( markdown.toHTML( tree ), output, "output is consistent" );
-
-  t.end();
-});
+  test( "output is consistent", function() {
+    assert.deepEqual( markdown.toHTML( tree ), output );
+  } );
+} );

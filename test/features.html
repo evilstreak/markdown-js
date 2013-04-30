@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Markdown-js Tests</title>
+  <link rel="stylesheet" href="mocha/mocha.css" />
+</head>
+<body>
+  <div id="mocha"></div>
+  <script type="text/javascript" src="mocha/jquery.js"></script>
+  <script type="text/javascript" src="mocha/chai.js"></script>
+  <script type="text/javascript" src="http://localhost:3001/markdown.js"></script>
+  <script type="text/javascript" src="mocha/mocha.js"></script>
+  <script type="text/javascript">mocha.setup( "tdd" );</script>
+  <script type="text/javascript" src="features.t.js"></script>
+  <script type="text/javascript">
+    mocha.checkLeaks();
+    mocha.run();
+  </script>
+</body>
+</html>

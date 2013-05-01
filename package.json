@@ -48,9 +48,10 @@
     "nopt": "1"
   },
   "devDependencies": {
-    "tap": "0"
+    "mocha": "*",
+    "chai": "*"
   },
   "scripts": {
-    "test": "tap test/*.t.js"
+    "test": "mocha --ui tdd test/*.t.js"
   }
 }

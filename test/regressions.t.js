@@ -533,3 +533,12 @@ test( "line_endings", function(t, md) {
   t.equivalent( md.toTree( "Foo\r\rBar", [ "markdown" ] ), tree, "Mac line endings" );
   t.equivalent( md.toTree( "Foo\r\n\nBar", [ "markdown" ] ), tree, "Mixed line endings" );
 });
+
+test( "header_in_paragraph", function(t, md){
+  var tree = [ "markdown",
+               [ "para", "Foo" ],
+               [ "header", { level: 1 }, "Title" ],
+               [ "para", "Bar" ] ];
+  t.equivalent( md.toTree("Foo\n#Title\nBar", [ "markdown" ]), tree, "Header in praragraph" );
+  t.equivalent( md.toTree("Foo\n\n#Title\n\nBar", [ "markdown" ]), tree, "Header in praragraph" );
+});

@@ -1,0 +1,3 @@
+This should not render as a block since it's indented (code):
+
+    <div>This should be escaped as HTML code.</div>

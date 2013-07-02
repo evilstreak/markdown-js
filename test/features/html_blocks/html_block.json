@@ -1,0 +1,6 @@
+["html",
+  ["p", "The following is an HTML block:"],
+  ["__RAW",
+    "<div class=\"html-block\">I am an HTML block.</div>"
+  ]
+]

@@ -1,0 +1,8 @@
+["html",
+  ["p", "This should not render as a block since it's indented (code):"],
+  ["pre",
+    ["code",
+      "<div>This should be escaped as HTML code.</div>"
+    ]
+  ]
+]

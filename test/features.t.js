@@ -63,6 +63,7 @@ dialects.Gruber = [
   "emphasis",
   "headers",
   "horizontal_rules",
+  "html_blocks",
   "images",
   "linebreaks",
   "links",

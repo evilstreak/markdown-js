@@ -1,5 +1,22 @@
 # Changelog for markdown
 
+## vNEXT - ???
+
+There might be other bug fixes then the ones listed - I've been a bit lax at
+updating the changes file, sorry :(
+
+- Fix 'undefined' appearing in output for some cases with blockquotes
+- Fix (multiple) global variable leaks. Ooops
+- Fix IE8 issues (#68, #74, #97)
+- Fix IE8 issue (#86)
+- Handle windows line endings (#58)
+- Allow spaces in img/link paths (#48)
+- Add explicit text of the license to the readme (#74)
+- Style tweaks by Xhmikosr (#83, #81, #82)
+- Build now tested by TravisCI thanks to sebs (#85)
+- Fix 'cuddled' header parsing (#94)
+
+
 ## v0.4.0 - 2012-06-09
 
 - Fix for anchors enclosed by parenthesis (issue #46)

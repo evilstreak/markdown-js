@@ -1,6 +1,6 @@
 # Changelog for markdown
 
-## vNEXT - ???
+## v0.5.0 - 2013-07-26
 
 There might be other bug fixes then the ones listed - I've been a bit lax at
 updating the changes file, sorry :(

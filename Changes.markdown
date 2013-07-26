@@ -15,6 +15,8 @@ updating the changes file, sorry :(
 - Style tweaks by Xhmikosr (#83, #81, #82)
 - Build now tested by TravisCI thanks to sebs (#85)
 - Fix 'cuddled' header parsing (#94)
+- Fix images inside links mistakenly requiring a title attribute to parse
+  correctly (#71)
 
 
 ## v0.4.0 - 2012-06-09

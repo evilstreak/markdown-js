@@ -1,0 +1,11 @@
+["html",
+  ["p",
+    ["a",
+      { "href": "https://link-url" },
+      ["img", {
+        "alt": "alt",
+        "src": "https://img-url"
+      } ]
+    ]
+  ]
+]

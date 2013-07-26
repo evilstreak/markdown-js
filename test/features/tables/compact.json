@@ -1,0 +1,64 @@
+[ "html",
+  [ "table",
+    [ "thead",
+      [ "tr",
+        [ "th",
+          { "align": "left" },
+          "#"
+        ],
+        [ "th",
+          { "align": "center" },
+          "Item"
+        ],
+        [ "th",
+          { "align": "right" },
+          "Value"
+        ]
+      ]
+    ],
+    [ "tbody",
+      [ "tr",
+        [ "td",
+          { "align": "left" },
+          "1"
+        ],
+        [ "td",
+          { "align": "center" },
+          "Computer"
+        ],
+        [ "td",
+          { "align": "right" },
+          "$1600"
+        ]
+      ],
+      [ "tr",
+        [ "td",
+          { "align": "left" },
+          "2"
+        ],
+        [ "td",
+          { "align": "center" },
+          "Phone"
+        ],
+        [ "td",
+          { "align": "right" },
+          "$12"
+        ]
+      ],
+      [ "tr",
+        [ "td",
+          { "align": "left" },
+          "3"
+        ],
+        [ "td",
+          { "align": "center" },
+          "Pipe"
+        ],
+        [ "td",
+          { "align": "right" },
+          "$1"
+        ]
+      ]
+    ]
+  ]
+]

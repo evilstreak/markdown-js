@@ -62,6 +62,9 @@
     "undef": true,
     "unused": false
   },
+  "engines": {
+    "node": ">=0.6.0"
+  },
   "scripts": {
     "check": "jshint .",
     "lint": "jshint .",

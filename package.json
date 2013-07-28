@@ -72,5 +72,8 @@
     "noarg": true,
     "newcap": true,
     "trailing": true
+  },
+  "engines": {
+    "node": ">=0.6.0"
   }
 }

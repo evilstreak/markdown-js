@@ -33,12 +33,37 @@
     "md2html": "./bin/md2html.js"
   },
   "dependencies": {
-    "nopt": "~2.1.1"
+    "nopt": "~2.1.1",
+    "jshint": "~2.1.9"
   },
   "devDependencies": {
     "tap": "~0.3.3"
   },
+  "jshintConfig": {
+    "browser": false,
+    "maxerr": 100,
+    "node": true,
+    "camelcase": false,
+    "eqeqeq": true,
+    "eqnull": true,
+    "forin": true,
+    "immed": true,
+    "latedef": true,
+    "laxbreak": true,
+    "laxcomma": true,
+    "noarg": true,
+    "newcap": true,
+    "plusplus": false,
+    "quotmark": "true",
+    "regexp": true,
+    "strict": false,
+    "trailing": true,
+    "undef": true,
+    "unused": false
+  },
   "scripts": {
+    "check": "jshint .",
+    "lint": "jshint .",
     "test": "tap ./test/*.t.js"
   }
 }

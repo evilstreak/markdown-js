@@ -44,6 +44,7 @@
     "maxerr": 100,
     "node": true,
     "camelcase": false,
+    "curly": true,
     "eqeqeq": true,
     "eqnull": true,
     "forin": true,

@@ -14,7 +14,9 @@ function test_dialect( dialect, features ) {
       return fs.statSync( f ).isFile();
     }
     catch (e) {
-      if ( e.code === "ENOENT" ) return false;
+      if ( e.code === "ENOENT" ) {
+        return false;
+      }
       throw e;
     }
   };

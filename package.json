@@ -32,6 +32,11 @@
   "bin": {
     "md2html": "./bin/md2html.js"
   },
+  "files": [
+    "bin",
+    "lib",
+    "Changes.markdown"
+  ],
   "dependencies": {
     "nopt": "~2.1.1",
     "jshint": "~2.1.9"

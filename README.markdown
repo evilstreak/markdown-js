@@ -89,7 +89,7 @@ If you want more control check out the documentation in
 available (including examples!). One day we'll get the docs generated
 and hosted somewhere for nicer browsing.
 
-[lib/markdown.js]: http://github.com/evilstreak/markdown-js/blob/master/lib/markdown.js
+[lib/markdown.js]: https://github.com/evilstreak/markdown-js/blob/master/lib/markdown.js
 
 Meanwhile, here's an example of using the multi-step processing to
 make wiki-style linking work by filling in missing link references:

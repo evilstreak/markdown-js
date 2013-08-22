@@ -47,7 +47,7 @@
   },
   "scripts": {
     "test": "tap ./test/*.t.js",
-    "lint": "./node_modules/.bin/jshint lib/ bin/"
+    "lint": "./node_modules/.bin/jshint lib/ bin/ test/"
   },
   "jshintConfig": {
     "shadow": true,
@@ -58,6 +58,8 @@
     "undef": true,
     "unused": false,
     "node": "This option is needed so that it doesn't complain about require not being defined",
-    "node": true
+    "node": true,
+
+    "lastsemic": true
   }
 }

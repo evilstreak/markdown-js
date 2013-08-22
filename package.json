@@ -42,9 +42,22 @@
     "nopt": "~2.1.1"
   },
   "devDependencies": {
-    "tap": "~0.3.3"
+    "tap": "~0.3.3",
+    "jshint": "~2"
   },
   "scripts": {
-    "test": "tap ./test/*.t.js"
+    "test": "tap ./test/*.t.js",
+    "lint": "./node_modules/.bin/jshint lib/ bin/"
+  },
+  "jshintConfig": {
+    "shadow": true,
+    "laxbreak": true,
+    "sub": true,
+    "loopfunc": true,
+
+    "undef": true,
+    "unused": false,
+    "node": "This option is needed so that it doesn't complain about require not being defined",
+    "node": true
   }
 }

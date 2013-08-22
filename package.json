@@ -60,6 +60,11 @@
     "node": "This option is needed so that it doesn't complain about require not being defined",
     "node": true,
 
-    "lastsemic": true
+    "lastsemic": true,
+    "eqeqeq": true,
+    "newcap": true,
+    "noarg": true,
+    "newcap": true,
+    "trailing": true
   }
 }

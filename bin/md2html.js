@@ -2,17 +2,16 @@
 (function () {
   "use strict";
 
-  var fs = require("fs")
-    , markdown = require("markdown").markdown
-    , nopt = require("nopt")
-    , stream
-    , opts
-    , buffer = ""
-    ;
+  var fs = require("fs"),
+    markdown = require("markdown").markdown,
+    nopt = require("nopt"),
+    stream,
+    opts,
+    buffer = "";
 
   opts = nopt(
-    { "dialect": [ "Gruber", "Maruku"]
-    , "help": Boolean
+    { "dialect": [ "Gruber", "Maruku"],
+      "help": Boolean
     }
   );
 

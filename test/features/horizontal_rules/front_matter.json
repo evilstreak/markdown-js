@@ -1,0 +1,10 @@
+["html",
+  ["hr"],
+  ["p",
+    "layout: post\ntitle: A title"
+  ],
+  ["hr"],
+  ["p",
+    "Pack my box with five dozen liquor jugs."
+  ]
+]

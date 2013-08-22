@@ -3,6 +3,8 @@
 ## vNEXT - ???
 
 - Fix content tight between two hr's disappearing (#106)
+- Fix (yet more! gah) global variable leaks #99
+- Fix JSHint warnings #65 - Thanks XhmikosR!
 
 ## v0.5.0 - 2013-07-26
 

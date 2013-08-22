@@ -11,10 +11,10 @@ var markdown = require("../lib/markdown"),
 
 function test(name, cb) {
   tap.test( name, function(t) {
-    cb(t, new Markdown );
+    cb(t, new Markdown() );
     t.end();
   });
-};
+}
 
 test("split_block", function(t, md) {
   t.equivalent(
@@ -45,7 +45,7 @@ test("headers", function(t, md) {
     "Closing # optional on atxHeader");
 
   t.equivalent(
-    h2 = md.dialect.block.atxHeader.call( md, "## h2\n\n", [] ),
+    md.dialect.block.atxHeader.call( md, "## h2\n\n", [] ),
     [["header", {level: 2}, "h2"]],
     "Atx h2 has right level");
 
@@ -242,7 +242,7 @@ test( "bulletlist", function(t, md) {
           ]
         ]
     ] ],
-    "Indenting Case V")
+    "Indenting Case V");
 
   /* Case VI: deep nesting
    |* one
@@ -270,7 +270,7 @@ test( "bulletlist", function(t, md) {
           ]
         ]
     ] ],
-    "deep nested lists VI")
+    "deep nested lists VI");
 
   /* Case VII: This one is just fruity!
    |   * foo

@@ -7,14 +7,14 @@ function test_dialect( dialect, features ) {
 
   var slurpFile = function slurpFile( path ) {
     return fs.readFileSync( path, "utf8" );
-  }
+  };
 
   var isFile = function isFile( f ) {
     try {
-      return fs.statSync( f ).isFile()
+      return fs.statSync( f ).isFile();
     }
     catch (e) {
-      if ( e.code == "ENOENT" ) return false;
+      if ( e.code === "ENOENT" ) return false;
       throw e;
     }
   };
@@ -38,7 +38,7 @@ function test_dialect( dialect, features ) {
           for ( var t in tests ) {
             // load the raw text
             var testName = dialect + "/" + feature + "/" + tests[ t ].substring( tests[ t ].lastIndexOf( "/" ) + 1 ),
-                testFileBase = path.join(test_path, tests[ t ]);
+                testFileBase = path.join(test_path, tests[ t ]),
                 text = slurpFile( testFileBase + ".text" );
 
             // load the target output

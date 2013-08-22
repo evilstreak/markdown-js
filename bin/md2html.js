@@ -2,22 +2,21 @@
 (function () {
   "use strict";
 
-  var fs = require("fs")
-    , markdown = require("markdown").markdown
-    , nopt = require("nopt")
-    , stream
-    , opts
-    , buffer = ""
-    ;
+  var fs = require("fs"),
+    markdown = require("markdown").markdown,
+    nopt = require("nopt"),
+    stream,
+    opts,
+    buffer = "";
 
   opts = nopt(
-    { "dialect": [ "Gruber", "Maruku"]
-    , "help": Boolean
+    { "dialect": [ "Gruber", "Maruku"],
+      "help": Boolean
     }
   );
 
   if (opts.help) {
-    var name = process.argv[1].split("/").pop()
+    var name = process.argv[1].split("/").pop();
     console.warn( require("util").format(
       "usage: %s [--dialect=DIALECT] FILE\n\nValid dialects are Gruber (the default) or Maruku",
       name
@@ -49,4 +48,4 @@
     console.log(html);
   });
 
-}())
+}());

@@ -13,7 +13,8 @@
   ],
   "contributors": [
     "Dominic Baggott <dominic.baggott@gmail.com> (http://evilstreak.co.uk)",
-    "Ash Berlin <ash_markdownjs@firemirror.com> (http://ashberlin.com)"
+    "Ash Berlin <ash_markdownjs@firemirror.com> (http://ashberlin.com)",
+    "XhmikosR <xhmikosr@users.sourceforge.net>"
   ],
   "bugs": {
     "url": "https://github.com/evilstreak/markdown-js/issues"
@@ -42,9 +43,37 @@
     "nopt": "~2.1.1"
   },
   "devDependencies": {
-    "tap": "~0.3.3"
+    "tap": "~0.3.3",
+    "jshint": "~2"
   },
   "scripts": {
-    "test": "tap ./test/*.t.js"
+    "test": "npm run-script tap && npm run-script lint",
+    "tap": "tap ./test/*.t.js",
+    "lint": "jshint lib/ bin/ test/"
+  },
+  "jshintConfig": {
+    "shadow": true,
+    "laxbreak": true,
+    "sub": true,
+    "loopfunc": true,
+
+    "undef": true,
+    "unused": false,
+    "node": true,
+    "globals": "We also support browser, so define a subset of those globals we use",
+    "globals": {
+      "print": true,
+      "uneval": true,
+      "window": true
+    },
+    "lastsemic": true,
+    "eqeqeq": true,
+    "newcap": true,
+    "noarg": true,
+    "newcap": true,
+    "trailing": true
+  },
+  "engines": {
+    "node": ">=0.6.0"
   }
 }

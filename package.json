@@ -13,7 +13,8 @@
   ],
   "contributors": [
     "Dominic Baggott <dominic.baggott@gmail.com> (http://evilstreak.co.uk)",
-    "Ash Berlin <ash_markdownjs@firemirror.com> (http://ashberlin.com)"
+    "Ash Berlin <ash_markdownjs@firemirror.com> (http://ashberlin.com)",
+    "XhmikosR <xhmikosr@users.sourceforge.net>"
   ],
   "bugs": {
     "url": "https://github.com/evilstreak/markdown-js/issues"

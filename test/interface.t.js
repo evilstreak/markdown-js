@@ -23,3 +23,16 @@ test("arguments untouched", function(t) {
 
   t.end();
 });
+
+test("code escaped", function(t){
+  var input = "Here is an <i>example</i> of HTML:\n\n    <p>Paragraph</p>",
+      tree = markdown.parse( input ),
+      output = markdown.toHTML( tree ),
+      expected = "<p>Here is an <i>example</i> of HTML:</p>\n\n<pre><code>&lt;p&gt;Paragraph&lt;/p&gt;</code></pre>";
+
+  // Escaping is done at the toHTML stage, so we test our escaping here,
+  // and not in features.
+  t.equivalent( expected, output, "HTML inside code blocks is escaped" );
+
+  t.end();
+});

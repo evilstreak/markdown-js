@@ -57,9 +57,13 @@
 
     "undef": true,
     "unused": false,
-    "node": "This option is needed so that it doesn't complain about require not being defined",
     "node": true,
-
+    "globals": "We also support browser, so define a subset of those globals we use",
+    "globals": {
+      "print": true,
+      "uneval": true,
+      "window": true
+    },
     "lastsemic": true,
     "eqeqeq": true,
     "newcap": true,

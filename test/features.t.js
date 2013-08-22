@@ -7,14 +7,16 @@ function test_dialect( dialect, features ) {
 
   var slurpFile = function slurpFile( path ) {
     return fs.readFileSync( path, "utf8" );
-  }
+  };
 
   var isFile = function isFile( f ) {
     try {
-      return fs.statSync( f ).isFile()
+      return fs.statSync( f ).isFile();
     }
     catch (e) {
-      if ( e.code == "ENOENT" ) return false;
+      if ( e.code === "ENOENT" ) {
+        return false;
+      }
       throw e;
     }
   };

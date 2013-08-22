@@ -11,10 +11,10 @@ var markdown = require("../lib/markdown"),
 
 function test(name, cb) {
   tap.test( name, function(t) {
-    cb(t, new Markdown );
+    cb(t, new Markdown() );
     t.end();
   });
-};
+}
 
 test("split_block", function(t, md) {
   t.equivalent(
@@ -79,19 +79,19 @@ test("code", function(t, md) {
     "paragraph put back into next block");
 
   t.equivalent(
-    code.call( md, mk_block("    foo"), [mk_block("    bar"), ] ),
+    code.call( md, mk_block("    foo"), [mk_block("    bar") ] ),
     [["code_block", "foo\n\nbar" ]],
     "adjacent code blocks ");
 
   t.equivalent(
-    code.call( md, mk_block("    foo","\n  \n      \n"), [mk_block("    bar"), ] ),
+    code.call( md, mk_block("    foo","\n  \n      \n"), [mk_block("    bar") ] ),
     [["code_block", "foo\n\n\nbar" ]],
     "adjacent code blocks preserve correct number of empty lines");
 
 });
 
 test( "bulletlist", function(t, md) {
-  var bl = function() { return md.dialect.block.lists.apply(md, arguments) };
+  var bl = function() { return md.dialect.block.lists.apply(md, arguments); };
 
   t.equivalent(
     bl( mk_block("* foo\n* bar"), [] ),
@@ -238,11 +238,11 @@ test( "bulletlist", function(t, md) {
           "foo",
           [ "bulletlist",
             ["listitem", "bar"],
-            ["listitem", "baz"],
+            ["listitem", "baz"]
           ]
         ]
     ] ],
-    "Indenting Case V")
+    "Indenting Case V");
 
   /* Case VI: deep nesting
    |* one
@@ -270,7 +270,7 @@ test( "bulletlist", function(t, md) {
           ]
         ]
     ] ],
-    "deep nested lists VI")
+    "deep nested lists VI");
 
   /* Case VII: This one is just fruity!
    |   * foo
@@ -514,7 +514,7 @@ test( "inline_link", function(t, md) {
                                     [ "link",
                                       { href: "#SECTION-1" },
                                       "link this"
-                                    ],
+                                    ]
                                   ],
                                   "ref link II" );
 });

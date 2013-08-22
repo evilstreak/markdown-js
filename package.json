@@ -47,8 +47,9 @@
     "jshint": "~2"
   },
   "scripts": {
-    "test": "tap ./test/*.t.js",
-    "lint": "./node_modules/.bin/jshint lib/ bin/ test/"
+    "test": "npm run-script tap && npm run-script lint",
+    "tap": "tap ./test/*.t.js",
+    "lint": "jshint lib/ bin/ test/"
   },
   "jshintConfig": {
     "shadow": true,

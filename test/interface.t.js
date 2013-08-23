@@ -1,8 +1,6 @@
 var markdown = require("../lib/markdown"),
     test = require("tap").test;
 
-// var markdown = require('Markdown');
-
 function clone_array( input ) {
   // Helper method. Since the objects are plain round trip through JSON to get
   // a clone

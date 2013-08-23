@@ -79,19 +79,19 @@ test("code", function(t, md) {
     "paragraph put back into next block");
 
   t.equivalent(
-    code.call( md, mk_block("    foo"), [mk_block("    bar"), ] ),
+    code.call( md, mk_block("    foo"), [mk_block("    bar") ] ),
     [["code_block", "foo\n\nbar" ]],
     "adjacent code blocks ");
 
   t.equivalent(
-    code.call( md, mk_block("    foo","\n  \n      \n"), [mk_block("    bar"), ] ),
+    code.call( md, mk_block("    foo","\n  \n      \n"), [mk_block("    bar") ] ),
     [["code_block", "foo\n\n\nbar" ]],
     "adjacent code blocks preserve correct number of empty lines");
 
 });
 
 test( "bulletlist", function(t, md) {
-  var bl = function() { return md.dialect.block.lists.apply(md, arguments) };
+  var bl = function() { return md.dialect.block.lists.apply(md, arguments); };
 
   t.equivalent(
     bl( mk_block("* foo\n* bar"), [] ),
@@ -238,7 +238,7 @@ test( "bulletlist", function(t, md) {
           "foo",
           [ "bulletlist",
             ["listitem", "bar"],
-            ["listitem", "baz"],
+            ["listitem", "baz"]
           ]
         ]
     ] ],
@@ -514,7 +514,7 @@ test( "inline_link", function(t, md) {
                                     [ "link",
                                       { href: "#SECTION-1" },
                                       "link this"
-                                    ],
+                                    ]
                                   ],
                                   "ref link II" );
 });

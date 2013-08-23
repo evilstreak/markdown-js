@@ -44,34 +44,45 @@
   },
   "devDependencies": {
     "tap": "~0.3.3",
-    "jshint": "~2"
+    "jshint": "~2.1.9"
   },
   "scripts": {
-    "test": "npm run-script tap && npm run-script lint",
+    "test": "npm run tap && npm run lint",
     "tap": "tap ./test/*.t.js",
-    "lint": "jshint lib/ bin/ test/"
+    "lint": "jshint ."
   },
   "jshintConfig": {
-    "shadow": true,
-    "laxbreak": true,
-    "sub": true,
-    "loopfunc": true,
-
-    "undef": true,
-    "unused": false,
+    "browser": false,
+    "maxerr": 100,
     "node": true,
+    "camelcase": false,
+    "curly": false,
+    "eqeqeq": true,
+    "eqnull": true,
+    "forin": false,
     "globals": "We also support browser, so define a subset of those globals we use",
     "globals": {
       "print": true,
       "uneval": true,
       "window": true
     },
+    "immed": true,
+    "latedef": true,
+    "laxbreak": true,
+    "laxcomma": true,
     "lastsemic": true,
-    "eqeqeq": true,
-    "newcap": true,
+    "loopfunc": true,
     "noarg": true,
     "newcap": true,
-    "trailing": true
+    "plusplus": false,
+    "quotmark": "true",
+    "regexp": true,
+    "shadow": true,
+    "strict": false,
+    "sub": true,
+    "trailing": true,
+    "undef": true,
+    "unused": false
   },
   "engines": {
     "node": ">=0.6.0"

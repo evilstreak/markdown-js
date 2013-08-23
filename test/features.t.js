@@ -14,7 +14,8 @@ function test_dialect( dialect, features ) {
       return fs.statSync( f ).isFile();
     }
     catch (e) {
-      if ( e.code === "ENOENT" ) return false;
+      if ( e.code === "ENOENT" )
+        return false;
       throw e;
     }
   };
@@ -73,9 +74,8 @@ dialects.Maruku = dialects.Gruber.slice( 0 );
 dialects.Maruku.push( "meta", "definition_lists", "tables" );
 
 // TODO if dialects/features were passed on the command line, filter to them
-// if ( args.length ) {
+// if ( args.length )
 //   features = features.filter( function( x ) args.indexOf( x ) !== -1 );
-// }
 
 for ( var d in dialects ) {
   test_dialect( d, dialects[ d ] );

@@ -26,11 +26,10 @@
 
   var fullpath = opts.argv.remain[0];
 
-  if (fullpath && fullpath !== "-") {
+  if (fullpath && fullpath !== "-")
     stream = fs.createReadStream(fullpath);
-  } else {
+  else
     stream = process.stdin;
-  }
   stream.resume();
   stream.setEncoding("utf8");
 

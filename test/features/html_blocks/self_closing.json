@@ -1,0 +1,6 @@
+["html",
+  ["p", "The following is a self-closing HTML block:"],
+  ["__RAW",
+    "<img src=\"self-closing-html-block.jpg\" />"
+  ]
+]

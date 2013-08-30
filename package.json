@@ -14,7 +14,8 @@
   "contributors": [
     "Dominic Baggott <dominic.baggott@gmail.com> (http://evilstreak.co.uk)",
     "Ash Berlin <ash_markdownjs@firemirror.com> (http://ashberlin.com)",
-    "XhmikosR <xhmikosr@users.sourceforge.net>"
+    "XhmikosR <xhmikosr@users.sourceforge.net>",
+    "Robin Ward <robin.ward@gmail.com> (http://eviltrout.com)"
   ],
   "bugs": {
     "url": "https://github.com/evilstreak/markdown-js/issues"
@@ -44,12 +45,16 @@
   },
   "devDependencies": {
     "tap": "~0.3.3",
-    "jshint": "~2.1.9"
+    "jshint": "~2.1.9",
+    "grunt": "~0.4.1",
+    "grunt-cli": "~0.1.9",
+    "grunt-node-tap": "~0.1.44",
+    "grunt-contrib-jshint": "~0.6.4"
   },
   "scripts": {
-    "test": "npm run tap && npm run lint",
-    "tap": "tap ./test/*.t.js",
-    "lint": "jshint ."
+    "test": "grunt test",
+    "tap": "grunt node_tap",
+    "lint": "grunt jshint"
   },
   "jshintConfig": {
     "browser": false,

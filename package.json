@@ -44,16 +44,20 @@
     "nopt": "~2.1.1"
   },
   "devDependencies": {
+    "amdefine": "~0.0.8",
     "grunt": "~0.4.1",
     "grunt-cli": "~0.1.9",
     "grunt-contrib-jshint": "~0.6.4",
-    "grunt-node-tap": "~0.1.44",
+    "grunt-contrib-uglify": "~0.2.4",
+    "grunt-node-tap": "~0.1.45",
+    "requirejs": "~2.1.8",
     "tap": "~0.3.3"
   },
   "scripts": {
     "test": "grunt test",
     "tap": "grunt node_tap",
-    "lint": "grunt jshint"
+    "lint": "grunt jshint",
+    "prepublish": "grunt build"
   },
   "engines": {
     "node": ">=0.8.0"

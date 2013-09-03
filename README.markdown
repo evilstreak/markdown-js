@@ -155,6 +155,29 @@ For example, you may want to grab a list of all URLs linked to in the
 document before rendering it to HTML which you could do by recursing
 through the HTML tree looking for `a` nodes.
 
+## Building and Testing markdown-js
+
+We use [Grunt](http://gruntjs.com/) to build and run markdown-js's tests.
+Make sure you run `npm install` to install the developer dependencies for
+the project, then you can:
+
+    $ grunt test
+
+To run our test suite. If you'd like to build markdown-js, you can run:
+
+    $ grunt all
+
+This command will run all the tests, then output a concatenated markdown.js
+and markdown.min.js in the `dist/` directory for use in a browser application.
+
+## Building a custom markdown-js
+
+By default, you will get the Gruber and Maruku dialects included when you run
+`grunt all`. However, you can create a custom build using the following syntax
+if you don't want to include Maruku support.
+
+    $ grunt "custom:-dialects/maruku"
+
 ## Running tests
 
 To run the tests under node you will need tap installed (it's listed as a

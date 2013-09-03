@@ -1,4 +1,4 @@
-var markdown = require("../lib/markdown");
+var markdown = require("../src/markdown");
 
 function test_dialect( dialect, features ) {
   var fs = require("fs"),

@@ -19,7 +19,7 @@ module.exports = function(grunt) {
     },
 
     jshint: {
-      files: ['Gruntfile.js', 'lib/**/*.js', 'test/**/*.js'],
+      files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
       options: {
         "browser": false,
         "maxerr": 100,
@@ -30,6 +30,7 @@ module.exports = function(grunt) {
         "eqnull": true,
         "forin": false,
         "globals": {
+          "define": true,
           "print": true,
           "uneval": true,
           "window": true
@@ -53,11 +54,40 @@ module.exports = function(grunt) {
         "unused": false,
         ignores: ['.git', 'node_modules']
       }
+    },
+
+    build: {
+      web: {
+        dest: "dist/markdown.js",
+        minimum: ["parser"],
+        removeWith: ['dialects/gruber'],
+        startFile: "inc/header.js",
+        endFile: "inc/footer-web.js"
+      },
+      node: {
+        dest: "lib/markdown.js",
+        minimum: ["parser"],
+        removeWith: ['dialects/gruber'],
+        startFile: "inc/header.js",
+        endFile: "inc/footer-node.js"
+      }
+    },
+
+    uglify: {
+      my_target: {
+        files: {
+          'dist/markdown.min.js': ['dist/markdown.js']
+        }
+      }
     }
+
   });
 
-  grunt.registerTask('default', ['test']);
+  grunt.registerTask('all', ['test', 'build', 'uglify']);
+  grunt.registerTask('default', ['all']);
   grunt.registerTask('test', 'Runs all tests and linting', ['node_tap', 'jshint']);
   grunt.loadNpmTasks('grunt-node-tap');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadTasks("inc/tasks");
 };

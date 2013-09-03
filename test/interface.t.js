@@ -1,4 +1,4 @@
-var markdown = require("../lib/markdown"),
+var markdown = require("../src/markdown"),
     test = require("tap").test;
 
 function clone_array( input ) {

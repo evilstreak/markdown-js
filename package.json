@@ -44,50 +44,16 @@
     "nopt": "~2.1.1"
   },
   "devDependencies": {
-    "tap": "~0.3.3",
-    "jshint": "~2.1.9",
     "grunt": "~0.4.1",
     "grunt-cli": "~0.1.9",
+    "grunt-contrib-jshint": "~0.6.4",
     "grunt-node-tap": "~0.1.44",
-    "grunt-contrib-jshint": "~0.6.4"
+    "tap": "~0.3.3"
   },
   "scripts": {
     "test": "grunt test",
     "tap": "grunt node_tap",
     "lint": "grunt jshint"
-  },
-  "jshintConfig": {
-    "browser": false,
-    "maxerr": 100,
-    "node": true,
-    "camelcase": false,
-    "curly": false,
-    "eqeqeq": true,
-    "eqnull": true,
-    "forin": false,
-    "globals": "We also support browser, so define a subset of those globals we use",
-    "globals": {
-      "print": true,
-      "uneval": true,
-      "window": true
-    },
-    "immed": true,
-    "latedef": true,
-    "laxbreak": true,
-    "laxcomma": true,
-    "lastsemic": true,
-    "loopfunc": true,
-    "noarg": true,
-    "newcap": true,
-    "plusplus": false,
-    "quotmark": "true",
-    "regexp": true,
-    "shadow": true,
-    "strict": false,
-    "sub": true,
-    "trailing": true,
-    "undef": true,
-    "unused": false
   },
   "engines": {
     "node": ">=0.6.0"

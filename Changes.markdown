@@ -4,7 +4,10 @@
 
 - Fix content tight between two hr's disappearing (#106)
 - Fix (yet more! gah) global variable leaks #99
-- Fix JSHint warnings #65 - Thanks XhmikosR!
+- Use JSHint ot validate code style and fix numerous warnings it flagged up
+  (#65) Thanks XhmikosR!
+- Use grunt to build tailored versions including allowing customizing of what
+  dialects are included (#113 - Robin Ward)
 
 ## v0.5.0 - 2013-07-26
 

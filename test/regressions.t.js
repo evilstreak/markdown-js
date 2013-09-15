@@ -1,6 +1,5 @@
-var markdown = require("../lib/markdown"),
+var Markdown = require("../src/markdown"),
     tap = require("tap"),
-    Markdown = markdown.Markdown,
     mk_block = Markdown.mk_block;
 
 

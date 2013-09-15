@@ -35,6 +35,13 @@ Optionally, install `md2html` into your path
 
     npm install -g markdown
 
+### In the browser
+
+If you want to use from the browser go to the [releases page on GitHub] and
+download the version you want (minified or not).
+
+[releases]: https://github.com/evilstreak/markdown-js/releases
+
 ## Usage
 
 ### Node
@@ -161,11 +168,11 @@ We use [Grunt](http://gruntjs.com/) to build and run markdown-js's tests.
 Make sure you run `npm install` to install the developer dependencies for
 the project, then you can:
 
-    $ grunt test
+    $ npm test
 
 To run our test suite. If you'd like to build markdown-js, you can run:
 
-    $ grunt all
+    $ ./node_modules/.bin/grunt all
 
 This command will run all the tests, then output a concatenated markdown.js
 and markdown.min.js in the `dist/` directory for use in a browser application.
@@ -176,7 +183,7 @@ By default, you will get the Gruber and Maruku dialects included when you run
 `grunt all`. However, you can create a custom build using the following syntax
 if you don't want to include Maruku support.
 
-    $ grunt "custom:-dialects/maruku"
+    $ ./node_modules/.bin/grunt "custom:-dialects/maruku"
 
 ## Running tests
 

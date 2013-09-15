@@ -470,10 +470,9 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
         // everything's a para!
         return [ ["para"].concat( this.processInline( block ) ) ];
       }
-    }
-  };
+    },
 
-  Gruber.inline = {
+    inline: {
 
       __oneElement__: function oneElement( text, patterns_or_re, previous_nodes ) {
         var m,
@@ -704,6 +703,7 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
         return [ 3, [ "linebreak" ] ];
       }
 
+    }
   };
 
   // Meta Helper/generator method for em and strong handling

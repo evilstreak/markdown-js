@@ -142,9 +142,9 @@ define(['./markdown_helpers', './core'], function(MarkdownHelpers, Markdown) {
     var args = Array.prototype.slice.call( arguments);
     args.unshift(this.debug_indent);
     if ( typeof print !== "undefined" )
-        print.apply( print, args );
+      print.apply( print, args );
     if ( typeof console !== "undefined" && typeof console.log !== "undefined" )
-        console.log.apply( null, args );
+      console.log.apply( null, args );
   };
 
   Markdown.prototype.loop_re_over_block = function( re, block, cb ) {

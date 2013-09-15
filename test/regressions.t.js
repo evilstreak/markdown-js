@@ -503,6 +503,7 @@ test( "inline_link", function(t, md) {
                                   [ [ "link_ref", { ref: "id", original: "[text] [id]" }, "text" ] ],
                                   "ref link II" );
 
+  /* jshint indent: false */
   t.equivalent( md.processInline( "[to put it another way][SECTION 1] or even [link this](#SECTION-1)" ),
                                   [
                                     [ "link_ref",
@@ -516,6 +517,7 @@ test( "inline_link", function(t, md) {
                                     ]
                                   ],
                                   "ref link II" );
+  /* jshint indent: 2 */
 });
 
 test( "inline_autolink", function(t, md) {

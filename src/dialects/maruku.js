@@ -39,27 +39,27 @@ define(['../markdown_helpers', './dialect_helpers', './gruber', '../parser'], fu
     while ( meta.length ) {
       var letter = meta.shift();
       switch ( letter ) {
-        case " " :
-          // if we're in a quoted section, keep it
-          if ( in_quotes )
-            parts[ parts.length - 1 ] += letter;
-          // otherwise make a new part
-          else
-            parts.push( "" );
-          break;
-        case "'" :
-        case '"' :
-          // reverse the quotes and move straight on
-          in_quotes = !in_quotes;
-          break;
-        case "\\" :
-          // shift off the next letter to be used straight away.
-          // it was escaped so we'll keep it whatever it is
-          letter = meta.shift();
-          /* falls through */
-        default :
+      case " " :
+        // if we're in a quoted section, keep it
+        if ( in_quotes )
           parts[ parts.length - 1 ] += letter;
-          break;
+        // otherwise make a new part
+        else
+          parts.push( "" );
+        break;
+      case "'" :
+      case '"' :
+        // reverse the quotes and move straight on
+        in_quotes = !in_quotes;
+        break;
+      case "\\" :
+        // shift off the next letter to be used straight away.
+        // it was escaped so we'll keep it whatever it is
+        letter = meta.shift();
+        /* falls through */
+      default :
+        parts[ parts.length - 1 ] += letter;
+        break;
       }
     }
 

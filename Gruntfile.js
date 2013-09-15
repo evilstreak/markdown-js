@@ -36,6 +36,7 @@ module.exports = function(grunt) {
           "window": true
         },
         "immed": true,
+        "indent": 2,
         "latedef": true,
         "laxbreak": true,
         "laxcomma": true,

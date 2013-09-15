@@ -1,4 +1,4 @@
-if (typeof define !== 'function') { var define = require('amdefine')(module) }
+if (typeof define !== "function") { var define = require("amdefine")(module) }
 
 define([], function() {
 
@@ -6,7 +6,7 @@ define([], function() {
    *  class Markdown
    *
    *  Markdown processing in Javascript done right. We have very particular views
-   *  on what constitutes 'right' which include:
+   *  on what constitutes "right" which include:
    *
    *  - produces well-formed HTML (this means that em and strong nesting is
    *    important)

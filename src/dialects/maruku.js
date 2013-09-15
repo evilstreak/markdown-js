@@ -1,5 +1,5 @@
-if (typeof define !== 'function') { var define = require('amdefine')(module) }
-define(['../markdown_helpers', './dialect_helpers', './gruber', '../parser'], function (MarkdownHelpers, DialectHelpers, Gruber, Markdown) {
+if (typeof define !== "function") { var define = require("amdefine")(module) }
+define(["../markdown_helpers", "./dialect_helpers", "./gruber", "../parser"], function (MarkdownHelpers, DialectHelpers, Gruber, Markdown) {
 
   var Maruku = DialectHelpers.subclassDialect( Gruber ),
       extract_attr = MarkdownHelpers.extract_attr,
@@ -185,11 +185,11 @@ define(['../markdown_helpers', './dialect_helpers', './gruber', '../parser'], fu
   Maruku.block.table = function table ( block ) {
 
     var _split_on_unescaped = function( s, ch ) {
-      ch = ch || '\\s';
+      ch = ch || "\\s";
       if ( ch.match(/^[\\|\[\]{}?*.+^$]$/) )
-        ch = '\\' + ch;
+        ch = "\\" + ch;
       var res = [ ],
-          r = new RegExp('^((?:\\\\.|[^\\\\' + ch + '])*)' + ch + '(.*)'),
+          r = new RegExp("^((?:\\\\.|[^\\\\" + ch + "])*)" + ch + "(.*)"),
           m;
       while ( ( m = s.match( r ) ) ) {
         res.push( m[1] );
@@ -207,7 +207,7 @@ define(['../markdown_helpers', './dialect_helpers', './gruber', '../parser'], fu
     if ( ( m = block.match( leading_pipe ) ) ) {
       // remove leading pipes in contents
       // (header and horizontal rule already have the leading pipe left out)
-      m[3] = m[3].replace(/^\s*\|/gm, '');
+      m[3] = m[3].replace(/^\s*\|/gm, "");
     } else if ( ! ( m = block.match( no_leading_pipe ) ) ) {
       return undefined;
     }
@@ -216,7 +216,7 @@ define(['../markdown_helpers', './dialect_helpers', './gruber', '../parser'], fu
 
     // remove trailing pipes, then split on pipes
     // (no escaped pipes are allowed in horizontal rule)
-    m[2] = m[2].replace(/\|\s*$/, '').split('|');
+    m[2] = m[2].replace(/\|\s*$/, "").split("|");
 
     // process alignment
     var html_attrs = [ ];
@@ -232,18 +232,18 @@ define(['../markdown_helpers', './dialect_helpers', './gruber', '../parser'], fu
     });
 
     // now for the header, avoid escaped pipes
-    m[1] = _split_on_unescaped(m[1].replace(/\|\s*$/, ''), '|');
+    m[1] = _split_on_unescaped(m[1].replace(/\|\s*$/, ""), "|");
     for (i = 0; i < m[1].length; i++) {
-      table[1][1].push(['th', html_attrs[i] || {}].concat(
+      table[1][1].push(["th", html_attrs[i] || {}].concat(
         this.processInline(m[1][i].trim())));
     }
 
     // now for body contents
-    forEach (m[3].replace(/\|\s*$/mg, '').split('\n'), function (row) {
-      var html_row = ['tr'];
-      row = _split_on_unescaped(row, '|');
+    forEach (m[3].replace(/\|\s*$/mg, "").split("\n"), function (row) {
+      var html_row = ["tr"];
+      row = _split_on_unescaped(row, "|");
       for (i = 0; i < row.length; i++)
-        html_row.push(['td', html_attrs[i] || {}].concat(this.processInline(row[i].trim())));
+        html_row.push(["td", html_attrs[i] || {}].concat(this.processInline(row[i].trim())));
       table[2].push(html_row);
     }, this);
 

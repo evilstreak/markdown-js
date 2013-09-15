@@ -1,6 +1,6 @@
-if (typeof define !== 'function') { var define = require('amdefine')(module) }
+if (typeof define !== "function") { var define = require("amdefine")(module) }
 
-define(['./markdown_helpers', './core'], function(MarkdownHelpers, Markdown) {
+define(["./markdown_helpers", "./core"], function(MarkdownHelpers, Markdown) {
 
   // Imported functions
   var mk_block = Markdown.mk_block = MarkdownHelpers.mk_block,

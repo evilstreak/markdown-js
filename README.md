@@ -1,5 +1,5 @@
 [![NPM version](https://badge.fury.io/js/markdown.png)](http://badge.fury.io/js/markdown)
-[![Build Status](https://secure.travis-ci.org/evilstreak/markdown-js.png)](http://travis-ci.org/evilstreak/markdown-js)
+[![Build Status](https://secure.travis-ci.org/evilstreak/markdown-js.png)](https://travis-ci.org/evilstreak/markdown-js)
 [![Dependency Status](https://gemnasium.com/evilstreak/markdown-js.png)](https://gemnasium.com/evilstreak/markdown-js)
 
 # markdown-js
@@ -12,13 +12,10 @@ process should actually look, which include:
 
   * producing well-formed HTML. This means that `em` and `strong` nesting
     is important, as is the ability to output as both HTML and XHTML
-
   * having an intermediate representation to allow processing of parsed
     data (we in fact have two, both [JsonML]: a markdown tree and an HTML tree)
-
   * being easily extensible to add new dialects without having to
     rewrite the entire parsing mechanics
-
   * having a good test suite. The only test suites we could find tested
     massive blocks of input, and passing depended on outputting the HTML
     with exactly the same whitespace as the original implementation
@@ -37,7 +34,7 @@ Optionally, install `md2html` into your path
 
 ### In the browser
 
-If you want to use from the browser go to the [releases page on GitHub] and
+If you want to use from the browser go to the [releases] page on GitHub and
 download the version you want (minified or not).
 
 [releases]: https://github.com/evilstreak/markdown-js/releases
@@ -148,11 +145,9 @@ HTML has three steps:
  1. Parse the markdown into a JsonML tree. Any references found in the
     parsing are stored in the attribute hash of the root node under the
     key `references`.
-
  2. Convert the markdown tree into an HTML tree. Rename any nodes that
     need it (`bulletlist` to `ul` for example) and lookup any references
     used by links or images. Remove the references attribute once done.
-
  3. Stringify the HTML tree being careful not to wreck whitespace where
     whitespace is important (surrounding inline elements for example).
 
@@ -195,7 +190,9 @@ To run the tests under node you will need tap installed (it's listed as a
 ## Contributing
 
 Do the usual github fork and pull request dance. Add yourself to the
-contributors section of [package.json](/package.json) too if you want to.
+contributors section of [package.json] too if you want to.
+
+[package.json]: https://github.com/evilstreak/markdown-js/blob/master/package.json
 
 ## License
 

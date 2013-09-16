@@ -247,10 +247,12 @@ define(['./core', './markdown_helpers'], function(Markdown, MarkdownHelpers) {
     // deal with the attribute node, if it exists
     if ( attrs ) {
       // if there are keys, skip over it
+      /* jshint -W098 */
       for ( var key in jsonml[ 1 ] ) {
         i = 2;
         break;
       }
+      /* jshint +W098 */
       // if there aren't, remove it
       if ( i === 1 )
         jsonml.splice( i, 1 );

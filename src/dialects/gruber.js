@@ -429,7 +429,6 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
 
         // Strip off the leading "> " and re-process as a block.
         var input = block.replace( /^> ?/gm, "" ),
-            old_tree = this.tree,
             processedBlock = this.toTree( input, [ "blockquote" ] ),
             attr = extract_attr( processedBlock );
 
@@ -766,7 +765,6 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
 
         //D:this.debug("processInline from", tag + ": ", uneval( res ) );
 
-        var check = this[state_slot].shift();
         if ( last instanceof CloseTag ) {
           res.pop();
           // We matched! Huzzah.

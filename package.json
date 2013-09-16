@@ -37,8 +37,8 @@
   "files": [
     "bin",
     "lib",
-    "Changes.markdown",
-    "README.markdown"
+    "Changes.md",
+    "README.md"
   ],
   "dependencies": {
     "nopt": "~2.1.1"

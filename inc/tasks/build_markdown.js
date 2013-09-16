@@ -39,8 +39,9 @@ module.exports = function( grunt ) {
 
     } else {
 
+
       contents = contents
-        .replace( /\s*return\s+[^\}]+(\}\);[^\w\}]*)$/, "$1" );
+        .replace( /^\s*return\s+[^\}]+(\}\);[^\w\}]*)$/m, "$1" );
 
       // Remove define wrappers, closure ends, and empty declarations
       contents = contents
@@ -185,6 +186,10 @@ module.exports = function( grunt ) {
      */
     config.out = function( compiled ) {
       compiled = compiled
+        // Remove any lone semi colons
+        .replace(/^;$/gm, '')
+        // Remove extra line breaks
+        .replace(/\n\n+/gm, "\n\n")
         // Embed Version
         .replace( /@VERSION/g, version )
         // Embed Date

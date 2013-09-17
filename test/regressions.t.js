@@ -428,6 +428,7 @@ test( "inline_br", function(t, md) {
 
 test( "inline_escape", function(t, md) {
   t.equivalent( md.processInline("\\bar"), [ "\\bar" ], "invalid escape" );
+  t.equivalent( md.processInline("\\>"), [ ">" ], "escapes >" );
   t.equivalent( md.processInline("\\*foo*"), [ "*foo*" ], "escaped em" );
 });
 

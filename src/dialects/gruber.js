@@ -529,7 +529,7 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
       "]": function () {},
       "}": function () {},
 
-      __escape__ : /^\\[\\`\*_{}\[\]()#\+.!\-]/,
+      __escape__ : /^\\[\\`\*_{}<>\[\]()#\+.!\-]/,
 
       "\\": function escaped( text ) {
         // [ length of input processed, node/children to add... ]

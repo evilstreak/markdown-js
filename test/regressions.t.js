@@ -476,6 +476,10 @@ test( "inline_img", function(t, md) {
   t.equivalent( md.processInline( "![alt] [id]" ),
                                   [ [ "img_ref", { ref: "id", alt: "alt", original: "![alt] [id]" } ] ],
                                   "ref img II" );
+
+  t.equivalent( md.processInline( "![contains parens](http://example.com/(parens).jpg)" ),
+                                  [ ["img", { href: "http://example.com/(parens).jpg", alt: "contains parens"} ] ],
+                                  "images with parentheses in the URL" );
 });
 
 test( "inline_link", function(t, md) {

@@ -428,7 +428,7 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
       },
 
       referenceDefn: function referenceDefn( block, next) {
-        var re = /^\s*\[(.*?)\]:\s*(\S+)(?:\s+(?:(['"])(.*?)\3|\((.*?)\)))?\n?/;
+        var re = /^\s*\[(.*?)\]:\s*(\S+)(?:\s+(?:(['"])(.*)\3|\((.*?)\)))?\n?/;
         // interesting matches are [ , ref_id, url, , title, title ]
 
         if ( !block.match(re) )

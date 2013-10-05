@@ -1,4 +1,5 @@
-var markdown = require("../src/markdown");
+var markdown = require("../src/markdown"),
+    tap = require("tap");
 
 function test_dialect( dialect, features ) {
   var fs = require("fs"),
@@ -80,3 +81,10 @@ dialects.Maruku.push( "meta", "definition_lists", "tables" );
 for ( var d in dialects ) {
   test_dialect( d, dialects[ d ] );
 }
+
+
+tap.test("src attribute order", function(t) {
+  var tree = markdown.toHTML("![photo](/images/photo.jpg)");
+  t.equivalent( tree, '<p><img src="/images/photo.jpg" alt="photo"/></p>' );
+  t.end();
+});

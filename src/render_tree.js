@@ -111,6 +111,11 @@ define(['./core', './markdown_helpers'], function(Markdown, MarkdownHelpers) {
       content.push( render_tree( jsonml.shift() ) );
 
     var tag_attrs = "";
+    if (typeof attributes.src !== 'undefined') {
+      tag_attrs += ' src="' + escapeHTML( attributes.src ) + '"';
+      delete attributes.src;
+    }
+
     for ( var a in attributes )
       tag_attrs += " " + a + '="' + escapeHTML( attributes[ a ] ) + '"';
 

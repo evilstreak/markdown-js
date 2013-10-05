@@ -25,7 +25,7 @@ define(['./core', './markdown_helpers'], function(Markdown, MarkdownHelpers) {
     var content = [];
 
     if ( options.root ) {
-      content.push( render_tree( jsonml ) );
+      content.push( render_tree( jsonml, options ) );
     }
     else {
       jsonml.shift(); // get rid of the tag
@@ -33,7 +33,7 @@ define(['./core', './markdown_helpers'], function(Markdown, MarkdownHelpers) {
         jsonml.shift(); // get rid of the attributes
 
       while ( jsonml.length )
-        content.push( render_tree( jsonml.shift() ) );
+        content.push( render_tree( jsonml.shift(), options ) );
     }
 
     return content.join( "\n\n" );
@@ -83,7 +83,7 @@ define(['./core', './markdown_helpers'], function(Markdown, MarkdownHelpers) {
   Markdown.toHTML = function toHTML( source , dialect , options ) {
     var input = this.toHTMLTree( source , dialect , options );
 
-    return this.renderJsonML( input );
+    return this.renderJsonML( input, options );
   };
 
 
@@ -95,10 +95,15 @@ define(['./core', './markdown_helpers'], function(Markdown, MarkdownHelpers) {
                .replace( /'/g, "&#39;" );
   }
 
-  function render_tree( jsonml ) {
+  function K(input) { return input; }
+
+  function render_tree( jsonml, options ) {
     // basic case
+
+    var sanitize = (options.sanitize !== false) ? escapeHTML : K;
+
     if ( typeof jsonml === "string" )
-      return escapeHTML( jsonml );
+      return sanitize( jsonml );
 
     var tag = jsonml.shift(),
         attributes = {},
@@ -108,11 +113,16 @@ define(['./core', './markdown_helpers'], function(Markdown, MarkdownHelpers) {
       attributes = jsonml.shift();
 
     while ( jsonml.length )
-      content.push( render_tree( jsonml.shift() ) );
+      content.push( render_tree( jsonml.shift(), options ) );
 
     var tag_attrs = "";
+    if (typeof attributes.src !== 'undefined') {
+      tag_attrs += ' src="' + sanitize( attributes.src ) + '"';
+      delete attributes.src;
+    }
+
     for ( var a in attributes )
-      tag_attrs += " " + a + '="' + escapeHTML( attributes[ a ] ) + '"';
+      tag_attrs += " " + a + '="' + sanitize( attributes[ a ] ) + '"';
 
     // be careful about adding whitespace here for inline elements
     if ( tag === "img" || tag === "br" || tag === "hr" )

@@ -593,7 +593,7 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
         // The parens have to be balanced
         var m = text.match( /^\s*\([ \t]*([^"']*)(?:[ \t]+(["'])(.*?)\2)?[ \t]*\)/ );
         if ( m ) {
-          var url = m[1];
+          var url = m[1].replace(/\s+$/, '');
           consumed += m[0].length;
 
           if ( url && url[0] === "<" && url[url.length-1] === ">" )

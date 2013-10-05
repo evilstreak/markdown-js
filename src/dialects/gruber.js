@@ -534,7 +534,11 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
 
         // ![Alt text](/path/to/img.jpg "Optional title")
         //      1          2            3       4         <--- captures
-        var m = text.match( /^!\[(.*?)\][ \t]*\([ \t]*([^")]*?)(?:[ \t]+(["'])(.*?)\3)?[ \t]*\)/ );
+        //
+        // First attempt to use a strong URL regexp to catch things like parentheses. If it misses, use the
+        // old one.
+        var m = text.match( /^!\[(.*?)][ \t]*\(((?:https?:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.])(?:[^\s()<>]+|\([^\s()<>]+\))+(?:\([^\s()<>]+\)|[^`!()\[\]{};:'".,<>?«»“”‘’\s]))\)([ \t])*(["'].*["'])?/ ) ||
+                text.match( /^!\[(.*?)\][ \t]*\([ \t]*([^")]*?)(?:[ \t]+(["'])(.*?)\3)?[ \t]*\)/ );
 
         if ( m ) {
           if ( m[2] && m[2][0] === "<" && m[2][m[2].length-1] === ">" )

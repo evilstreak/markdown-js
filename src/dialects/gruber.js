@@ -655,7 +655,8 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
         // Only if id is plain (no formatting.)
         if ( children.length === 1 && typeof children[0] === "string" ) {
 
-          attrs = { ref: children[0].toLowerCase(),  original: orig.substr( 0, consumed ) };
+          var normalized = children[0].toLowerCase().replace(/\s+/, ' ');
+          attrs = { ref: normalized,  original: orig.substr( 0, consumed ) };
           link = [ "link_ref", attrs, children[0] ];
           return [ consumed, link ];
         }

@@ -492,6 +492,14 @@ test( "inline_link", function(t, md) {
                                   [ [ "link", { href: "url", title: "title" }, "text" ] ],
                                   "inline link II" );
 
+  t.equivalent( md.processInline( "[text](url  'title')" ),
+                                  [ [ "link", { href: "url", title: "title" }, "text" ] ],
+                                  "inline link II" );
+
+  t.equivalent( md.processInline( "[text](url\t\t'title')" ),
+                                  [ [ "link", { href: "url", title: "title" }, "text" ] ],
+                                  "inline link II" );
+
   t.equivalent( md.processInline( "[text](url 'tit'le') after')" ),
                                   [ [ "link", { href: "url", title: "tit'le" }, "text" ], " after')" ],
                                   "inline link III" );

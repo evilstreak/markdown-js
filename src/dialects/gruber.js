@@ -381,6 +381,15 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
       })(),
 
       blockquote: function blockquote( block, next ) {
+
+        // Handle quotes that have spaces before them
+        var m = /(^|\n) +(\>[\s\S]*)/.exec(block);
+        if (m && m[2] && m[2].length) {
+          var blockContents = block.replace(/(^|\n) +\>/, "$1>");
+          next.unshift(blockContents);
+          return [];
+        }
+
         if ( !block.match( /^>/m ) )
           return undefined;
 

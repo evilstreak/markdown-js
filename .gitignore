@@ -1,6 +1,6 @@
 .*.swp
 .DS_Store
+/dist
+/lib/markdown.js
 /node_modules/
 /npm-debug.log
-dist
-lib/markdown.js

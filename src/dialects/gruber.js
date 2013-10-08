@@ -208,6 +208,7 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
 
           if ( last_li[1] instanceof Array && last_li[1][0] === "para" )
             return;
+
           if ( i + 1 === stack.length ) {
             // Last stack frame
             // Keep the same array, but replace the contents
@@ -367,8 +368,10 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
                 break;
               }
 
-              // Make sure all listitems up the stack are paragraphs
-              forEach( stack, paragraphify, this);
+              // Add paragraphs if the indentation level stays the same
+              if (stack[stack.length-1].indent === block.match(/^\s*/)[0]) {
+                forEach( stack, paragraphify, this);
+              }
 
               loose = true;
               continue loose_search;

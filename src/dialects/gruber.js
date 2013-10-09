@@ -465,6 +465,12 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
       },
 
       para: function para( block ) {
+
+        // If the block starts with a HTML tag, don't wrap it in a para
+        if (block.match(/^<[^>]+\>/)) {
+          return this.processInline(block);
+        }
+
         // everything's a para!
         return [ ["para"].concat( this.processInline( block ) ) ];
       }

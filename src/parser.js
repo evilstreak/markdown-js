@@ -88,10 +88,11 @@ define(['./markdown_helpers', './core'], function(MarkdownHelpers, Markdown) {
       //D:this.debug( "Testing", ord[i] );
       var res = cbs[ ord[i] ].call( this, block, next );
       if ( res ) {
-        //D:this.debug("  matched");
-        if ( !isArray(res) || ( res.length > 0 && !( isArray(res[0]) ) ) )
-          this.debug(ord[i], "didn't return a proper array");
-        //D:this.debug( "" );
+
+        if ( !isArray(res) || ( res.length > 0 && !( isArray(res[0]) ) && ( typeof res[0] !== "string")) ) {
+          this.debug(ord[i], "didn't return proper JsonML");
+        }
+
         return res;
       }
     }

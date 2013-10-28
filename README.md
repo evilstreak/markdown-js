@@ -93,11 +93,11 @@ echo 'Hello *World*!' | md2html
 ### More options
 
 If you want more control check out the documentation in
-[lib/markdown.js] which details all the methods and parameters
+[the .js files under src/][src_folder] which details all the methods and parameters
 available (including examples!). One day we'll get the docs generated
 and hosted somewhere for nicer browsing.
 
-[lib/markdown.js]: https://github.com/evilstreak/markdown-js/blob/master/lib/markdown.js
+[src_folder]: https://github.com/evilstreak/markdown-js/blob/master/src
 
 Meanwhile, here's an example of using the multi-step processing to
 make wiki-style linking work by filling in missing link references:

@@ -361,7 +361,7 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
               block = next.shift();
 
               // Check for an HR following a list: features/lists/hr_abutting
-              var hr = this.dialect.block.horizRule( block, next );
+              var hr = this.dialect.block.horizRule( this, block, next);
 
               if ( hr ) {
                 ret.push.apply(ret, hr);

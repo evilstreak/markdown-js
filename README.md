@@ -1,6 +1,7 @@
 [![NPM version](https://badge.fury.io/js/markdown.png)](http://badge.fury.io/js/markdown)
 [![Build Status](https://secure.travis-ci.org/evilstreak/markdown-js.png)](https://travis-ci.org/evilstreak/markdown-js)
-[![Dependency Status](https://gemnasium.com/evilstreak/markdown-js.png)](https://gemnasium.com/evilstreak/markdown-js)
+[![Dependency Status](https://david-dm.org/evilstreak/markdown-js.png?theme=shields.io)](https://david-dm.org/evilstreak/markdown-js)
+[![devDependency Status](https://david-dm.org/evilstreak/markdown-js/dev-status.png?theme=shields.io)](https://david-dm.org/evilstreak/markdown-js#info=devDependencies)
 
 # markdown-js
 

@@ -31,7 +31,9 @@ define(['./markdown_helpers', './core'], function(MarkdownHelpers, Markdown) {
 
   // Internal - split source into rough blocks
   Markdown.prototype.split_blocks = function splitBlocks( input ) {
-    input = input.replace(/(\r\n|\n|\r)/g, "\n");
+    // Normalize linebreaks to \n.
+    input = input.replace(/\r\n?/g, "\n");
+    // Match until the end of the string, a newline followed by #, or two or more newlines.
     // [\s\S] matches _anything_ (newline or space)
     // [^] is equivalent but doesn't work in IEs.
     var re = /([\s\S]+?)($|\n#|\n(?:\s*\n|$)+)/g,

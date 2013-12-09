@@ -594,8 +594,10 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
         var res = inline_until_char.call( this, text.substr(1), "]" );
 
         // No closing ']' found. Just consume the [
-        if ( !res )
-          return [ 1, "[" ];
+        if ( !res[1] ) {
+          var size = res[0] + 1;
+          return [ size, text.charAt(0) + res[2].join('') ];
+        }
 
         var consumed = 1 + res[ 0 ],
             children = res[ 1 ],

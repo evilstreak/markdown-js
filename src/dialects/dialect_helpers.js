@@ -15,7 +15,7 @@ define([], function (w) {
 
       if ( consumed >= text.length ) {
         // No closing char found. Abort.
-        return null;
+        return [consumed, null, nodes];
       }
 
       var res = this.dialect.inline.__oneElement__.call(this, text.substr( consumed ) );

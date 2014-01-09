@@ -1,0 +1,14 @@
+["html",
+  ["p",
+    ["a",
+      { "href" : "https://github.com/languages" },
+      "github.com/languages"
+    ],
+    " now redirects to ",
+    ["a",
+      { "href" : "https://github.com/trending",
+        "title" : "Trending languages" },
+      "github.com/trending"
+    ]
+  ]
+]

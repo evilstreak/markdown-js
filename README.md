@@ -174,11 +174,14 @@ and markdown.min.js in the `dist/` directory for use in a browser application.
 
 ## Building a custom markdown-js
 
-By default, you will get the Gruber and Maruku dialects included when you run
-`grunt all`. However, you can create a custom build using the following syntax
-if you don't want to include Maruku support.
+By default, you will get the [Gruber] and [Maruku] dialects included when you
+run `grunt all`. However, you can create a custom build using the following
+syntax if you don't want to include Maruku support.
 
     $ ./node_modules/.bin/grunt "custom:-dialects/maruku"
+
+[Gruber]: http://daringfireball.net/projects/markdown/syntax
+[Maruku]: http://maruku.rubyforge.org/maruku.html
 
 ## Running tests
 

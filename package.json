@@ -17,6 +17,10 @@
     "XhmikosR <xhmikosr@users.sourceforge.net>",
     "Robin Ward <robin.ward@gmail.com> (http://eviltrout.com)"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/evilstreak/markdown-js.git"
+  },
   "bugs": {
     "url": "https://github.com/evilstreak/markdown-js/issues"
   },
@@ -26,10 +30,6 @@
       "url": "http://www.opensource.org/licenses/mit-license.php"
     }
   ],
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/evilstreak/markdown-js.git"
-  },
   "main": "./lib/index.js",
   "bin": {
     "md2html": "./bin/md2html.js"
@@ -41,23 +41,23 @@
     "README.md"
   ],
   "dependencies": {
-    "nopt": "~2.1.1"
+    "nopt": "~2.1.2"
   },
   "devDependencies": {
-    "amdefine": "~0.0.8",
-    "grunt": "~0.4.1",
-    "grunt-cli": "~0.1.9",
-    "grunt-contrib-jshint": "~0.6.4",
-    "grunt-contrib-uglify": "~0.2.4",
-    "grunt-node-tap": "~0.1.45",
-    "requirejs": "~2.1.8",
-    "tap": "~0.3.3"
+    "amdefine": "~0.1.0",
+    "grunt": "~0.4.2",
+    "grunt-cli": "~0.1.11",
+    "grunt-contrib-jshint": "~0.8.0",
+    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-node-tap": "~0.1.52",
+    "requirejs": "~2.1.9",
+    "tap": "~0.4.8"
   },
   "scripts": {
-    "test": "grunt test",
-    "tap": "grunt node_tap",
     "lint": "grunt jshint",
-    "prepublish": "grunt build"
+    "prepublish": "grunt build",
+    "tap": "grunt node_tap",
+    "test": "grunt test"
   },
   "engines": {
     "node": ">=0.8.0"

@@ -15,7 +15,7 @@
     }
   );
 
-  if (opts.help) {
+  if (opts.help || process.argv.length === 2) {
     var name = process.argv[1].split("/").pop();
     console.warn( require("util").format(
       "usage: %s [--dialect=DIALECT] FILE\n\nValid dialects are Gruber (the default) or Maruku",

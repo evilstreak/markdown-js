@@ -531,7 +531,7 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
         return out;
       },
 
-      // These characters are intersting elsewhere, so have rules for them so that
+      // These characters are interesting elsewhere, so have rules for them so that
       // chunks of plain text blocks don't include them
       "]": function () {},
       "}": function () {},
@@ -764,7 +764,7 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
         //D:this.debug("closing", md);
         this[state_slot].shift();
 
-        // "Consume" everything to go back to the recrusion in the else-block below
+        // "Consume" everything to go back to the recursion in the else-block below
         return[ text.length, new CloseTag(text.length-md.length) ];
       }
       else {

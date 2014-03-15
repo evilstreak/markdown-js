@@ -1,0 +1,8 @@
+["html",
+  ["p",
+    ["audio", {
+      "src": "path to audio.mp3",
+      "controls": "true"
+    } ]
+  ]
+]

@@ -65,6 +65,8 @@ dialects.Gruber = [
   "headers",
   "horizontal_rules",
   "images",
+  "audio",
+  "video",
   "linebreaks",
   "links",
   "lists"

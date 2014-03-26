@@ -1,0 +1,30 @@
+["html",
+  ["p",
+    "Emphasis can be as ",
+    ["strong",
+      "bold"
+    ],
+    "."
+  ],
+  ["p",
+    "Emphasis can be as ",
+    ["i",
+      "italics"
+    ],
+    "."
+  ],
+  ["p",
+    "Emphasis can be as ",
+		["ins",
+			"underline"
+		],
+    "."
+  ],
+  ["p",
+    "Emphasis can be as ",
+		["del",
+			"strikethrough"
+		],
+    "."
+  ]
+]

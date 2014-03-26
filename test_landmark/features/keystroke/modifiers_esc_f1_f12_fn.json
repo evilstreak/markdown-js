@@ -1,0 +1,72 @@
+["html",
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key esc"}, "Esc"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key esc"}, "Esc"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key esc"}, "Esc"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key esc"}, "Esc"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key esc"}, "Esc"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key function f1"}, "F1"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key function f9"}, "F9"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key function f10"}, "F10"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key function f12"}, "F12"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", "f0"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", "f13"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key function fn"}, "Fn"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key function fn"}, "Fn"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key function fn"}, "Fn"],
+    " to input."
+  ]
+]

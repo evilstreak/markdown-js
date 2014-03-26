@@ -1,0 +1,97 @@
+["html",
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key insert"}, "Insert"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key insert"}, "Insert"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key insert"}, "Insert"],
+    " to input."
+  ],
+
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key delete"}, "Delete"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key delete"}, "Delete"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key delete"}, "Delete"],
+    " to input."
+  ],
+
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key home"}, "Home"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key home"}, "Home"],
+    " to input."
+  ],
+
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key end"}, "End"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key end"}, "End"],
+    " to input."
+  ],
+
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key page-up"}, "Page Up"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key page-up"}, "Page Up"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key page-up"}, "Page Up"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key page-up"}, "Page Up"],
+    " to input."
+  ],
+
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key page-down"}, "Page Down"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key page-down"}, "Page Down"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key page-down"}, "Page Down"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key page-down"}, "Page Down"],
+    " to input."
+  ]
+]

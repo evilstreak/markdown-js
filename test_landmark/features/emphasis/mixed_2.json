@@ -1,0 +1,14 @@
+["html",
+  ["p","Emphasis can be as ",["strong",["i","[bold[italics]]"]],"."],
+  ["p","Emphasis can be as ",["strong",["ins","[bold[underline]]"]],"."],
+  ["p","Emphasis can be as ",["strong",["del","[bold[strikethrough]]"]],"."],
+  ["p","Emphasis can be as ",["i",["strong","[italics[bold]]"]],"."],
+  ["p","Emphasis can be as ",["i",["ins","[italics[underline]]"]],"."],
+  ["p","Emphasis can be as ",["i",["del","[italics[strikethrough]]"]],"."],
+  ["p","Emphasis can be as ",["ins",["strong","[underline[bold]]"]],"."],
+  ["p","Emphasis can be as ",["ins",["i","[underline[italics]]"]],"."],
+  ["p","Emphasis can be as ",["ins",["del","[underline[strikethrough]]"]],"."],
+  ["p","Emphasis can be as ",["del",["strong","[strikethrough[bold]]"]],"."],
+  ["p","Emphasis can be as ",["del",["i","[strikethrough[italics]]"]],"."],
+  ["p","Emphasis can be as ",["del",["ins","[strikethrough[underline]]"]],"."]
+]

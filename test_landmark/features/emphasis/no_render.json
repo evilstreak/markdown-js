@@ -1,0 +1,14 @@
+["html",
+  ["p",
+    "Keep original instead of bold: ****."
+  ],
+  ["p",
+    "Keep original instead of italics: ////."
+  ],
+  ["p",
+    "Keep original instead of underline: ____."
+  ],
+  ["p",
+    "Keep original instead of strikethrough: ~~~~."
+  ]
+]

@@ -1,0 +1,12 @@
+["html",
+  ["hr"],
+  ["p",
+    "layout: post",
+    ["br"],
+    "title: A title"
+  ],
+  ["hr"],
+  ["p",
+    "Pack my box with five dozen liquor jugs."
+  ]
+]

@@ -1,0 +1,121 @@
+["html",
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key print-screen"}, "Print Screen"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key print-screen"}, "Print Screen"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key print-screen"}, "Print Screen"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key print-screen"}, "Print Screen"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key print-screen"}, "Print Screen"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key print-screen"}, "Print Screen"],
+    " to input."
+  ],
+
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key sys-req"}, "Sys Req"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key sys-req"}, "Sys Req"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key sys-req"}, "Sys Req"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key sys-req"}, "Sys Req"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key sys-req"}, "Sys Req"],
+    " to input."
+  ],
+
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key scroll-lock"}, "Scroll Lock"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key scroll-lock"}, "Scroll Lock"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key scroll-lock"}, "Scroll Lock"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key scroll-lock"}, "Scroll Lock"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key scroll-lock"}, "Scroll Lock"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key scroll-lock"}, "Scroll Lock"],
+    " to input."
+  ],
+
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key pause-break"}, "Pause/Break"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key pause-break"}, "Pause/Break"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key pause-break"}, "Pause/Break"],
+    " to input."
+  ],
+
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key num-lock"}, "Num Lock"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key num-lock"}, "Num Lock"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key num-lock"}, "Num Lock"],
+    " to input."
+  ]
+]

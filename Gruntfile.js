@@ -13,13 +13,14 @@ module.exports = function(grunt) {
           outputTo: 'console'
         },
         files: {
-          'tests': ['./test/*.t.js']
+          'tests': ['./test/*.t.js'],
+          'landmark_tests': ['./test_landmark/*.t.js']
         }
       }
     },
 
     jshint: {
-      files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
+      files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js', 'test_landmark/**/*.js'],
       options: {
         "browser": false,
         "maxerr": 100,
@@ -74,6 +75,23 @@ module.exports = function(grunt) {
       }
     },
 
+    build_landmark: {
+      web: {
+        dest: "dist/landmark.js",
+        minimum: ["parser"],
+        removeWith: ['dialects/gruber'],
+        startFile: "inc/landmark-header.js",
+        endFile: "inc/landmark-footer-web.js"
+      },
+      node: {
+        dest: "lib/landmark.js",
+        minimum: ["parser"],
+        removeWith: ['dialects/gruber'],
+        startFile: "inc/landmark-header.js",
+        endFile: "inc/landmark-footer-node.js"
+      }
+    },
+
     uglify: {
       my_target: {
         options: {
@@ -83,14 +101,16 @@ module.exports = function(grunt) {
           report: "min"
         },
         files: {
-          'dist/markdown.min.js': ['dist/markdown.js']
+          'dist/markdown.min.js': ['dist/markdown.js'],
+          'dist/landmark.min.js': ['dist/landmark.js'],
+          'lib/landmark.min.js': ['lib/landmark.js']
         }
       }
     }
 
   });
 
-  grunt.registerTask('all', ['test', 'build', 'uglify']);
+  grunt.registerTask('all', ['test', 'build', 'build_landmark', 'uglify']);
   grunt.registerTask('default', ['all']);
   grunt.registerTask('test', 'Runs all tests and linting', ['node_tap', 'jshint']);
   grunt.loadNpmTasks('grunt-node-tap');

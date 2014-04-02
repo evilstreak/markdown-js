@@ -4,21 +4,12 @@
 
 # markdown-js
 
-Yet another markdown parser, this time for JavaScript. There's a few
-options that precede this project but they all treat markdown to HTML
-conversion as a single step process. You pass markdown in and get HTML
-out, end of story. We had some pretty particular views on how the
-process should actually look, which include:
+Yet another Markdown parser, this time for JavaScript. There's a few options that precede this project but they all treat markdown to HTML conversion as a single step process. You pass markdown in and get HTML out, end of story. We had some pretty particular views on how the process should actually look, which include:
 
-  * producing well-formed HTML. This means that `em` and `strong` nesting
-    is important, as is the ability to output as both HTML and XHTML
-  * having an intermediate representation to allow processing of parsed
-    data (we in fact have two, both [JsonML]: a markdown tree and an HTML tree)
-  * being easily extensible to add new dialects without having to
-    rewrite the entire parsing mechanics
-  * having a good test suite. The only test suites we could find tested
-    massive blocks of input, and passing depended on outputting the HTML
-    with exactly the same whitespace as the original implementation
+  * Producing well-formed HTML. This means that `em` and `strong` nesting is important, as is the ability to output as both HTML and XHTML.
+  * Having an intermediate representation to allow processing of parsed data (we in fact have two, both [JsonML]: a Markdown tree and an HTML tree).
+  * Being easily extensible to add new dialects without having to rewrite the entire parsing mechanics.
+  * Having a good test suite. The only test suites we could find tested massive blocks of input, and passing depended on outputting the HTML with exactly the same whitespace as the original implementation.
 
 [JsonML]: http://jsonml.org/ "JSON Markup Language"
 
@@ -34,8 +25,7 @@ Optionally, install `md2html` into your path
 
 ### In the browser
 
-If you want to use from the browser go to the [releases] page on GitHub and
-download the version you want (minified or not).
+If you want to use from the browser go to the [releases] page on GitHub and download the version you want (minified or not).
 
 [releases]: https://github.com/evilstreak/markdown-js/releases
 
@@ -43,7 +33,7 @@ download the version you want (minified or not).
 
 ### Node
 
-The simple way to use it with node is:
+The simple way to use it with Node is:
 
 ```js
 var markdown = require( "markdown" ).markdown;
@@ -77,10 +67,10 @@ It also works in a browser; here is a complete example:
 </html>
 ```
 
-### Command line
+### Command Line
 
 Assuming you've installed the `md2html` script (see Installation,
-above), you can convert markdown to html:
+above), you can convert Markdown to HTML:
 
 ```bash
 # read from a file
@@ -90,17 +80,13 @@ md2html /path/to/doc.md > /path/to/doc.html
 echo 'Hello *World*!' | md2html
 ```
 
-### More options
+### More Options
 
-If you want more control check out the documentation in
-[the .js files under src/][src_folder] which details all the methods and parameters
-available (including examples!). One day we'll get the docs generated
-and hosted somewhere for nicer browsing.
+If you want more control, check out the documentation in [the .js files under src/][src_folder] which details all the methods and parameters available (including examples!). One day we'll get the docs generated and hosted somewhere for nicer browsing.
 
 [src_folder]: https://github.com/evilstreak/markdown-js/blob/master/src
 
-Meanwhile, here's an example of using the multi-step processing to
-make wiki-style linking work by filling in missing link references:
+Meanwhile, here's an example of using the multi-step processing to make wiki-style linking work by filling in missing link references:
 
 ```js
 var md = require( "markdown" ).markdown,
@@ -139,29 +125,17 @@ console.log( html );
 
 ## Intermediate Representation
 
-Internally the process to convert a chunk of markdown into a chunk of
-HTML has three steps:
+Internally, the process to convert a chunk of markdown into a chunk of HTML has three steps:
 
- 1. Parse the markdown into a JsonML tree. Any references found in the
-    parsing are stored in the attribute hash of the root node under the
-    key `references`.
- 2. Convert the markdown tree into an HTML tree. Rename any nodes that
-    need it (`bulletlist` to `ul` for example) and lookup any references
-    used by links or images. Remove the references attribute once done.
- 3. Stringify the HTML tree being careful not to wreck whitespace where
-    whitespace is important (surrounding inline elements for example).
+ 1. Parse the Markdown into a JsonML tree. Any references found in the parsing are stored in the attribute hash of the root node under the key `references`.
+ 2. Convert the Markdown tree into an HTML tree. Rename any nodes that need it (`bulletlist` to `ul` for example) and lookup any references used by links or images. Remove the references attribute once done.
+ 3. Stringify the HTML tree being careful not to wreck whitespace where whitespace is important (surrounding inline elements for example).
 
-Each step of this process can be called individually if you need to do
-some processing or modification of the data at an intermediate stage.
-For example, you may want to grab a list of all URLs linked to in the
-document before rendering it to HTML which you could do by recursing
-through the HTML tree looking for `a` nodes.
+Each step of this process can be called individually if you need to do some processing or modification of the data at an intermediate stage. For example, you may want to grab a list of all URLs linked to in the document before rendering it to HTML which you could do by recursing through the HTML tree looking for `a` nodes.
 
 ## Building and Testing markdown-js
 
-We use [Grunt](http://gruntjs.com/) to build and run markdown-js's tests.
-Make sure you run `npm install` to install the developer dependencies for
-the project, then you can:
+We use [Grunt](http://gruntjs.com/) to build and run markdown-js's tests. Make sure you run `npm install` to install the developer dependencies for the project, then you can:
 
     $ npm test
 
@@ -169,31 +143,26 @@ To run our test suite. If you'd like to build markdown-js, you can run:
 
     $ ./node_modules/.bin/grunt all
 
-This command will run all the tests, then output a concatenated markdown.js
-and markdown.min.js in the `dist/` directory for use in a browser application.
+This command will run all the tests, then output a concatenated markdown.js and markdown.min.js in the `dist/` directory for use in a browser application.
 
 ## Building a custom markdown-js
 
-By default, you will get the [Gruber] and [Maruku] dialects included when you
-run `grunt all`. However, you can create a custom build using the following
-syntax if you don't want to include Maruku support.
+By default, you will get the [Gruber] and [Maruku] dialects included when you run `grunt all`. However, you can create a custom build using the following syntax if you don't want to include Maruku support.
 
     $ ./node_modules/.bin/grunt "custom:-dialects/maruku"
 
-[Gruber]: http://daringfireball.net/projects/markdown/syntax
-[Maruku]: http://maruku.rubyforge.org/maruku.html
+* [Gruber](http://daringfireball.net/projects/markdown/syntax)
+* [Maruku](http://maruku.rubyforge.org/maruku.html)
 
-## Running tests
+## Running Tests
 
-To run the tests under node you will need tap installed (it's listed as a
-`devDependencies` so `npm install` from the checkout should be enough), then do
+To run the tests under node you will need tap installed (it's listed as a `devDependencies` so `npm install` from the checkout should be enough), then do:
 
     $ npm test
 
 ## Contributing
 
-Do the usual github fork and pull request dance. Add yourself to the
-contributors section of [package.json] too if you want to.
+Do the usual GitHub fork and pull request dance. Add yourself to the contributors section of [package.json] too if you want to.
 
 [package.json]: https://github.com/evilstreak/markdown-js/blob/master/package.json
 
@@ -201,19 +170,8 @@ contributors section of [package.json] too if you want to.
 
 Released under the MIT license.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

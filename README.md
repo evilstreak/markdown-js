@@ -4,19 +4,19 @@
 
 # markdown-js
 
-Yet another markdown parser, this time for JavaScript. There's a few
-options that precede this project but they all treat markdown to HTML
-conversion as a single step process. You pass markdown in and get HTML
+Yet another Markdown parser, this time for JavaScript. There's a few
+options that precede this project but they all treat Markdown to HTML
+conversion as a single step process. You pass Markdown in and get HTML
 out, end of story. We had some pretty particular views on how the
 process should actually look, which include:
 
-  * producing well-formed HTML. This means that `em` and `strong` nesting
+  * Producing well-formed HTML. This means that `em` and `strong` nesting
     is important, as is the ability to output as both HTML and XHTML
-  * having an intermediate representation to allow processing of parsed
+  * Having an intermediate representation to allow processing of parsed
     data (we in fact have two, both [JsonML]: a markdown tree and an HTML tree)
-  * being easily extensible to add new dialects without having to
+  * Being easily extensible to add new dialects without having to
     rewrite the entire parsing mechanics
-  * having a good test suite. The only test suites we could find tested
+  * Having a good test suite. The only test suites we could find tested
     massive blocks of input, and passing depended on outputting the HTML
     with exactly the same whitespace as the original implementation
 
@@ -43,7 +43,7 @@ download the version you want (minified or not).
 
 ### Node
 
-The simple way to use it with node is:
+The simple way to use it with Node is:
 
 ```js
 var markdown = require( "markdown" ).markdown;
@@ -77,10 +77,10 @@ It also works in a browser; here is a complete example:
 </html>
 ```
 
-### Command line
+### Command Line
 
 Assuming you've installed the `md2html` script (see Installation,
-above), you can convert markdown to html:
+above), you can convert Markdown to HTML:
 
 ```bash
 # read from a file
@@ -90,7 +90,7 @@ md2html /path/to/doc.md > /path/to/doc.html
 echo 'Hello *World*!' | md2html
 ```
 
-### More options
+### More Options
 
 If you want more control check out the documentation in
 [the .js files under src/][src_folder] which details all the methods and parameters
@@ -139,13 +139,13 @@ console.log( html );
 
 ## Intermediate Representation
 
-Internally the process to convert a chunk of markdown into a chunk of
+Internally the process to convert a chunk of Markdown into a chunk of
 HTML has three steps:
 
- 1. Parse the markdown into a JsonML tree. Any references found in the
+ 1. Parse the Markdown into a JsonML tree. Any references found in the
     parsing are stored in the attribute hash of the root node under the
     key `references`.
- 2. Convert the markdown tree into an HTML tree. Rename any nodes that
+ 2. Convert the Markdown tree into an HTML tree. Rename any nodes that
     need it (`bulletlist` to `ul` for example) and lookup any references
     used by links or images. Remove the references attribute once done.
  3. Stringify the HTML tree being careful not to wreck whitespace where
@@ -183,16 +183,16 @@ syntax if you don't want to include Maruku support.
 [Gruber]: http://daringfireball.net/projects/markdown/syntax
 [Maruku]: http://maruku.rubyforge.org/maruku.html
 
-## Running tests
+## Running Tests
 
-To run the tests under node you will need tap installed (it's listed as a
+To run the tests under Node you will need tap installed (it's listed as a
 `devDependencies` so `npm install` from the checkout should be enough), then do
 
     $ npm test
 
 ## Contributing
 
-Do the usual github fork and pull request dance. Add yourself to the
+Do the usual GitHub fork and pull request dance. Add yourself to the
 contributors section of [package.json] too if you want to.
 
 [package.json]: https://github.com/evilstreak/markdown-js/blob/master/package.json

@@ -9,6 +9,15 @@
     ]
   ],
   ["hr"],
+  ["ul",
+    ["li",
+      "list before para"
+    ]
+  ],
+  ["p",
+    " para"
+  ],
+  ["hr"],
   ["blockquote",
     ["p",
       "blockquote"

@@ -609,8 +609,7 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
 
         // No closing ']' found. Just consume the [
         if ( !res[1] ) {
-          var size = res[0] + 1;
-          return [ size, text.charAt(0) + res[2].join('') ];
+          return [ res[0] + 1, text.charAt(0) ].concat(res[2]);
         }
 
         var consumed = 1 + res[ 0 ],

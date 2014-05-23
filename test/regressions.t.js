@@ -386,11 +386,11 @@ test( "blockquote", function(t, md) {
     "blockquote with interesting content");
 
   t.equivalent(
-    bq.call( md, mk_block( 'p\n> a', '\n\n', 1 ), [ mk_block( '> b', '\n', 4) ]  ),
-    [ [ 'para', 'p' ],
-      [ 'blockquote',
-        [ 'para', 'a' ],
-        [ 'para', 'b' ]
+    bq.call( md, mk_block( "p\n> a", "\n\n", 1 ), [ mk_block( "> b", "\n", 4) ]  ),
+    [ [ "para", "p" ],
+      [ "blockquote",
+        [ "para", "a" ],
+        [ "para", "b" ]
       ]
     ],
     "blockquote with abutting paragraph");

@@ -1,6 +1,6 @@
-if (typeof define !== 'function') { var define = require('amdefine')(module) }
+if (typeof define !== "function") { var define = require("amdefine")(module) }
 
-define(['./core', './markdown_helpers'], function(Markdown, MarkdownHelpers) {
+define(["./core", "./markdown_helpers"], function(Markdown, MarkdownHelpers) {
 
   var extract_attr = MarkdownHelpers.extract_attr;
 
@@ -111,7 +111,7 @@ define(['./core', './markdown_helpers'], function(Markdown, MarkdownHelpers) {
       content.push( render_tree( jsonml.shift() ) );
 
     var tag_attrs = "";
-    if (typeof attributes.src !== 'undefined') {
+    if (typeof attributes.src !== "undefined") {
       tag_attrs += ' src="' + escapeHTML( attributes.src ) + '"';
       delete attributes.src;
     }

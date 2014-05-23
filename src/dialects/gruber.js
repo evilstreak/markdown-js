@@ -1,5 +1,5 @@
-if (typeof define !== 'function') { var define = require('amdefine')(module) }
-define(['../markdown_helpers', './dialect_helpers', '../parser'], function (MarkdownHelpers, DialectHelpers, Markdown) {
+if (typeof define !== "function") { var define = require("amdefine")(module) }
+define(["../markdown_helpers", "./dialect_helpers", "../parser"], function (MarkdownHelpers, DialectHelpers, Markdown) {
 
 
   var forEach = MarkdownHelpers.forEach,
@@ -127,7 +127,7 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
       // * Nested lists are supposed to be indented by four chars per level. But
       //   if they aren't, you can get a nested list by indenting by less than
       //   four so long as the indent doesn't match an indent of an existing list
-      //   item in the 'nest stack'.
+      //   item in the "nest stack".
       //
       // * The type of the list (bullet or number) is controlled just by the
       //    first item at the indent. Subsequent changes are ignored unless they
@@ -629,7 +629,7 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
         // The parens have to be balanced
         var m = text.match( /^\s*\([ \t]*([^"']*)(?:[ \t]+(["'])(.*?)\2)?[ \t]*\)/ );
         if ( m ) {
-          var url = m[1].replace(/\s+$/, '');
+          var url = m[1].replace(/\s+$/, "");
           consumed += m[0].length;
 
           if ( url && url[0] === "<" && url[url.length-1] === ">" )
@@ -703,7 +703,7 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
         // Only if id is plain (no formatting.)
         if ( children.length === 1 && typeof children[0] === "string" ) {
 
-          var normalized = children[0].toLowerCase().replace(/\s+/, ' ');
+          var normalized = children[0].toLowerCase().replace(/\s+/, " ");
           attrs = { ref: normalized,  original: orig.substr( 0, consumed ) };
           link = [ "link_ref", attrs, children[0] ];
           return [ consumed, link ];

@@ -37,6 +37,8 @@ Optionally, install `md2html` into your path
 If you want to use from the browser go to the [releases] page on GitHub and
 download the version you want (minified or not).
 
+NOTE: You need "markdown-**browser**-_version_.tgz" rather than "markdown-_version_.tgz".
+
 [releases]: https://github.com/evilstreak/markdown-js/releases
 
 ## Usage

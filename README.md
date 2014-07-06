@@ -61,7 +61,7 @@ It also works in a browser; here is a complete example:
     <textarea id="text-input" oninput="this.editor.update()"
               rows="6" cols="60">Type **Markdown** here.</textarea>
     <div id="preview"> </div>
-    <script src="lib/markdown.js"></script>
+    <script src="markdown.js"></script>
     <script>
       function Editor(input, preview) {
         this.update = function () {

@@ -6,6 +6,7 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
       extract_attr = MarkdownHelpers.extract_attr,
       mk_block = MarkdownHelpers.mk_block,
       isEmpty = MarkdownHelpers.isEmpty,
+      isArray = MarkdownHelpers.isArray,
       inline_until_char = DialectHelpers.inline_until_char;
 
   // A robust regexp for matching URLs. Thanks: https://gist.github.com/dperini/729294
@@ -339,7 +340,10 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
                   firstBlock = contents[0];
 
               if (firstBlock) {
-                firstBlock.shift();
+
+                // It's possible the first block is a string
+                if (isArray(firstBlock)) { firstBlock.shift(); }
+
                 contents.splice.apply(contents, [0, 1].concat(firstBlock));
                 add( last_li, loose, contents, nl );
 

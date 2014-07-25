@@ -6,7 +6,14 @@
   expose.renderJsonML = Markdown.renderJsonML;
   expose.DialectHelpers = DialectHelpers;
 
-})(function() {
-  window.markdown = {};
-  return window.markdown;
-}());
+})(window);
+
+if (typeof define !== 'undefined' && define.amd) {
+  // Register as an anonymous module.
+  define(function() {
+    'use strict';
+    return Markdown;
+  });
+} else {
+  window.Markdown = Markdown;
+}

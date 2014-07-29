@@ -1,0 +1,11 @@
+["html",
+  ["p",
+    ["a",
+      { "href": "http://company.com/" },
+      ["img", {
+        "alt": "company logo",
+        "src": "http://company.com/images/company-colour.png"
+      } ]
+    ]
+  ]
+]

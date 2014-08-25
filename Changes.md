@@ -25,6 +25,7 @@ updating the changes file, sorry :(
 - Style tweaks by [XhmikosR](https://github.com/XhmikosR) ([#81], [#82], [#83])
 - Build now tested by TravisCI thanks to [sebs](https://github.com/sebs) ([#85])
 - Fix "cuddled" header parsing ([#94])
+- Add support for tables to Maruku dialect ([#66]) Thanks [redsun82](https://github.com/redsun82)!
 
 
 ## v0.4.0 - 2012-06-09
@@ -61,7 +62,7 @@ updating the changes file, sorry :(
 [#48]: https://github.com/evilstreak/markdown-js/issues/48
 [#58]: https://github.com/evilstreak/markdown-js/issues/58
 [#65]: https://github.com/evilstreak/markdown-js/issues/65
-[#65]: https://github.com/evilstreak/markdown-js/issues/65
+[#66]: https://github.com/evilstreak/markdown-js/issues/66
 [#68]: https://github.com/evilstreak/markdown-js/issues/68
 [#71]: https://github.com/evilstreak/markdown-js/issues/71
 [#74]: https://github.com/evilstreak/markdown-js/issues/74

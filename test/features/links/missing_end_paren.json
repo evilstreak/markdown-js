@@ -1,0 +1,5 @@
+["html",
+  ["p",
+    "an inline link [like this](http://googlewebmastercentral.blogspot.ca/2014/05/understanding-web-pages-better.html can crash V8."
+  ]
+]

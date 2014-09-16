@@ -420,6 +420,11 @@ test( "referenceDefn", function(t, md) {
   t.equivalent(md.tree[ 1 ].references, { "id": { href: "example.com" } }, "reference extracted");
   t.equivalent(next, [ mk_block("para") ], "paragraph put back into blocks");
 
+  // Check empty tags and non-tags are ignored
+  md.tree = ["markdown"];
+  t.type(rd.call( md, mk_block("[]: http://example.com"), []), "undefined", "no empty ref name");
+  t.type(rd.call( md, mk_block("[b]label[/b]: description"), []), "undefined", "no brackets in ref name");
+
 });
 
 test( "inline_br", function(t, md) {
@@ -533,6 +538,10 @@ test( "inline_link", function(t, md) {
                                   ],
                                   "ref link II" );
   /* jshint indent: 2 */
+
+  t.equivalent( md.processInline( "[]: text" ),
+                                  [ "[]: text" ],
+                                  "no empty links" );
 });
 
 test( "inline_autolink", function(t, md) {

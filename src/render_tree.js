@@ -22,6 +22,7 @@ define(['./core', './markdown_helpers'], function(Markdown, MarkdownHelpers) {
     // include the root element in the rendered output?
     options.root = options.root || false;
 
+    jsonml = JSON.parse(JSON.stringify(jsonml)); // Clone to prevent mutation of original reference.
     var content = [];
 
     if ( options.root ) {

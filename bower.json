@@ -1,0 +1,20 @@
+{
+    "name": "markdown",
+    "homepage": "https://github.com/evilstreak/markdown-js",
+    "_source": "git://github.com/evilstreak/markdown-js.git",
+    "_target": "master",
+    "_originalSource": "markdown",
+    "version": "v0.6.0-beta1",
+    "authors": [
+        "Dominic Baggott <dominic.baggott@gmail.com> (http://evilstreak.co.uk)",
+        "Ash Berlin <ash_markdownjs@firemirror.com> (http://ashberlin.com)"
+    ],
+    "description": "A sensible Markdown parser for javascript",
+    "main": "./lib/index.js",
+    "keywords": [
+        "markdown",
+        "text processing",
+        "ast"
+    ],
+    "license": "MIT"
+}

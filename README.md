@@ -50,6 +50,13 @@ var markdown = require( "markdown" ).markdown;
 console.log( markdown.toHTML( "Hello *World*!" ) );
 ```
 
+#### Older versions of node
+
+We only officially support node >= 0.10 as the libraries we use for building
+and testing don't work on older versions of node. That said since this module
+is so simple and doesn't use any parts of the node API if you use the pre-built
+version and find a bug let us know and we'll try and fix it.
+
 ### Browser
 
 It also works in a browser; here is a complete example:
@@ -142,14 +149,14 @@ console.log( html );
 Internally the process to convert a chunk of Markdown into a chunk of
 HTML has three steps:
 
- 1. Parse the Markdown into a JsonML tree. Any references found in the
-    parsing are stored in the attribute hash of the root node under the
-    key `references`.
- 2. Convert the Markdown tree into an HTML tree. Rename any nodes that
-    need it (`bulletlist` to `ul` for example) and lookup any references
-    used by links or images. Remove the references attribute once done.
- 3. Stringify the HTML tree being careful not to wreck whitespace where
-    whitespace is important (surrounding inline elements for example).
+1. Parse the Markdown into a JsonML tree. Any references found in the
+   parsing are stored in the attribute hash of the root node under the
+   key `references`.
+2. Convert the Markdown tree into an HTML tree. Rename any nodes that
+   need it (`bulletlist` to `ul` for example) and lookup any references
+   used by links or images. Remove the references attribute once done.
+3. Stringify the HTML tree being careful not to wreck whitespace where
+   whitespace is important (surrounding inline elements for example).
 
 Each step of this process can be called individually if you need to do
 some processing or modification of the data at an intermediate stage.

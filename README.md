@@ -41,6 +41,19 @@ download the version you want (minified or not).
 
 ## Usage
 
+The basic interface is:
+```js
+md_content = "Hello.\n\n* This is markdown.\n* It is fun\n* Love it or leave it."
+html_content = markdown.toHTML( md_content );
+```
+
+toHTML also accepts a dialect argument:
+
+```js
+md_content = "Vessel     | Captain\n-----------|-------------\nNCC-1701   | James T Kirk\nNCC-1701 A | James T Kirk\nNCC-1701 D | Picard";
+html_content = markdown.toHTML( md_content, 'Maruku');
+```
+
 ### Node
 
 The simple way to use it with Node is:

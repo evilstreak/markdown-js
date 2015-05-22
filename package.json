@@ -20,12 +20,7 @@
   "bugs": {
     "url": "https://github.com/evilstreak/markdown-js/issues"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://www.opensource.org/licenses/mit-license.php"
-    }
-  ],
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git://github.com/evilstreak/markdown-js.git"

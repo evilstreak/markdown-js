@@ -46,7 +46,7 @@ define(['./core', './markdown_helpers'], function(Markdown, MarkdownHelpers) {
     }
 
     if (options.standalone) {
-      content.push("</body>")
+      content.push("</body>");
     }
 
     return content.join( "\n\n" );

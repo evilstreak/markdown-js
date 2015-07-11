@@ -25,9 +25,9 @@ define(['./core', './markdown_helpers'], function(Markdown, MarkdownHelpers) {
     jsonml = JSON.parse(JSON.stringify(jsonml)); // Clone to prevent mutation of original reference.
     var content = [];
 
-    if (options.standalone) {
+    if ("standalone" in options && options.standalone) {
       content.push("<!doctype html><head>");
-      if ( options.htmlencoding && options.htmlencoding === "utf8") {
+      if ("htmlencoding" in options && options.htmlencoding === "utf8") {
         content.push("<meta charset='utf-8'/>");
       }
       content.push("</head><body>");
@@ -45,7 +45,7 @@ define(['./core', './markdown_helpers'], function(Markdown, MarkdownHelpers) {
         content.push( render_tree( jsonml.shift() ) );
     }
 
-    if (options.standalone) {
+    if ("standalone" in options && options.standalone) {
       content.push("</body>");
     }
 

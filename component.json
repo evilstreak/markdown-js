@@ -1,9 +1,9 @@
 {
   "name": "markdown-js",
   "description": "A sensible Markdown parser for javascript",
-  "main": "./lib/index.js",
+  "main": "lib/index.js",
   "scripts": [
-    "./lib/index.js"
+    "lib/index.js"
   ],
   "keywords": [
     "markdown",

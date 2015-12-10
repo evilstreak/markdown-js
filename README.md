@@ -83,6 +83,8 @@ It also works in a browser; here is a complete example:
     <div id="preview"> </div>
     <script src="lib/markdown.js"></script>
     <script>
+    var markdown = {};
+    markdownFactory(markdown);
       function Editor(input, preview) {
         this.update = function () {
           preview.innerHTML = markdown.toHTML(input.value);

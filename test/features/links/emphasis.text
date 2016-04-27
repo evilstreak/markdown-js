@@ -1,0 +1,3 @@
+[link_creation](should_take_priority_over_emphasis)
+
+[links](should_not_get_emphasis_in_the_href)

@@ -593,26 +593,32 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
       },
 
       "[": function link( text ) {
-
-        var open = 1;
-        for (var i=0; i<text.length; i++) {
+        var open = 1,
+            inner_text_end = 0;
+        for (var i=1; i<text.length; i++) {
           var c = text.charAt(i);
-          if (c === '[') { open++; }
-          if (c === ']') { open--; }
-
-          if (open > 3) { return [1, "["]; }
+          if (c === '[' && text.charAt(i-1) !== "\\") { open++; }
+          if (c === ']' && text.charAt(i-1) !== "\\") { open--; }
+          if (open === 0) {
+            inner_text_end = i;
+            break;
+          }
+        }
+        if (inner_text_end === 0) {
+          return [1, "["];
         }
 
         var orig = String(text);
+
         // Inline content is possible inside `link text`
-        var res = inline_until_char.call( this, text.substr(1), "]" );
-
-        // No closing ']' found. Just consume the [
-        if ( !res[1] ) {
-          return [ res[0] + 1, text.charAt(0) ].concat(res[2]);
-        }
-
-        // empty link
+        // Back up the old strong and em states, then replace them, because link text parsing needs to happen in a vaccuum
+        var old_strong_state = this.strong_state,
+            old_em_state = this.em_state;
+        this.em_state = [];
+        this.strong_state = [];
+        var res = inline_until_char.call( this, text.substr(1, inner_text_end-1), "" );
+        this.strong_state = old_strong_state;
+        this.em_state = old_em_state;
         if ( res[0] === 1 ) { return [ 2, "[]" ]; }
 
         var consumed = 1 + res[ 0 ],
@@ -785,6 +791,8 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
         // Recurse
         var res = this.processInline( text.substr( md.length ) );
         //D:this.debug_indent = this.debug_indent.substr(2);
+
+
 
         var last = res[res.length - 1];
 

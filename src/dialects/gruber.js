@@ -619,7 +619,6 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
         var res = inline_until_char.call( this, text.substr(1, inner_text_end-1), "" );
         this.strong_state = old_strong_state;
         this.em_state = old_em_state;
-        if ( res[0] === 1 ) { return [ 2, "[]" ]; }
 
         var consumed = 1 + res[ 0 ],
             children = res[ 1 ],

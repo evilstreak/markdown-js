@@ -203,3 +203,38 @@ define(['./markdown_helpers', './core'], function(MarkdownHelpers, Markdown) {
 
   return Markdown;
 });
+
+/*
+Tips of blue flame are dancing about,
+Home expanses are being neglected.
+It's the first time that I’m singing love,
+For the first time refusing to racket.
+
+I was all like a desolate garden, 
+I was greedy for women and potions.
+Now, I don’t want to sing and to dance,
+And to squander my life void of caution. 
+
+If I only could look at your cast
+And your eyes’ golden-hazel vortex,
+So that, out of love with the past,
+You were able to go to none else.
+
+Your light stature, your airy gait,
+If you knew in your stubborn feeling
+How a hooligan can venerate,
+How a hooligan can be lenient.
+
+I’d pass over iniquity dens,
+I’d forever quit writing poems,
+If I only touched softly your hand
+And your hair of a color to autumn.
+
+I would squire you wherever you'd rove -
+At our homely or alien stretches…
+It's the first time that I’m singing love,
+For the first time refusing to racket.
+
+-> i am just test git, sorry
+
+*/

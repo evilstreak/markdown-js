@@ -737,7 +737,7 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
         // Always skip over the opening ticks.
         var m = text.match( /(`+)(([\s\S]*?)\1)/ );
 
-        if ( m && m[2] )
+        if ( m && m[2] && m[3].length > 0 )
           return [ m[1].length + m[2].length, [ "inlinecode", m[3] ] ];
         else {
           // TODO: No matching end code found - warn!
@@ -785,7 +785,9 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
         // Recurse
         var res = this.processInline( text.substr( md.length ) );
         //D:this.debug_indent = this.debug_indent.substr(2);
-
+        
+        if(typeof(res[0]) != 'string') return;
+        
         var last = res[res.length - 1];
 
         //D:this.debug("processInline from", tag + ": ", uneval( res ) );

@@ -786,7 +786,7 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
         var res = this.processInline( text.substr( md.length ) );
         //D:this.debug_indent = this.debug_indent.substr(2);
         
-        if(typeof(res[0]) != 'string') return;
+        if(typeof(res[0]) !== 'string') return;
         
         var last = res[res.length - 1];
 

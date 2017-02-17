@@ -63,6 +63,13 @@ var markdown = require( "markdown" ).markdown;
 console.log( markdown.toHTML( "Hello *World*!" ) );
 ```
 
+### ES6
+
+```js
+import {markdown} from 'markdown';
+console.log( markdown.toHTML( "Hello *World*!" ) );
+```
+
 #### Older versions of node
 
 We only officially support node >= 0.10 as the libraries we use for building

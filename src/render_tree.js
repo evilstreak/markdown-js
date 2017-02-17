@@ -25,6 +25,14 @@ define(['./core', './markdown_helpers'], function(Markdown, MarkdownHelpers) {
     jsonml = JSON.parse(JSON.stringify(jsonml)); // Clone to prevent mutation of original reference.
     var content = [];
 
+    if ("standalone" in options && options.standalone) {
+      content.push("<!doctype html><head>");
+      if ("htmlencoding" in options && options.htmlencoding === "utf8") {
+        content.push("<meta charset='utf-8'/>");
+      }
+      content.push("</head><body>");
+    }
+
     if ( options.root ) {
       content.push( render_tree( jsonml ) );
     }
@@ -35,6 +43,10 @@ define(['./core', './markdown_helpers'], function(Markdown, MarkdownHelpers) {
 
       while ( jsonml.length )
         content.push( render_tree( jsonml.shift() ) );
+    }
+
+    if ("standalone" in options && options.standalone) {
+      content.push("</body>");
     }
 
     return content.join( "\n\n" );
@@ -84,7 +96,7 @@ define(['./core', './markdown_helpers'], function(Markdown, MarkdownHelpers) {
   Markdown.toHTML = function toHTML( source , dialect , options ) {
     var input = this.toHTMLTree( source , dialect , options );
 
-    return this.renderJsonML( input );
+    return this.renderJsonML( input , options );
   };
 
 

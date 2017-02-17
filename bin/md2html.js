@@ -11,6 +11,8 @@
 
   opts = nopt(
     { "dialect": [ "Gruber", "Maruku"],
+      "standalone": Boolean,
+      "htmlencoding" : [ "none", "utf8"],
       "help": Boolean
     }
   );
@@ -18,7 +20,10 @@
   if (opts.help || process.argv.length === 2) {
     var name = process.argv[1].split("/").pop();
     console.warn( require("util").format(
-      "usage: %s [--dialect=DIALECT] FILE\n\nValid dialects are Gruber (the default) or Maruku",
+      "usage: %s [--dialect=DIALECT --htmlencoding=ENCODING] FILE"
+      + "\n\nValid dialects are Gruber (the default) or Maruku"
+      + "\nIf you choose stand-alone, it will be a valid xhtml document"
+      + "\nValid html-encodings are none (the default) or utf8",
       name
     ) );
     process.exit(0);
@@ -43,7 +48,14 @@
   });
 
   stream.on("end", function() {
-    var html = markdown.toHTML(buffer, opts.dialect);
+    var html = markdown.toHTML(
+      buffer, 
+      opts.dialect, 
+      {
+        'htmlencoding' : opts.htmlencoding,
+        'standalone' : opts.standalone
+      }
+    );
     console.log(html);
   });
 

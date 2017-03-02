@@ -1,5 +1,5 @@
 if (typeof define !== 'function') { var define = require('amdefine')(module) }
-define([], function (w) {
+define([], function () {
 
   var DialectHelpers = {};
   DialectHelpers.inline_until_char = function( text, want ) {

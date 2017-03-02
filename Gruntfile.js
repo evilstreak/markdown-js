@@ -52,7 +52,7 @@ module.exports = function(grunt) {
         "sub": true,
         "trailing": true,
         "undef": true,
-        "unused": false,
+        "unused": true,
         ignores: ['.git', 'node_modules']
       }
     },

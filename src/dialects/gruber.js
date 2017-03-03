@@ -550,15 +550,15 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
           return [ 1, "\\" ];
       },
 
-      "![": function image( text ) {
+      "![": function media( text ) {
 
         // Without this guard V8 crashes hard on the RegExp
         if (text.indexOf('(') >= 0 && text.indexOf(')') === -1) { return; }
 
-        // Unlike images, alt text is plain text only. no other elements are
+        // Alt text is plain text only. no other elements are
         // allowed in there
 
-        // ![Alt text](/path/to/img.jpg "Optional title")
+        // ![Alt text/video/audio](/path/to/img.jpg "Optional title")
         //      1          2            3       4         <--- captures
         //
         // First attempt to use a strong URL regexp to catch things like parentheses. If it misses, use the
@@ -575,8 +575,18 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
           var attrs = { alt: m[1], href: m[2] || "" };
           if ( m[4] !== undefined)
             attrs.title = m[4];
-
-          return [ m[0].length, [ "img", attrs ] ];
+          
+          switch(attrs.alt.toLowerCase()){
+          case "video":
+            delete attrs.alt;
+            return [ m[0].length, [ "video", attrs ] ];
+          case "audio":
+            delete attrs.alt;
+            return [ m[0].length, [ "audio", attrs ] ];
+          default:
+            return [ m[0].length, [ "img", attrs ] ];
+          }
+          
         }
 
         // ![Alt text][id]
@@ -585,7 +595,14 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
         if ( m ) {
           // We can't check if the reference is known here as it likely wont be
           // found till after. Check it in md tree->hmtl tree conversion
-          return [ m[0].length, [ "img_ref", { alt: m[1], ref: m[2].toLowerCase(), original: m[0] } ] ];
+          switch(m[1].toLowerCase()){
+          case "video":
+            return [ m[0].length, [ "video_ref", { ref: m[2].toLowerCase(), original: m[0] } ] ];
+          case "audio":
+            return [ m[0].length, [ "audio_ref", { ref: m[2].toLowerCase(), original: m[0] } ] ];
+          default:
+            return [ m[0].length, [ "img_ref", { alt: m[1], ref: m[2].toLowerCase(), original: m[0] } ] ];
+          }
         }
 
         // Just consume the '!['

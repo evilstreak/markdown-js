@@ -129,7 +129,7 @@ define(['./core', './markdown_helpers'], function(Markdown, MarkdownHelpers) {
     }
 
     // be careful about adding whitespace here for inline elements
-    if ( tag === "img" || tag === "br" || tag === "hr" )
+    if ( tag === "img" || tag === "br" || tag === "hr" || tag === "video" || tag === "audio" )
       return "<"+ tag + tag_attrs + "/>";
     else
       return "<"+ tag + tag_attrs + ">" + content.join( "" ) + "</" + tag + ">";
@@ -196,6 +196,12 @@ define(['./core', './markdown_helpers'], function(Markdown, MarkdownHelpers) {
       jsonml[ 1 ].src = jsonml[ 1 ].href;
       delete jsonml[ 1 ].href;
       break;
+    case "audio":
+    case "video":
+      jsonml[ 1 ].src = jsonml[ 1 ].href;
+      jsonml[ 1 ].controls = "true";
+      delete jsonml[ 1 ].href;
+      break;
     case "linebreak":
       jsonml[ 0 ] = "br";
       break;
@@ -237,6 +243,54 @@ define(['./core', './markdown_helpers'], function(Markdown, MarkdownHelpers) {
 
         // add in the href and title, if present
         attrs.src = ref.href;
+        if ( ref.title )
+          attrs.title = ref.title;
+
+        // get rid of the unneeded original text
+        delete attrs.original;
+      }
+      // the reference doesn't exist, so revert to plain text
+      else {
+        return attrs.original;
+      }
+      break;
+    case "audio_ref":
+      jsonml[ 0 ] = "audio";
+
+      // grab this ref and clean up the attribute node
+      var ref = references[ attrs.ref ];
+
+      // if the reference exists, make the link
+      if ( ref ) {
+        delete attrs.ref;
+
+        // add in the href and title, if present
+        attrs.src = ref.href;
+        attrs.controls = "true";
+        if ( ref.title )
+          attrs.title = ref.title;
+
+        // get rid of the unneeded original text
+        delete attrs.original;
+      }
+      // the reference doesn't exist, so revert to plain text
+      else {
+        return attrs.original;
+      }
+      break;
+    case "video_ref":
+      jsonml[ 0 ] = "video";
+
+      // grab this ref and clean up the attribute node
+      var ref = references[ attrs.ref ];
+
+      // if the reference exists, make the link
+      if ( ref ) {
+        delete attrs.ref;
+
+        // add in the href and title, if present
+        attrs.src = ref.href;
+        attrs.controls = "true";
         if ( ref.title )
           attrs.title = ref.title;
 

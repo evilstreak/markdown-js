@@ -1,0 +1,11 @@
+["html",
+  ["p",
+    ["a",
+      { "href": "https://link-url" },
+      ["video", {
+        "controls": "true",
+        "src": "https://video-url"
+      } ]
+    ]
+  ]
+]

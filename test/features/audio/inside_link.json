@@ -1,0 +1,11 @@
+["html",
+  ["p",
+    ["a",
+      { "href": "https://link-url" },
+      ["audio", {
+        "controls": "true",
+        "src": "https://audio-url"
+      } ]
+    ]
+  ]
+]

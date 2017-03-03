@@ -1,0 +1,9 @@
+["html",
+  ["p",
+    ["video", {
+      "src": "/path/to/video.mp4",
+      "controls": "true",
+      "title": "Optional title"
+    } ]
+  ]
+]

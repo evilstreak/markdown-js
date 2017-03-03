@@ -90,7 +90,7 @@ define(['./core', './markdown_helpers'], function(Markdown, MarkdownHelpers) {
 
   function escapeHTML( text ) {
     if (text && text.length > 0) {
-      return text.replace( /&/g, "&amp;" )
+      return text.replace( /&(?!\w+;)/g, "&amp;" )
                  .replace( /</g, "&lt;" )
                  .replace( />/g, "&gt;" )
                  .replace( /"/g, "&quot;" )

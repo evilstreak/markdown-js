@@ -32,3 +32,15 @@ tap.test("intermediate trees left alone", function(t) {
 
   t.end();
 });
+
+tap.test("non-entity ampersand escaped", function(t) {
+  var tree = markdown.renderJsonML( ['html', ['p', {style: undefined }, 'AT&T'] ] );
+  t.equivalent( tree, '<p>AT&amp;T</p>' );
+  t.end();
+});
+
+tap.test("entity ampersand not escaped", function(t) {
+  var tree = markdown.renderJsonML( ['html', ['p', {style: undefined }, 'x &lt; y'] ] );
+  t.equivalent( tree, '<p>x &lt; y</p>' );
+  t.end();
+});

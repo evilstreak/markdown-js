@@ -1,0 +1,49 @@
+["html",
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key mac-command"}, "Command"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key mac-command"}, "Command"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key mac-command"}, "Command"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key mac-command"}, "Command"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key mac-command"}, "Command"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key mac-command"}, "Command"],
+    " to input."
+  ],
+
+
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key mac-option"}, "Option"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key mac-option"}, "Option"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key mac-option"}, "Option"],
+    " to input."
+  ]
+]

@@ -1,0 +1,74 @@
+["html",
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key win-ctrl"}, "Ctrl"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key win-ctrl"}, "Ctrl"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key win-ctrl"}, "Ctrl"],
+    " to input."
+  ],
+
+
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key win-alt"}, "Alt"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key win-alt"}, "Alt"],
+    " to input."
+  ],
+
+
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key win-start"}, "Windows"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key win-start"}, "Windows"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key win-start"}, "Windows"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key win-start"}, "Windows"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key win-start"}, "Windows"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key win-start"}, "Windows"],
+    " to input."
+  ],
+
+
+
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key win-menu"}, "Menu"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key win-menu"}, "Menu"],
+    " to input."
+  ]
+]

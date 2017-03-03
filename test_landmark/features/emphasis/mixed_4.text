@@ -1,0 +1,48 @@
+Emphasis can be as **//__~~[bold[italics[underline[strikethrough]]]]~~__//**.
+
+Emphasis can be as **//~~__[bold[italics[strikethrough[underline]]]]__~~//**.
+
+Emphasis can be as **__//~~[bold[underline[italics[strikethrough]]]]~~//__**.
+
+Emphasis can be as **__~~//[bold[underline[strikethrough[italics]]]]//~~__**.
+
+Emphasis can be as **~~//__[bold[strikethrough[italics[underline]]]]__//~~**.
+
+Emphasis can be as **~~__//[bold[strikethrough[underline[italics]]]]//__~~**.
+
+Emphasis can be as //**__~~[italics[bold[underline[strikethrough]]]]~~__**//.
+
+Emphasis can be as //**~~__[italics[bold[strikethrough[underline]]]]__~~**//.
+
+Emphasis can be as //__**~~[italics[underline[bold[strikethrough]]]]~~**__//.
+
+Emphasis can be as //__~~**[italics[underline[strikethrough[bold]]]]**~~__//.
+
+Emphasis can be as //~~**__[italics[strikethrough[bold[underline]]]]__**~~//.
+
+Emphasis can be as //~~__**[italics[strikethrough[underline[bold]]]]**__~~//.
+
+Emphasis can be as __**//~~[underline[bold[italics[strikethrough]]]]~~//**__.
+
+Emphasis can be as __**~~//[underline[bold[strikethrough[italics]]]]//~~**__.
+
+Emphasis can be as __//**~~[underline[italics[bold[strikethrough]]]]~~**//__.
+
+Emphasis can be as __//~~**[underline[italics[strikethrough[bold]]]]**~~//__.
+
+Emphasis can be as __~~**//[underline[strikethrough[bold[italics]]]]//**~~__.
+
+Emphasis can be as __~~//**[underline[strikethrough[italics[bold]]]]**//~~__.
+
+Emphasis can be as ~~**//__[strikethrough[bold[italics[underline]]]]__//**~~.
+
+Emphasis can be as ~~**__//[strikethrough[bold[underline[italics]]]]//__**~~.
+
+Emphasis can be as ~~//**__[strikethrough[italics[bold[underline]]]]__**//~~.
+
+Emphasis can be as ~~//__**[strikethrough[italics[underline[bold]]]]**__//~~.
+
+Emphasis can be as ~~__**//[strikethrough[underline[bold[italics]]]]//**__~~.
+
+Emphasis can be as ~~__//**[strikethrough[underline[italics[bold]]]]**//__~~.
+

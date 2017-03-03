@@ -1,0 +1,95 @@
+["html",
+  ["p",
+    "Press ",
+    ["kbd", "A"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", "ANY"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", "中文"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", "`-=~!@#$%^&*()_+"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", "`-=~!@#$%^&*()_+"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", "[]\\;',./{}|:\"<>?"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", "[]\\;',./{}|:\"<>?"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", "["],
+    "] to input."
+  ],
+  ["p",
+    "Press [ ",
+    ["kbd", {"class": "modifier-key space"}, "Space"],
+    "] to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", "["],
+    "] to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", "["],
+    " ] to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", "[ ]"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", "[ ]"],
+    " to input."
+  ],
+  ["p",
+    "Press [ ",
+    ["kbd", {"class": "modifier-key space"}, "Space"],
+    " ] to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", "**Aha**"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", "**Aha\n   **"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", "["],
+    " then ",
+    ["kbd", "A"],
+    " then ",
+    ["kbd", {"class": "modifier-key space"}, "Space"],
+    " then ",
+    ["kbd", "B"],
+    " then ",
+    ["kbd", "]"],
+    " to input [A B]."
+  ]
+]

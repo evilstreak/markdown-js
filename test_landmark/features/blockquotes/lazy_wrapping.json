@@ -1,0 +1,12 @@
+["html",
+  ["blockquote",
+    ["p",
+      "If you're too lazy",
+      ["br"],
+      "to wrap your code nicely"
+    ],
+    ["p",
+      "This will still work"
+    ]
+  ]
+]

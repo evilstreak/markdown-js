@@ -1,0 +1,33 @@
+["html",
+  ["p",
+    "You can ",
+    ["strong",
+      "nest ",
+      ["i",
+        "italics"
+      ],
+      " inside strong"
+    ],
+    "."
+  ],
+  ["p",
+    "You can ",
+    ["i",
+      "nest ",
+      ["strong",
+        "strong"
+      ],
+      " inside em"
+    ],
+    "."
+  ],
+  ["p",
+    "You can have a very ",
+    ["strong",
+      ["em",
+        "strong emphasis"
+      ]
+    ],
+    " like this."
+  ]
+]

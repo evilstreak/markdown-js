@@ -1,0 +1,79 @@
+["html",
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key tab"}, "Tab"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key tab"}, "Tab"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key tab"}, "Tab"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key tab"}, "Tab"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key tab"}, "Tab"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key tab"}, "Tab"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key tab"}, "Tab"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key tab"}, "Tab"],
+    " to input."
+  ],
+
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key caps-lock"}, "Caps Lock"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key caps-lock"}, "Caps Lock"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key caps-lock"}, "Caps Lock"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key caps-lock"}, "Caps Lock"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key caps-lock"}, "Caps Lock"],
+    " to input."
+  ],
+
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key shift"}, "Shift"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key shift"}, "Shift"],
+    " to input."
+  ]
+]

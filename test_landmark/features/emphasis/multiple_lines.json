@@ -1,0 +1,11 @@
+["html",
+  ["p",
+    "You can ",
+    ["i",
+      "start emphasis on one line,",
+      ["br"],
+    	"and finish it"
+    ],
+    " on another."
+  ]
+]

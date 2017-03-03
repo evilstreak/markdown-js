@@ -1,0 +1,65 @@
+["html",
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key space"}, "Space"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key space"}, "Space"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key space"}, "Space"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key space"}, "Space"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key space"}, "Space"],
+    " to input."
+  ],
+  
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key backspace"}, "Backspace"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key backspace"}, "Backspace"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key backspace"}, "Backspace"],
+    " to input."
+  ],
+  
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key enter"}, "Enter"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key enter"}, "Enter"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key enter"}, "Enter"],
+    " to input."
+  ],
+  ["p",
+    "Press ",
+    ["kbd", {"class":"modifier-key enter"}, "Enter"],
+    " to input."
+  ]
+  
+]

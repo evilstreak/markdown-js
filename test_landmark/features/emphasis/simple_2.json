@@ -1,0 +1,28 @@
+["html",
+  ["p",
+    "Emphasis can be ",
+    ["i",
+      "weak"
+    ],
+    " or ",
+    ["strong",
+      "strong"
+    ],
+    "."
+  ],
+  ["p",
+    "It can ",
+    ["i",
+      "even"
+    ],
+    " use ",
+    ["ins",
+      "underscores"
+    ],
+    " or ",
+		["del",
+      "strikethrough"
+    ],
+    "."
+  ]
+]

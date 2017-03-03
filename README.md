@@ -37,6 +37,8 @@ Optionally, install `md2html` into your path
 If you want to use from the browser go to the [releases] page on GitHub and
 download the version you want (minified or not).
 
+NOTE: You need "markdown-**browser**-_version_.tgz" rather than "markdown-_version_.tgz".
+
 [releases]: https://github.com/evilstreak/markdown-js/releases
 
 ## Usage
@@ -88,7 +90,7 @@ It also works in a browser; here is a complete example:
     <textarea id="text-input" oninput="this.editor.update()"
               rows="6" cols="60">Type **Markdown** here.</textarea>
     <div id="preview"> </div>
-    <script src="lib/markdown.js"></script>
+    <script src="markdown.js"></script>
     <script>
       function Editor(input, preview) {
         this.update = function () {

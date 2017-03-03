@@ -193,8 +193,10 @@ define(['./core', './markdown_helpers'], function(Markdown, MarkdownHelpers) {
       jsonml[ 0 ] = "code";
       break;
     case "img":
-      jsonml[ 1 ].src = jsonml[ 1 ].href;
-      delete jsonml[ 1 ].href;
+      if (typeof jsonml[1].src === 'undefined') {
+        jsonml[ 1 ].src = jsonml[ 1 ].href;
+        delete jsonml[ 1 ].href;
+      }
       break;
     case "linebreak":
       jsonml[ 0 ] = "br";

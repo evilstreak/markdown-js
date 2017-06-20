@@ -54,7 +54,7 @@ md_content = "Vessel     | Captain\n-----------|-------------\nNCC-1701   | Jame
 html_content = markdown.toHTML( md_content, 'Maruku');
 ```
 
-### Node
+### Node
 
 The simple way to use it with Node is:
 
@@ -63,7 +63,7 @@ var markdown = require( "markdown" ).markdown;
 console.log( markdown.toHTML( "Hello *World*!" ) );
 ```
 
-### ES6
+### ES6
 
 ```js
 import {markdown} from 'markdown';

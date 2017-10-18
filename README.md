@@ -117,7 +117,7 @@ md2html /path/to/doc.md > /path/to/doc.html
 echo 'Hello *World*!' | md2html
 ```
 
-### More Options
+### More Options
 
 If you want more control check out the documentation in
 [the .js files under src/][src_folder] which details all the methods and parameters
@@ -224,7 +224,7 @@ contributors section of [package.json] too if you want to.
 
 [package.json]: https://github.com/evilstreak/markdown-js/blob/master/package.json
 
-## License
+## License
 
 Released under the MIT license.
 

@@ -6,4 +6,4 @@
   expose.renderJsonML = Markdown.renderJsonML;
   expose.DialectHelpers = DialectHelpers;
 
-})(exports);
+};

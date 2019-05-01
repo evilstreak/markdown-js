@@ -1,4 +1,4 @@
-if (typeof define !== 'function') { var define = require('amdefine')(module) }
+if (typeof define !== 'function') { var define = require('amdefine')(module); }
 define(['../markdown_helpers', './dialect_helpers', '../parser'], function (MarkdownHelpers, DialectHelpers, Markdown) {
 
 
@@ -484,30 +484,32 @@ define(['../markdown_helpers', './dialect_helpers', '../parser'], function (Mark
     inline: {
 
       __oneElement__: function oneElement( text, patterns_or_re, previous_nodes ) {
-        var m,
-            res;
 
+        // PERF NOTE: rewritten to avoid greedy match regex \([\s\S]*?)(...)\
+        // greedy match performs horribly with large inline blocks, it can be so
+        // slow it will crash chrome
         patterns_or_re = patterns_or_re || this.dialect.inline.__patterns__;
-        var re = new RegExp( "([\\s\\S]*?)(" + (patterns_or_re.source || patterns_or_re) + ")" );
 
-        m = re.exec( text );
-        if (!m) {
-          // Just boring text
+        var search_re = new RegExp(patterns_or_re.source || patterns_or_re);
+        var pos = text.search(search_re);
+
+        if (pos === -1) {
           return [ text.length, text ];
-        }
-        else if ( m[1] ) {
+        } else if (pos !== 0) {
           // Some un-interesting text matched. Return that first
-          return [ m[1].length, m[1] ];
+          return [pos, text.substring(0,pos)];
         }
 
+        var match_re = new RegExp( "^(" + (patterns_or_re.source || patterns_or_re) + ")" );
+        var m = match_re.exec( text );
         var res;
-        if ( m[2] in this.dialect.inline ) {
-          res = this.dialect.inline[ m[2] ].call(
+        if ( m[1] in this.dialect.inline ) {
+          res = this.dialect.inline[ m[1] ].call(
                     this,
                     text.substr( m.index ), m, previous_nodes || [] );
         }
         // Default for now to make dev easier. just slurp special and output it.
-        res = res || [ m[2].length, m[2] ];
+        res = res || [ m[1].length, m[1] ];
         return res;
       },
 

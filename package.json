@@ -44,7 +44,7 @@
     "grunt-cli": "~0.1.9",
     "grunt-contrib-jshint": "~0.6.4",
     "grunt-contrib-uglify": "~0.2.4",
-    "grunt-node-tap": "0.1.46",
+    "grunt-node-tap": "1.0.0",
     "requirejs": "~2.1.8",
     "tap": "~0.3.3"
   },

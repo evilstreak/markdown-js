@@ -1,0 +1,14 @@
+["html",
+    ["p",
+        ["a",
+          { "href" : "should_take_priority_over_emphasis" },
+          "link_creation"
+        ]
+    ],
+    ["p",
+        ["a",
+          { "href" : "should_not_get_emphasis_in_the_href" },
+          "links"
+        ]
+    ]
+]
